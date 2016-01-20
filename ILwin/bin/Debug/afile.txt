@@ -1,0 +1,66 @@
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=euc-kr">
+<title>AI°ø°e¶oAICA ÆaAIAo</title>
+<meta name="generator" content="Namo WebEditor(Trial)">
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="purple" alink="red" background="title.png">
+<p><img src="banner.png" width="820" height="253" border="0"></p><br/>
+
+<!-- <p><a href="https://lh3.googleusercontent.com/-K75pFV42ml0/VgXEDShCFnI/AAAAAAAAC9A/Cl7MellAXUA/s2245-Ic42/jfamily2.jpg"><img src="entry_family.jpg" width="820" border="3" /></a></p><br/> -->
+
+<table border="2">
+<tr>
+	<td><a href="im_namyong.png" target="_blank"><img src="im_namyong.png" height="430"></a></td>
+	<td><a href="im_dad.png" target="_blank"><img src="im_dad.png" height="430"></a></td>
+	<td><a href="im_heeyong.png" target="_blank"><img src="im_heeyong.png" height="430"></a></td>
+	<td><a href="im_miji.png" target="_blank"><img src="im_miji.png" height="430"></a></td>
+	<td><a href="im_yoona.png" target="_blank"><img src="im_yoona.png" height="430"></a></td>
+</tr>
+<tr>
+	<th>¾E³²¿e</th>
+	<th>¾Eº´¿i</th>
+	<th>¾EEn¿μ</th>
+	<th>¾E¹IAo</th>
+	<th>¾EA?³ª</th>
+</tr>
+</table>
+<br/><br/>
+
+<table border="1" width="819" cellspacing="0" bordercolordark="black" bordercolorlight="black">
+    <tr>
+        <td width="67"><a href="ilchars.htm" target="_self"><img src="icon1.bmp"/></a></td>
+        <td width="736">
+            <p align="center"><b><span style="font-size:16pt;"><font face="μ¸¿oA¼"><a href="ilchars.htm" target="_self">μiAaAI¹° ¼O°³</a></font></span></b></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="67"><a href="ilcartoon.htm"><img src="icon2.bmp"/></a></td>
+        <td width="736">
+            <p align="center"><b><span style="font-size:16pt;"><font face="μ¸¿oA¼"><a href="ilcartoon.htm">¸¸E­º¸·? °¡±a (HTML + AJAX)</a></font></span></b></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="67"><a href="ilcartoonWEB.html"><img src="icon3.bmp"/></a></td>
+        <td width="736">
+            <p align="center"><b><span style="font-size:16pt;"><font face="μ¸¿oA¼"><a href="ilcartoonWEB.html">¸¸E­º¸·? °¡±a (A￥ ¾U¹u)</a></font></span></b></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="67"><a href="ilphotos.php"><img src="icon4.bmp"/></a></td>
+        <td width="736">
+            <p align="center"><b><span style="font-size:16pt;"><font face="μ¸¿oA¼"><a href="ilphotos.php">AI¹IAo</a></font></span></b></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="67"><a href="history.htm"><img src="icon5.bmp"/></a></td>
+        <td width="736">
+            <p align="center"><b><span style="font-size:16pt;"><font face="μ¸¿oA¼"><a href="history.htm">ETC</a></font></span></b></p>
+        </td>
+    </tr>
+</table>
+</body>
+
+</html>

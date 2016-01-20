@@ -1,0 +1,15 @@
+D:\igongwin\ILwin\ILwin\bin\Debug\ILwin.exe.config
+D:\igongwin\ILwin\ILwin\bin\Debug\ILwin.exe
+D:\igongwin\ILwin\ILwin\bin\Debug\ILwin.pdb
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.csprojResolveAssemblyReference.cache
+D:\igongwin\ILwin\ILwin\obj\Debug\MainWindow.baml
+D:\igongwin\ILwin\ILwin\obj\Debug\MainWindow.g.cs
+D:\igongwin\ILwin\ILwin\obj\Debug\App.g.cs
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin_MarkupCompile.cache
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.g.resources
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.Properties.Resources.resources
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.csproj.GenerateResource.Cache
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.exe
+D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.pdb
+D:\igongwin\ILwin\ILwin\obj\Debug\AboutWindow.baml
+D:\igongwin\ILwin\ILwin\obj\Debug\AboutWindow.g.cs

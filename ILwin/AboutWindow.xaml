@@ -1,0 +1,14 @@
+﻿<Window x:Class="ILwin.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AboutWindow" Height="280" Width="260"  ResizeMode="NoResize" WindowStyle="None">
+	<Window.Triggers>
+		<EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="okbut"/>
+	</Window.Triggers>
+    <Grid x:Name="windo" Height="280" Width="260" >
+        <Grid x:Name="okbut" Margin="92,210,0,0" Width="83" Height="21"  
+             HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="okdown" MouseLeftButtonUp="okup" MouseEnter="okenter" MouseLeave="okleave" />
+        <Grid x:Name="draggablePart" Margin="0, 0, 0, 250" Width="260" Height="30" Background="Transparent"
+              HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="about_dragging" />
+    </Grid>
+</Window>
