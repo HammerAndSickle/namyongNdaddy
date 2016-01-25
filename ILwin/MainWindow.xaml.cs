@@ -31,7 +31,7 @@ namespace ILwin
 
 
 
-        //버튼들의 위치
+        //바 버튼들의 위치
         public Rect ICON_RECT = new Rect(4, 2, 13, 14);
         public Rect MINI_RECT = new Rect(760, 2, 14, 14);
         public Rect X_RECT = new Rect(780, 2, 14, 14);
@@ -50,21 +50,52 @@ namespace ILwin
         private Brush[] miniBr;
         private Brush[] xBr;
 
+        //레이아웃 버튼들
+        public Rect BUTTON1_RECT = new Rect(40, 200, 300, 70);
+        public Rect BUTTON2_RECT = new Rect(40, 500, 300, 70);
+        private BitmapImage button1Img;
+        private BitmapImage button2Img;
+        private Brush button1Br;
+        private Brush button2Br;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            //메인 윈도우 바를 만들기 위해 사용된다.
+            //메인 윈도우 바를 만들기 위해 호출.
             createBar();
+
+            //윈도우와 버튼들을 만들기 위해 호출.
+            createLayout();
 
             
         }
 
+        public void createLayout()
+        {
+            button1Img = new BitmapImage();
+            button2Img = new BitmapImage();
+
+            button1Img.BeginInit();
+            button1Img.UriSource = new Uri(Constants.REL_PATH + "1button.bmp", UriKind.Relative);
+            button1Img.EndInit();
+
+            button2Img.BeginInit();
+            button2Img.UriSource = new Uri(Constants.REL_PATH + "2button.bmp", UriKind.Relative);
+            button2Img.EndInit();
+
+            button1Br = new ImageBrush(button1Img);
+            button2Br = new ImageBrush(button2Img);
+
+            this.button1.Background = button1Br;
+            this.button2.Background = button2Br;
+
+            System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
+
+        }
+
         public void createBar()
         {
-
-
-
             //메뉴바
             mainBarImg = new BitmapImage();
             mainBarImg.BeginInit();
@@ -160,12 +191,12 @@ namespace ILwin
             this.xbutton.Background = xBr[0];
 
 
-            
-
-           
 
             xbutton.MouseUp += new MouseButtonEventHandler(x_up);
         }
+
+
+
 
         //창 부분의 마우스 핸들러를 위함.
         private void entire_dragging(object sender, System.Windows.Input.MouseButtonEventArgs e)

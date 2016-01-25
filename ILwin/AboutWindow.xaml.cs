@@ -42,7 +42,7 @@ namespace ILwin
         public void testfile()
         {
             string path = @"afile.txt";
-            string urladdr = "http://cyberdemon3.net/photo/igonggye/ilmain.htm";
+            string urladdr = "https://www.google.co.kr/search?newwindow=1&hl=ko&biw=1920&bih=934&site=webhp&tbm=isch&sa=1&q=%EC%8B%AC%EC%98%81&oq=%EC%8B%AC%EC%98%81&gs_l=img.3..0l10.3177.5569.0.5681.12.10.2.0.0.0.178.835.3j4.7.0....0...1c.1j4.64.img..5.5.416.qJgYguADBvI";
 
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(urladdr);
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();

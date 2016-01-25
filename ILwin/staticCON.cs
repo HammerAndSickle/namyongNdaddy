@@ -15,6 +15,9 @@ namespace ILwin
         //ABOUT 이미지 경로
         public const String ABS_PATH_ABOUT = "D:\\igongwin\\ILwin\\ILwin\\rscs\\about\\";
         public const String REL_PATH_ABOUT = "rscs\\about\\";
+
+        //버튼 이미지 경로
+
     }
 
 }
