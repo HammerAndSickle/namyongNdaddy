@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ShowScreen.cs" />
     <Compile Include="staticCON.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>

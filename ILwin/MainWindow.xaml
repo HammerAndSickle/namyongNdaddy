@@ -27,9 +27,15 @@
 
         </Grid>
         <Grid x:Name="Content" Margin="0, 18, 0, 0" HorizontalAlignment="Left" Height="682" VerticalAlignment="Top" Width="800"/>
-        <Grid x:Name="button1" Margin="40, 490, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="70">
+        <Grid Margin="20, 30, 20, 200">
+            <Rectangle
+                Name="animationRec" Width="760" Height="470" Fill="White">
+                
+            </Rectangle>
         </Grid>
-        <Grid x:Name="button2" Margin="40, 590, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="70">
+        <Grid x:Name="button1" Margin="20, 520, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="70">
+        </Grid>
+        <Grid x:Name="button2" Margin="20, 610, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="70">
         </Grid>
 	</Grid>
     

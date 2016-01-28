@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
+
+
 namespace ILwin
 {
 
@@ -51,12 +53,15 @@ namespace ILwin
         private Brush[] xBr;
 
         //레이아웃 버튼들
-        public Rect BUTTON1_RECT = new Rect(40, 200, 300, 70);
-        public Rect BUTTON2_RECT = new Rect(40, 500, 300, 70);
+        public Rect BUTTON1_RECT = new Rect(20, 520, 300, 70);
+        public Rect BUTTON2_RECT = new Rect(20, 610, 300, 70);
         private BitmapImage button1Img;
         private BitmapImage button2Img;
         private Brush button1Br;
         private Brush button2Br;
+
+        private ILwin.ShowScreen screen;
+        public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
 
         public MainWindow()
         {
@@ -68,7 +73,8 @@ namespace ILwin
             //윈도우와 버튼들을 만들기 위해 호출.
             createLayout();
 
-            
+            //윈도우를 만든다.
+            screen = new ShowScreen(this.animationRec, SCREEN_RECT);
         }
 
         public void createLayout()
@@ -91,6 +97,10 @@ namespace ILwin
             this.button2.Background = button2Br;
 
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
+
+            
+            //screen = new ShowScreen(this.animationRec);
+            
 
         }
 
