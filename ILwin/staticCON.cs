@@ -18,6 +18,11 @@ namespace ILwin
 
         //버튼 이미지 경로
 
+
+        //배경 이미지
+        public const String REL_PATH_BG2_SUNNY = "rscs\\bg2\\sunny\\";
+
+
     }
 
 }
