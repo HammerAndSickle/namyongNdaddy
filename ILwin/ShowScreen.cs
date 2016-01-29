@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Windows.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,9 +28,14 @@ namespace ILwin
         public Rect bigRect;
         public Rect logoRect;
         public Rect winRect;
+        public Grid sp;             //위 rectangle들이 들어있는 grid
 
-        public ShowScreen(System.Windows.Shapes.Rectangle mainwin, Rect winRect)
+        private ILwin.MainWindow MWin;      //mainwindow의 레퍼런스
+
+        public ShowScreen(System.Windows.Shapes.Rectangle mainwin, Rect winRect, ILwin.MainWindow winref)
         {
+            MWin = winref;
+
             bigRectangle = mainwin;
             this.bigRect = winRect;
             this.winRect = new Rect(winRect.X, winRect.Y + 20, winRect.Width, winRect.Height - 20);
@@ -41,7 +48,7 @@ namespace ILwin
             winRectangle.Margin = new Thickness(0, 20, 0, 0);
             winRectangle.Width = bigRectangle.Width;        //가로는 bigrectangle과 같다.
             winRectangle.Height = bigRectangle.Height - 20; //세로는 좀 더 작어.
-            Grid sp = (Grid)bigRectangle.Parent;
+            sp = (Grid)bigRectangle.Parent;
             sp.Children.Add(winRectangle);                  //부모 grid에 추가한다.
 
             //logoRectangle을 만들 것이다.
@@ -99,9 +106,80 @@ namespace ILwin
                 ImageSource = new BitmapImage(new Uri(Constants.REL_PATH_BG2_SUNNY + "city1.png", UriKind.Relative))
             };
 
+            generateSprite();
 
             //winBox.DrawRectangle(grayPen, targetRect);
             
         }
+
+        public void generateSprite()
+        {
+            //Image를 가져와(FromFile로) Bitmap으로 타입캐스띵 해주면 될 거이다.
+            BitmapImage pictogram = new BitmapImage(new Uri(Constants.REL_PATH_SPRITE + "tman1.png", UriKind.Relative));
+            //Bitmap pictogram = (Bitmap)System.Drawing.Image.FromFile(Constants.REL_PATH_SPRITE + "man1.png", true);
+            System.Diagnostics.Debug.WriteLine("png width : " + pictogram.Width + ", height : " + pictogram.Height);
+            
+
+            //image가 들어갈 rectangle이 만들어져야 한다.
+            System.Windows.Shapes.Rectangle imgRec = new System.Windows.Shapes.Rectangle();
+            imgRec.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            //imgRec.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            imgRec.Margin = new Thickness(0, 250, 0, 0);
+            imgRec.Width = pictogram.Width;
+            imgRec.Height = pictogram.Height;
+            imgRec.Fill = new ImageBrush(pictogram);
+
+            sp.Children.Add(imgRec);
+
+            //쓰레드를 만들어보자.
+            Thread thr = new Thread(() => working(MWin, imgRec));
+            thr.Start();
+            //ThreadStart th = new ThreadStart(working);
+            
+            
+
+            /*for(int i = 0; i < 30; i++)
+            {
+                imgRec.Margin = new Thickness(imgRec.Margin.Left+1, imgRec.Margin.Top,
+                    imgRec.Margin.Right, imgRec.Margin.Bottom);
+                Thread.Sleep(200);
+                winRectangle.UpdateLayout();
+            }*/
+            
+        }
+
+        public static void working(ILwin.MainWindow mWin, System.Windows.Shapes.Rectangle imgRec)
+        {
+            while (true)
+            {
+
+                for (int i = 0; i < 15; i++)
+                {
+                    mWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        imgRec.Margin = new Thickness(imgRec.Margin.Left + 10, imgRec.Margin.Top,
+                        imgRec.Margin.Right, imgRec.Margin.Bottom);
+                    }));
+
+
+                    Thread.Sleep(50);
+                    //winRectangle.UpdateLayout();
+                }
+
+                for (int i = 0; i < 15; i++)
+                {
+                    mWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        imgRec.Margin = new Thickness(imgRec.Margin.Left - 10, imgRec.Margin.Top,
+                        imgRec.Margin.Right, imgRec.Margin.Bottom);
+                    }));
+
+
+                    Thread.Sleep(50);
+                    //winRectangle.UpdateLayout();
+                }
+            }
+        }
+
     }
 }

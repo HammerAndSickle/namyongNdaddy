@@ -17,6 +17,9 @@ namespace ILwin
         public const String REL_PATH_ABOUT = "rscs\\about\\";
 
         //버튼 이미지 경로
+        public const String REL_PATH_SPRITE = "rscs\\sprite\\";
+
+        //스프라이트 이미지 경로
 
 
         //배경 이미지

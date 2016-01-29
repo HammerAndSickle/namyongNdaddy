@@ -74,7 +74,7 @@ namespace ILwin
             createLayout();
 
             //윈도우를 만든다.
-            screen = new ShowScreen(this.animationRec, SCREEN_RECT);
+            screen = new ShowScreen(this.animationRec, SCREEN_RECT, this);
         }
 
         public void createLayout()
