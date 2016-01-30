@@ -42,33 +42,11 @@ namespace ILwin
         public void testfile()
         {
             string path = @"afile.txt";
-            string urladdr = "https://www.google.co.kr/search?newwindow=1&hl=ko&biw=1920&bih=934&site=webhp&tbm=isch&sa=1&q=%EC%8B%AC%EC%98%81&oq=%EC%8B%AC%EC%98%81&gs_l=img.3..0l10.3177.5569.0.5681.12.10.2.0.0.0.178.835.3j4.7.0....0...1c.1j4.64.img..5.5.416.qJgYguADBvI";
+            string urladdr = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=webhp&q=%EB%82%A0%EC%94%A8";
+            string SeoulUrl = "http://www.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109";
 
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(urladdr);
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
-            if(resp.StatusCode == HttpStatusCode.OK)
-            {
-                Stream received = resp.GetResponseStream();
-                StreamReader readStream = null;
-
-                if(resp.CharacterSet == null)
-                {
-                    readStream = new StreamReader(received);
-                }
-                else
-                {
-                    readStream = new StreamReader(received, Encoding.GetEncoding(resp.CharacterSet));
-                }
-
-                string data = readStream.ReadToEnd();
-
-                System.IO.File.WriteAllText(path, data, Encoding.Default);
-
-                resp.Close();
-                readStream.Close();
-            }
-
+            HTMLhandler.getHTML();
 
 
         }

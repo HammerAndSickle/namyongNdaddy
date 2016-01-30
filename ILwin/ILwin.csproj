@@ -53,6 +53,9 @@
     <ApplicationIcon>32ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>bin\Debug\dlls\htmlag\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -73,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HTMLhandler.cs" />
     <Compile Include="ShowScreen.cs" />
     <Compile Include="staticCON.cs" />
     <Page Include="AboutWindow.xaml">

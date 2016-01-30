@@ -13,3 +13,6 @@ D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.exe
 D:\igongwin\ILwin\ILwin\obj\Debug\ILwin.pdb
 D:\igongwin\ILwin\ILwin\obj\Debug\AboutWindow.baml
 D:\igongwin\ILwin\ILwin\obj\Debug\AboutWindow.g.cs
+D:\igongwin\ILwin\ILwin\bin\Debug\HtmlAgilityPack.dll
+D:\igongwin\ILwin\ILwin\bin\Debug\HtmlAgilityPack.pdb
+D:\igongwin\ILwin\ILwin\bin\Debug\HtmlAgilityPack.xml
