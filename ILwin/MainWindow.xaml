@@ -42,8 +42,13 @@
                 
             </TextBox>
             <Grid x:Name="requestSend" Margin="288, 149, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="15"
-                  MouseEnter="sndenter" MouseLeave="sndleave">
+                  MouseEnter="sndenter" MouseLeave="sndleave" MouseLeftButtonDown="sndclick">
             </Grid>
+        </Grid>
+        <Grid x:Name="responses" Margin="370, 510, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="409" Height="153">
+            <TextBox x:Name="responseMsgs" Margin="5, 12, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="399" Height="135"
+                     IsReadOnly="True" VerticalScrollBarVisibility="Visible">
+            </TextBox>
         </Grid>
     </Grid>
     

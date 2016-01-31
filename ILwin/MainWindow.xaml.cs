@@ -52,20 +52,24 @@ namespace ILwin
         private Brush[] miniBr;
         private Brush[] xBr;
 
-        //레이아웃 버튼들
+        //레이아웃 버튼들 - request
         public Rect BUTTONS_RECT = new Rect(20, 500, 338, 174);
         public Rect BUTTON1_RECT = new Rect(20, 10, 300, 50);
         public Rect BUTTON2_RECT = new Rect(20, 90, 300, 50);
-        private BitmapImage buttonsImg;
+        private BitmapImage req_recImg;
         private BitmapImage button1Img;
         private BitmapImage button2Img;
         private BitmapImage requestSndImg;
         private BitmapImage requestSndImgClicked;
-        private Brush buttonsBr;
+        private Brush req_recBr;
         private Brush button1Br;
         private Brush button2Br;
         private Brush requestSndBr;
         private Brush requestSndBrClicked;
+
+        //레이아웃 버튼들 - response
+        private BitmapImage resp_recImg;
+        private Brush resp_recBr;
 
         private ILwin.ShowScreen screen;
         public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
@@ -86,15 +90,16 @@ namespace ILwin
 
         public void createLayout()
         {
-            buttonsImg = new BitmapImage();
+            req_recImg = new BitmapImage();
             button1Img = new BitmapImage();
             button2Img = new BitmapImage();
             requestSndImg = new BitmapImage();
             requestSndImgClicked = new BitmapImage();
+            resp_recImg = new BitmapImage();
 
-            buttonsImg.BeginInit();
-            buttonsImg.UriSource = new Uri(Constants.REL_PATH + "interactrec.png", UriKind.Relative);
-            buttonsImg.EndInit();
+            req_recImg.BeginInit();
+            req_recImg.UriSource = new Uri(Constants.REL_PATH + "interactrec.png", UriKind.Relative);
+            req_recImg.EndInit();
 
             button1Img.BeginInit();
             button1Img.UriSource = new Uri(Constants.REL_PATH + "1button.bmp", UriKind.Relative);
@@ -112,18 +117,29 @@ namespace ILwin
             requestSndImgClicked.UriSource = new Uri(Constants.REL_PATH + "reqSendClicked.bmp", UriKind.Relative);
             requestSndImgClicked.EndInit();
 
-            buttonsBr = new ImageBrush(buttonsImg);
+            resp_recImg.BeginInit();
+            resp_recImg.UriSource = new Uri(Constants.REL_PATH + "interactrec2.png", UriKind.Relative);
+            resp_recImg.EndInit();
+
+            req_recBr = new ImageBrush(req_recImg);
             button1Br = new ImageBrush(button1Img);
             button2Br = new ImageBrush(button2Img);
             requestSndBr = new ImageBrush(requestSndImg);
             requestSndBrClicked = new ImageBrush(requestSndImgClicked);
+            resp_recBr = new ImageBrush(resp_recImg);
 
-            this.buttons.Background = buttonsBr;
+            this.buttons.Background = req_recBr;
             this.button1.Background = button1Br;
             this.button2.Background = button2Br;
             this.requestSend.Background = requestSndBr;
             this.requestMachine.FontSize = 11;
+            this.requestMachine.KeyDown += new KeyEventHandler(tb_KeyDown);
+            this.responses.Background = resp_recBr;
+            this.responseMsgs.FontSize = 11;
+            
 
+            ILtextBox.printMSG(this.responseMsgs, "Namyong N Daddy started");
+            
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
 
             
@@ -312,6 +328,21 @@ namespace ILwin
         private void sndleave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             this.requestSend.Background = this.requestSndBr;
+        }
+        private void sndclick(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text);
+            this.requestMachine.Text = "";
+        }
+        private void tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+            if (e.Key == Key.Return)
+            {
+                //enter key is down
+                ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text);
+                this.requestMachine.Text = "";
+            }
         }
 
 
