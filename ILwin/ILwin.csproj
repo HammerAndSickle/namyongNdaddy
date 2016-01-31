@@ -76,7 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Daddy.cs" />
     <Compile Include="HTMLhandler.cs" />
+    <Compile Include="ILtextBox.cs" />
+    <Compile Include="Namyong.cs" />
     <Compile Include="ShowScreen.cs" />
     <Compile Include="staticCON.cs" />
     <Page Include="AboutWindow.xaml">

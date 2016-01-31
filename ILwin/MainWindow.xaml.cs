@@ -53,12 +53,19 @@ namespace ILwin
         private Brush[] xBr;
 
         //레이아웃 버튼들
-        public Rect BUTTON1_RECT = new Rect(20, 520, 300, 70);
-        public Rect BUTTON2_RECT = new Rect(20, 610, 300, 70);
+        public Rect BUTTONS_RECT = new Rect(20, 500, 338, 174);
+        public Rect BUTTON1_RECT = new Rect(20, 10, 300, 50);
+        public Rect BUTTON2_RECT = new Rect(20, 90, 300, 50);
+        private BitmapImage buttonsImg;
         private BitmapImage button1Img;
         private BitmapImage button2Img;
+        private BitmapImage requestSndImg;
+        private BitmapImage requestSndImgClicked;
+        private Brush buttonsBr;
         private Brush button1Br;
         private Brush button2Br;
+        private Brush requestSndBr;
+        private Brush requestSndBrClicked;
 
         private ILwin.ShowScreen screen;
         public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
@@ -79,8 +86,15 @@ namespace ILwin
 
         public void createLayout()
         {
+            buttonsImg = new BitmapImage();
             button1Img = new BitmapImage();
             button2Img = new BitmapImage();
+            requestSndImg = new BitmapImage();
+            requestSndImgClicked = new BitmapImage();
+
+            buttonsImg.BeginInit();
+            buttonsImg.UriSource = new Uri(Constants.REL_PATH + "interactrec.png", UriKind.Relative);
+            buttonsImg.EndInit();
 
             button1Img.BeginInit();
             button1Img.UriSource = new Uri(Constants.REL_PATH + "1button.bmp", UriKind.Relative);
@@ -90,11 +104,25 @@ namespace ILwin
             button2Img.UriSource = new Uri(Constants.REL_PATH + "2button.bmp", UriKind.Relative);
             button2Img.EndInit();
 
+            requestSndImg.BeginInit();
+            requestSndImg.UriSource = new Uri(Constants.REL_PATH + "reqSend.bmp", UriKind.Relative);
+            requestSndImg.EndInit();
+
+            requestSndImgClicked.BeginInit();
+            requestSndImgClicked.UriSource = new Uri(Constants.REL_PATH + "reqSendClicked.bmp", UriKind.Relative);
+            requestSndImgClicked.EndInit();
+
+            buttonsBr = new ImageBrush(buttonsImg);
             button1Br = new ImageBrush(button1Img);
             button2Br = new ImageBrush(button2Img);
+            requestSndBr = new ImageBrush(requestSndImg);
+            requestSndBrClicked = new ImageBrush(requestSndImgClicked);
 
+            this.buttons.Background = buttonsBr;
             this.button1.Background = button1Br;
             this.button2.Background = button2Br;
+            this.requestSend.Background = requestSndBr;
+            this.requestMachine.FontSize = 11;
 
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
 
@@ -274,6 +302,16 @@ namespace ILwin
             Environment.Exit(0);
             System.Diagnostics.Process.GetCurrentProcess().Kill();
             this.Close();
+        }
+
+        //requestSnd
+        private void sndenter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.requestSend.Background = this.requestSndBrClicked;
+        }
+        private void sndleave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.requestSend.Background = this.requestSndBr;
         }
 
 

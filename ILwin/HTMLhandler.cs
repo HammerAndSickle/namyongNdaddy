@@ -47,7 +47,8 @@ namespace ILwin
             string todayVal = ires_first_img.Attributes["title"].Value;
             string todayTem = ires_first_span.InnerText;
 
-
+            System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
+            System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);
 
             //HtmlNodeCollection ires_tables = ires_node.ChildNodes;
 

@@ -33,10 +33,18 @@
                 
             </Rectangle>
         </Grid>
-        <Grid x:Name="button1" Margin="20, 520, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="70">
+        <Grid x:Name="buttons" Margin="20, 510, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="338" Height="174">
+        <Grid x:Name="button1" Margin="11, 23, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="50">
         </Grid>
-        <Grid x:Name="button2" Margin="20, 610, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="70">
+        <Grid x:Name="button2" Margin="11, 85, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="50">
         </Grid>
-	</Grid>
+            <TextBox x:Name="requestMachine" Margin="60, 149, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="15">
+                
+            </TextBox>
+            <Grid x:Name="requestSend" Margin="288, 149, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="15"
+                  MouseEnter="sndenter" MouseLeave="sndleave">
+            </Grid>
+        </Grid>
+    </Grid>
     
 </Window>
