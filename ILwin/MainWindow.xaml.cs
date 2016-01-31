@@ -25,8 +25,11 @@ namespace ILwin
     /// </summary>
     public partial class MainWindow : Window
     {
+        //필요한 정보를 담는 datas 클래스
+        private Datas datas;
+
         //about에 필요한 이미지
-        private BitmapImage aboutcontentImg;
+        /*private BitmapImage aboutcontentImg;
         private BitmapImage[] okButton;
         private Brush aboutcontentBr;
         private Brush[] okButtonBr;
@@ -69,14 +72,55 @@ namespace ILwin
 
         //레이아웃 버튼들 - response
         private BitmapImage resp_recImg;
+        private Brush resp_recBr;*/
+
+        //바 버튼들의 위치
+        public Rect ICON_RECT = new Rect(4, 2, 13, 14);
+        public Rect MINI_RECT = new Rect(760, 2, 14, 14);
+        public Rect X_RECT = new Rect(780, 2, 14, 14);
+
+        //packs에서 가져올 Brush들
+        private Brush[] iconBr;
+        private Brush[] miniBr;
+        private Brush[] xBr;
+        private Brush req_recBr;
+        private Brush button1Br;
+        private Brush button2Br;
+        private Brush requestSndBr;
+        private Brush requestSndBrClicked;
         private Brush resp_recBr;
+        private Brush marinBarBr;
+        private Brush contentBr;
+        private Brush aboutcontentBr;
+        private Brush[] okButtonBr;
+
+        //Datas나 이미지들이 담긴 packs.
+        private ILwin.paraPackage packs;
 
         private ILwin.ShowScreen screen;
         public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
 
-        public MainWindow()
+        public MainWindow(ILwin.paraPackage packs)
         {
             InitializeComponent();
+
+            //init에서 만든 정보들을 모두 받아온다.
+            this.packs = packs;
+            datas = packs.datas;
+            iconBr = packs.iconBr;
+            miniBr = packs.miniBr;
+            xBr = packs.xBr;
+            req_recBr = packs.req_recBr;
+            button1Br = packs.button1Br;
+            button2Br = packs.button2Br;
+            requestSndBr = packs.requestSndBr;
+            requestSndBrClicked = packs.requestSndBrClicked;
+            resp_recBr = packs.resp_recBr;
+            aboutcontentBr = packs.aboutcontentBr;
+            okButtonBr = packs.okButtonBr;
+            marinBarBr = packs.marinBarBr;
+            contentBr = packs.contentBr;
+            
 
             //메인 윈도우 바를 만들기 위해 호출.
             createBar();
@@ -84,13 +128,16 @@ namespace ILwin
             //윈도우와 버튼들을 만들기 위해 호출.
             createLayout();
 
+
             //윈도우를 만든다.
             screen = new ShowScreen(this.animationRec, SCREEN_RECT, this);
         }
 
         public void createLayout()
         {
-            req_recImg = new BitmapImage();
+            //매개변수로 받아온 packs에 있는 이미지들을 모두 불러들인다.
+
+            /*req_recImg = new BitmapImage();
             button1Img = new BitmapImage();
             button2Img = new BitmapImage();
             requestSndImg = new BitmapImage();
@@ -127,6 +174,7 @@ namespace ILwin
             requestSndBr = new ImageBrush(requestSndImg);
             requestSndBrClicked = new ImageBrush(requestSndImgClicked);
             resp_recBr = new ImageBrush(resp_recImg);
+             */
 
             this.buttons.Background = req_recBr;
             this.button1.Background = button1Br;
@@ -139,6 +187,7 @@ namespace ILwin
             
 
             ILtextBox.printMSG(this.responseMsgs, "Namyong N Daddy started");
+            ILtextBox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
             
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
 
@@ -150,8 +199,9 @@ namespace ILwin
 
         public void createBar()
         {
+            
             //메뉴바
-            mainBarImg = new BitmapImage();
+            /*mainBarImg = new BitmapImage();
             mainBarImg.BeginInit();
             mainBarImg.UriSource = new Uri(Constants.REL_PATH + "mainbar.bmp", UriKind.Relative);
             //bi.UriSource = new Uri("D:\\igongwin\\ILwin\\ILwin\\rscs\\winbar\\mainbar.bmp", UriKind.Absolute);
@@ -231,7 +281,7 @@ namespace ILwin
                 miniBr[i] = new ImageBrush(miniImg[i]);
                 xBr[i] = new ImageBrush(xImg[i]);
                 okButtonBr[i] = new ImageBrush(okButton[i]);
-            }
+            }*/
 
             //바에 적용
             this.MainBar.Background = marinBarBr;

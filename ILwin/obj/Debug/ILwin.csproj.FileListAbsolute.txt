@@ -16,3 +16,5 @@ D:\igongwin\ILwin\ILwin\obj\Debug\AboutWindow.g.cs
 D:\igongwin\ILwin\ILwin\bin\Debug\HtmlAgilityPack.dll
 D:\igongwin\ILwin\ILwin\bin\Debug\HtmlAgilityPack.pdb
 D:\igongwin\ILwin\ILwin\bin\Debug\HtmlAgilityPack.xml
+D:\igongwin\ILwin\ILwin\obj\Debug\InitWindow.baml
+D:\igongwin\ILwin\ILwin\obj\Debug\InitWindow.g.cs

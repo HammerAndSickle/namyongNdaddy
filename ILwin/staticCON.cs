@@ -8,6 +8,9 @@ namespace ILwin
 {
     static class Constants
     {
+        //init 리소스 경로
+        public const String REL_PATH_INIT = "rscs\\init\\";
+
         //이미지 경로
         public const String ABS_PATH = "D:\\igongwin\\ILwin\\ILwin\\rscs\\winbar\\";
         public const String REL_PATH = "rscs\\winbar\\";

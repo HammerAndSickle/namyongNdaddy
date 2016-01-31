@@ -11,7 +11,8 @@ namespace ILwin
 {
     static class HTMLhandler
     {
-        static public void getHTML()
+        //Datas의 날씨 정보들을 업데이트한다.
+        static public void getWeatherFromHTML(Datas datas)
         {
             //HTML agility pack을 사용.
             HtmlWeb hw = new HtmlWeb();
@@ -46,6 +47,8 @@ namespace ILwin
             
             string todayVal = ires_first_img.Attributes["title"].Value;
             string todayTem = ires_first_span.InnerText;
+
+            datas.setPresentWeathers(todayTem, todayVal);
 
             System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
             System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);

@@ -36,7 +36,7 @@ namespace ILwin
             this.OKBClicked = OKBClicked;
             this.okbut.Background = OKB;
 
-            testfile();
+           // testfile();
         }
 
         public void testfile()
@@ -46,7 +46,7 @@ namespace ILwin
             string SeoulUrl = "http://www.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109";
 
 
-            HTMLhandler.getHTML();
+            
 
 
         }
