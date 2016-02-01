@@ -28,56 +28,15 @@ namespace ILwin
         //필요한 정보를 담는 datas 클래스
         private Datas datas;
 
-        //about에 필요한 이미지
-        /*private BitmapImage aboutcontentImg;
-        private BitmapImage[] okButton;
-        private Brush aboutcontentBr;
-        private Brush[] okButtonBr;
-
-
 
         //바 버튼들의 위치
         public Rect ICON_RECT = new Rect(4, 2, 13, 14);
         public Rect MINI_RECT = new Rect(760, 2, 14, 14);
         public Rect X_RECT = new Rect(780, 2, 14, 14);
 
-        private BitmapImage mainBarImg;
-        private BitmapImage mainContent;
-        private BitmapImage[] iconImg;
-        private BitmapImage[] miniImg;
-        private BitmapImage[] xImg;
-
-        private bool iconclicked = false;
-        private bool miniclicked = false;
-        private bool xclicked = false;
-
-        private Brush[] iconBr;
-        private Brush[] miniBr;
-        private Brush[] xBr;
-
-        //레이아웃 버튼들 - request
         public Rect BUTTONS_RECT = new Rect(20, 500, 338, 174);
         public Rect BUTTON1_RECT = new Rect(20, 10, 300, 50);
         public Rect BUTTON2_RECT = new Rect(20, 90, 300, 50);
-        private BitmapImage req_recImg;
-        private BitmapImage button1Img;
-        private BitmapImage button2Img;
-        private BitmapImage requestSndImg;
-        private BitmapImage requestSndImgClicked;
-        private Brush req_recBr;
-        private Brush button1Br;
-        private Brush button2Br;
-        private Brush requestSndBr;
-        private Brush requestSndBrClicked;
-
-        //레이아웃 버튼들 - response
-        private BitmapImage resp_recImg;
-        private Brush resp_recBr;*/
-
-        //바 버튼들의 위치
-        public Rect ICON_RECT = new Rect(4, 2, 13, 14);
-        public Rect MINI_RECT = new Rect(760, 2, 14, 14);
-        public Rect X_RECT = new Rect(780, 2, 14, 14);
 
         //packs에서 가져올 Brush들
         private Brush[] iconBr;
@@ -93,10 +52,13 @@ namespace ILwin
         private Brush contentBr;
         private Brush aboutcontentBr;
         private Brush[] okButtonBr;
+        private Brush bottomBr;
+        private Brush[] boxBr;
 
         //Datas나 이미지들이 담긴 packs.
         private ILwin.paraPackage packs;
 
+        //show screen
         private ILwin.ShowScreen screen;
         public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
 
@@ -120,6 +82,9 @@ namespace ILwin
             okButtonBr = packs.okButtonBr;
             marinBarBr = packs.marinBarBr;
             contentBr = packs.contentBr;
+            bottomBr = packs.bottomBr;
+            boxBr = packs.boxBr;
+            
             
 
             //메인 윈도우 바를 만들기 위해 호출.
@@ -130,51 +95,14 @@ namespace ILwin
 
 
             //윈도우를 만든다.
-            screen = new ShowScreen(this.animationRec, SCREEN_RECT, this);
+            screen = new ShowScreen(this.animationRec, SCREEN_RECT, this, packs);
+
+            
         }
 
         public void createLayout()
         {
             //매개변수로 받아온 packs에 있는 이미지들을 모두 불러들인다.
-
-            /*req_recImg = new BitmapImage();
-            button1Img = new BitmapImage();
-            button2Img = new BitmapImage();
-            requestSndImg = new BitmapImage();
-            requestSndImgClicked = new BitmapImage();
-            resp_recImg = new BitmapImage();
-
-            req_recImg.BeginInit();
-            req_recImg.UriSource = new Uri(Constants.REL_PATH + "interactrec.png", UriKind.Relative);
-            req_recImg.EndInit();
-
-            button1Img.BeginInit();
-            button1Img.UriSource = new Uri(Constants.REL_PATH + "1button.bmp", UriKind.Relative);
-            button1Img.EndInit();
-
-            button2Img.BeginInit();
-            button2Img.UriSource = new Uri(Constants.REL_PATH + "2button.bmp", UriKind.Relative);
-            button2Img.EndInit();
-
-            requestSndImg.BeginInit();
-            requestSndImg.UriSource = new Uri(Constants.REL_PATH + "reqSend.bmp", UriKind.Relative);
-            requestSndImg.EndInit();
-
-            requestSndImgClicked.BeginInit();
-            requestSndImgClicked.UriSource = new Uri(Constants.REL_PATH + "reqSendClicked.bmp", UriKind.Relative);
-            requestSndImgClicked.EndInit();
-
-            resp_recImg.BeginInit();
-            resp_recImg.UriSource = new Uri(Constants.REL_PATH + "interactrec2.png", UriKind.Relative);
-            resp_recImg.EndInit();
-
-            req_recBr = new ImageBrush(req_recImg);
-            button1Br = new ImageBrush(button1Img);
-            button2Br = new ImageBrush(button2Img);
-            requestSndBr = new ImageBrush(requestSndImg);
-            requestSndBrClicked = new ImageBrush(requestSndImgClicked);
-            resp_recBr = new ImageBrush(resp_recImg);
-             */
 
             this.buttons.Background = req_recBr;
             this.button1.Background = button1Br;
@@ -184,117 +112,36 @@ namespace ILwin
             this.requestMachine.KeyDown += new KeyEventHandler(tb_KeyDown);
             this.responses.Background = resp_recBr;
             this.responseMsgs.FontSize = 11;
-            
+
+            DateTime currTime = DateTime.Now;
+            string currTimeStr = currTime.ToString("yyyy") + "/" + currTime.ToString("MM") + "/" + currTime.ToString("dd") + " " + currTime.ToString("HH:mm:ss");
 
             ILtextBox.printMSG(this.responseMsgs, "Namyong N Daddy started");
+            ILtextBox.printMSG(this.responseMsgs, "현 로그인 시간 : " + currTimeStr);
+            ILtextBox.printMSG(this.responseMsgs, "위치 : " + datas.getLoc());
             ILtextBox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
             
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
-
-            
+        
             //screen = new ShowScreen(this.animationRec);
-            
 
         }
 
         public void createBar()
         {
             
-            //메뉴바
-            /*mainBarImg = new BitmapImage();
-            mainBarImg.BeginInit();
-            mainBarImg.UriSource = new Uri(Constants.REL_PATH + "mainbar.bmp", UriKind.Relative);
-            //bi.UriSource = new Uri("D:\\igongwin\\ILwin\\ILwin\\rscs\\winbar\\mainbar.bmp", UriKind.Absolute);
-            mainBarImg.EndInit();
-
-            //몸통
-            mainContent = new BitmapImage();
-            mainContent.BeginInit();
-            mainContent.UriSource = new Uri(Constants.REL_PATH + "maincontent.png", UriKind.Relative);
-            mainContent.EndInit();
-
-            //버튼들을 만든다. [0]은 노말, [1]은 마우스오버 때.
-            iconImg = new BitmapImage[2];
-            iconImg[0] = new BitmapImage();
-            iconImg[0].BeginInit();
-            iconImg[0].UriSource = new Uri(Constants.REL_PATH + "ilicon.bmp", UriKind.Relative);
-            iconImg[0].EndInit();
-            iconImg[1] = new BitmapImage();
-            iconImg[1].BeginInit();
-            iconImg[1].UriSource = new Uri(Constants.REL_PATH + "iliconOver.bmp", UriKind.Relative);
-            iconImg[1].EndInit();
-
-
-            
-            miniImg = new BitmapImage[2];
-            miniImg[0] = new BitmapImage();
-            miniImg[0].BeginInit();
-            miniImg[0].UriSource = new Uri(Constants.REL_PATH + "minibutton.bmp", UriKind.Relative);
-            miniImg[0].EndInit();
-            miniImg[1] = new BitmapImage();
-            miniImg[1].BeginInit();
-            miniImg[1].UriSource = new Uri(Constants.REL_PATH + "minibuttonOver.bmp", UriKind.Relative);
-            miniImg[1].EndInit();
-
-            xImg = new BitmapImage[2];
-            xImg[0] = new BitmapImage();
-            xImg[0].BeginInit();
-            xImg[0].UriSource = new Uri(Constants.REL_PATH + "xbutton.bmp", UriKind.Relative);
-            xImg[0].EndInit();
-            xImg[1] = new BitmapImage();
-            xImg[1].BeginInit();
-            xImg[1].UriSource = new Uri(Constants.REL_PATH + "xbuttonOver.bmp", UriKind.Relative);
-            xImg[1].EndInit();
-
-
-            //******************ABOUT 창
-            aboutcontentImg = new BitmapImage();
-            aboutcontentImg.BeginInit();
-            aboutcontentImg.UriSource = new Uri(Constants.REL_PATH_ABOUT + "about.png", UriKind.Relative);
-            aboutcontentImg.EndInit();
-
-            aboutcontentBr = new ImageBrush(aboutcontentImg);
-
-            okButton = new BitmapImage[2];
-            okButton[0] = new BitmapImage();
-            okButton[0].BeginInit();
-            okButton[0].UriSource = new Uri(Constants.REL_PATH_ABOUT + "aboutOK.bmp", UriKind.Relative);
-            okButton[0].EndInit();
-            okButton[1] = new BitmapImage();
-            okButton[1].BeginInit();
-            okButton[1].UriSource = new Uri(Constants.REL_PATH_ABOUT + "aboutOKClicked.bmp", UriKind.Relative);
-            okButton[1].EndInit();
-
-
-            //브러쉬 데이터 타입으로 만든다.
-
-            Brush marinBarBr = new ImageBrush(mainBarImg);
-            Brush contentBr = new ImageBrush(mainContent);
-            iconBr = new Brush[2];
-            miniBr = new Brush[2];
-            xBr = new Brush[2];
-            okButtonBr = new Brush[2];
-
-            for (int i = 0; i < 2; i++ )
-            {
-                iconBr[i] = new ImageBrush(iconImg[i]);
-                miniBr[i] = new ImageBrush(miniImg[i]);
-                xBr[i] = new ImageBrush(xImg[i]);
-                okButtonBr[i] = new ImageBrush(okButton[i]);
-            }*/
 
             //바에 적용
             this.MainBar.Background = marinBarBr;
 
             //몸통에 적용
             this.Content.Background = contentBr;
+            this.etcbar.Background = bottomBr;
 
             //버튼에 적용
             this.icon.Background = iconBr[0];
             this.minimi.Background = miniBr[0];
             this.xbutton.Background = xBr[0];
-
-
 
             xbutton.MouseUp += new MouseButtonEventHandler(x_up);
         }

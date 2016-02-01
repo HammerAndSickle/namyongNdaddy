@@ -36,7 +36,18 @@ namespace ILwin
         public Brush aboutcontentBr;
         public Brush[] okButtonBr;
 
+        //flying 박스 이미지들
+        //[0] left normal, [1] right normal
+        //[2] left open, [3] right open
+        public BitmapImage[] boxImgs;
+        public Brush[] boxBr;
 
+
+        //말풍선
+        //[0] 왼쪽으로 이동중인 스프라이트의 말풍선(오른쪽에 뜸)
+        //[1] 오른쪽으로 이동중인 스프라이트의 말풍선(왼쪽에 뜸)
+        public BitmapImage[] balloonImgs;
+        public Brush[] balloonBr;
 
         //바 버튼들의 위치
         public Rect ICON_RECT = new Rect(4, 2, 13, 14);
@@ -48,11 +59,13 @@ namespace ILwin
         public BitmapImage[] iconImg;
         public BitmapImage[] miniImg;
         public BitmapImage[] xImg;
+        public BitmapImage bottomImg;
         public Brush[] iconBr;
         public Brush[] miniBr;
         public Brush[] xBr;
         public Brush marinBarBr;
         public Brush contentBr;
+        public Brush bottomBr;
 
 
         //레이아웃 버튼들 - request
@@ -69,6 +82,7 @@ namespace ILwin
         public Brush button2Br;
         public Brush requestSndBr;
         public Brush requestSndBrClicked;
+
 
         //레이아웃 버튼들 - response
         public BitmapImage resp_recImg;
@@ -236,6 +250,7 @@ namespace ILwin
                     thiswin.packs.requestSndImg = new BitmapImage();
                     thiswin.packs.requestSndImgClicked = new BitmapImage();
                     thiswin.packs.resp_recImg = new BitmapImage();
+                    thiswin.packs.bottomImg = new BitmapImage();
 
                     //main window에 쓰이는 이미지들을 디스크에서 읽어들인다.
                     thiswin.packs.req_recImg.BeginInit();
@@ -262,6 +277,11 @@ namespace ILwin
                     thiswin.packs.resp_recImg.UriSource = new Uri(Constants.REL_PATH + "interactrec2.png", UriKind.Relative);
                     thiswin.packs.resp_recImg.EndInit();
 
+                    thiswin.packs.bottomImg.BeginInit();
+                    thiswin.packs.bottomImg.UriSource = new Uri(Constants.REL_PATH + "bottom.bmp", UriKind.Relative);
+                    thiswin.packs.bottomImg.EndInit();
+
+
                     //main window에 쓰이는 이미지들을 브러쉬화 하여 background에 적용할 준비를 모두 마친다.
                     thiswin.packs.req_recBr = new ImageBrush(thiswin.packs.req_recImg);
                     thiswin.packs.button1Br = new ImageBrush(thiswin.packs.button1Img);
@@ -269,7 +289,55 @@ namespace ILwin
                     thiswin.packs.requestSndBr = new ImageBrush(thiswin.packs.requestSndImg);
                     thiswin.packs.requestSndBrClicked = new ImageBrush(thiswin.packs.requestSndImgClicked);
                     thiswin.packs.resp_recBr = new ImageBrush(thiswin.packs.resp_recImg);
+                    thiswin.packs.bottomBr = new ImageBrush(thiswin.packs.bottomImg);
 
+
+                    //flying box 이미지들
+                    thiswin.packs.boxImgs = new BitmapImage[4];
+                    thiswin.packs.boxBr = new Brush[4];
+
+                    for (int i = 0; i < 4; i++ )
+                    {
+                        thiswin.packs.boxImgs[i] = new BitmapImage();
+                    }
+
+                        thiswin.packs.boxImgs[0].BeginInit();
+                    thiswin.packs.boxImgs[0].UriSource = new Uri(Constants.REL_PATH_SPRITE + "n_leftbox.png", UriKind.Relative);
+                    thiswin.packs.boxImgs[0].EndInit();
+                    thiswin.packs.boxImgs[1].BeginInit();
+                    thiswin.packs.boxImgs[1].UriSource = new Uri(Constants.REL_PATH_SPRITE + "n_rightbox.png", UriKind.Relative);
+                    thiswin.packs.boxImgs[1].EndInit();
+                    thiswin.packs.boxImgs[2].BeginInit();
+                    thiswin.packs.boxImgs[2].UriSource = new Uri(Constants.REL_PATH_SPRITE + "o_leftbox.png", UriKind.Relative);
+                    thiswin.packs.boxImgs[2].EndInit();
+                    thiswin.packs.boxImgs[3].BeginInit();
+                    thiswin.packs.boxImgs[3].UriSource = new Uri(Constants.REL_PATH_SPRITE + "o_rightbox.png", UriKind.Relative);
+                    thiswin.packs.boxImgs[3].EndInit();
+
+                    for (int i = 0; i < 4; i++)
+                        thiswin.packs.boxBr[i] = new ImageBrush(thiswin.packs.boxImgs[i]);
+
+                    //balloons 이미지들
+                    thiswin.packs.balloonImgs = new BitmapImage[2];
+                    thiswin.packs.balloonBr = new Brush[2];
+
+                    for (int i = 0; i < 2; i++)
+                        thiswin.packs.balloonImgs[i] = new BitmapImage();
+
+                    thiswin.packs.balloonImgs[0].BeginInit();
+                    thiswin.packs.balloonImgs[0].UriSource = new Uri(Constants.REL_PATH_SPRITE + "trans_leftbal.png", UriKind.Relative);
+                    thiswin.packs.balloonImgs[0].EndInit();
+                    thiswin.packs.balloonImgs[1].BeginInit();
+                    thiswin.packs.balloonImgs[1].UriSource = new Uri(Constants.REL_PATH_SPRITE + "trans_rightbal.png", UriKind.Relative);
+                    thiswin.packs.balloonImgs[1].EndInit();
+
+                    for (int i = 0; i < 2; i++)
+                        thiswin.packs.balloonBr[i] = new ImageBrush(thiswin.packs.balloonImgs[i]);
+                    
+
+                    //바 이미지들
+
+                   
 
 
                     //메뉴바
@@ -351,6 +419,8 @@ namespace ILwin
                         thiswin.packs.xBr[i] = new ImageBrush(thiswin.packs.xImg[i]);
                         thiswin.packs.okButtonBr[i] = new ImageBrush(thiswin.packs.okButton[i]);
                     }
+
+
 
                     //**이벤트 클래스의 leftLoading에 직접 접근하는 게 아니라, 그 set 함수에 접근해라!! 안 그러면 이벤트 안떠
                     thiswin.eventclass.LeftLoading = Convert.ToString(Convert.ToInt32(thiswin.eventclass.leftLoading) - 1);

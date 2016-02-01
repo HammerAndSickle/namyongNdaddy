@@ -31,10 +31,14 @@ namespace ILwin
         public Grid sp;             //위 rectangle들이 들어있는 grid
 
         private ILwin.MainWindow MWin;      //mainwindow의 레퍼런스
+        private ILwin.paraPackage packs;      //이미지 리소스가 담긴 packs
+        //flying box 객체
+        private ILwin.flyingBox flyingbox;
 
-        public ShowScreen(System.Windows.Shapes.Rectangle mainwin, Rect winRect, ILwin.MainWindow winref)
+        public ShowScreen(System.Windows.Shapes.Rectangle mainwin, Rect winRect, ILwin.MainWindow winref, ILwin.paraPackage packs)
         {
             MWin = winref;
+            this.packs = packs;
 
             bigRectangle = mainwin;
             this.bigRect = winRect;
@@ -107,6 +111,7 @@ namespace ILwin
             };
 
             generateSprite();
+            generateBox();
 
             //winBox.DrawRectangle(grayPen, targetRect);
             
@@ -136,16 +141,16 @@ namespace ILwin
             thr.Start();
             //ThreadStart th = new ThreadStart(working);
             
-            
+        }
 
-            /*for(int i = 0; i < 30; i++)
-            {
-                imgRec.Margin = new Thickness(imgRec.Margin.Left+1, imgRec.Margin.Top,
-                    imgRec.Margin.Right, imgRec.Margin.Bottom);
-                Thread.Sleep(200);
-                winRectangle.UpdateLayout();
-            }*/
-            
+        public void generateBox()
+        {
+            //flying box를 만든다.
+            flyingbox = new flyingBox( packs.boxBr, this);
+
+            flyingbox.startmove();
+
+
         }
 
         public static void working(ILwin.MainWindow mWin, System.Windows.Shapes.Rectangle imgRec)
@@ -181,5 +186,10 @@ namespace ILwin
             }
         }
 
+
+        public ILwin.MainWindow getMWinReference()
+        {
+            return MWin;
+        }
     }
 }

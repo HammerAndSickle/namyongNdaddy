@@ -22,6 +22,9 @@ namespace ILwin
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
 
+            //테스트용 소쓰
+            System.IO.File.WriteAllText(@"afile.txt", entire.InnerHtml, Encoding.Default);
+
             //파일 초기화
             System.IO.File.WriteAllText(filepath, "", Encoding.Default);
 
@@ -42,13 +45,17 @@ namespace ILwin
             //img의 title에는 현재의 날씨가 들어있다.
             //span의 text에는 현재의 기온이 들어있다.
 
+            HtmlNode loc_b = ires_node.SelectSingleNode(".//b");
+
             System.IO.File.AppendAllText(filepath, ires_first_tr.InnerHtml, Encoding.Default);
             System.IO.File.AppendAllText(filepath, "\n\n\n===========\n\n\n", Encoding.Default);
             
             string todayVal = ires_first_img.Attributes["title"].Value;
             string todayTem = ires_first_span.InnerText;
+            string currentLoc = loc_b.InnerText;
 
             datas.setPresentWeathers(todayTem, todayVal);
+            datas.setLocation(currentLoc);
 
             System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
             System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);

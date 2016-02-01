@@ -78,6 +78,7 @@
     </ApplicationDefinition>
     <Compile Include="Daddy.cs" />
     <Compile Include="Datas.cs" />
+    <Compile Include="flyingBox.cs" />
     <Compile Include="HTMLhandler.cs" />
     <Compile Include="ILtextBox.cs" />
     <Compile Include="InitWindow.xaml.cs">
