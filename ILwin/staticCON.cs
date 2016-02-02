@@ -28,6 +28,8 @@ namespace ILwin
         //배경 이미지
         public const String REL_PATH_BG2_SUNNY = "rscs\\bg2\\sunny\\";
 
+        //화면 에 존재 가능한 web items 개수
+        public const int MAX_WEB_ITEMS = 5;
 
     }
 

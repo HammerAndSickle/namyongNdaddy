@@ -117,6 +117,7 @@ namespace ILwin
             
         }
 
+        //테스트용 스프라이트 생성
         public void generateSprite()
         {
             //Image를 가져와(FromFile로) Bitmap으로 타입캐스띵 해주면 될 거이다.
@@ -142,7 +143,8 @@ namespace ILwin
             //ThreadStart th = new ThreadStart(working);
             
         }
-
+        
+        //flying box를 생성한다. flying box는 최소 하나 존재하므로 datas에 포함시키지 않는다.
         public void generateBox()
         {
             //flying box를 만든다.
@@ -151,6 +153,38 @@ namespace ILwin
             flyingbox.startmove();
 
 
+        }
+
+        //webImage를 생성한다. 단, 더 생성 가능한지만 확인하고, 가능하다면 스레드를 돌린다.
+        public void generateWebImage(string query, int num)
+        {
+            if(MWin.getDatasReference().webItems.Count + num > Constants.MAX_WEB_ITEMS )
+            {
+                ILtextBox.printMSG(MWin.responseMsgs, "최대 Web Item 개수를 넘는다. 안돼");
+                return;
+            }
+
+            Thread thr = new Thread(() => generateWebImageThread(MWin.getDatasReference(), flyingbox, query, num));
+            thr.Start();
+        }
+
+        //webImage를 생성한다. 하나의 query에 대해 주어진 개수만큼 이미지를 가져올 것이다.
+        public static void generateWebImageThread(Datas datas, flyingBox flyingbox, string query, int num)
+        {
+
+            List<string> urls = new List<string>();
+
+            //string 리스트에 url을 필요한 개수만큼 받아온다.
+            HTMLhandler.getImages(urls, num, query);
+            //Thread urlgetThread = new Thread(() => HTMLhandler.getImages(urls, num, query));
+
+            //*************위 urlgetThread가 모두 끝날 때까지 기다린다. 그리고 나서 webitems를 추가하라.
+
+            for(int i = 0; i < num; i++)
+            {
+                //가져온 string 리스트의 url을 하나하나 넣어 webItem를 생성한다.
+                datas.addWebitems(urls[i], flyingbox.xpos, flyingbox.ypos);
+            }
         }
 
         public static void working(ILwin.MainWindow mWin, System.Windows.Shapes.Rectangle imgRec)

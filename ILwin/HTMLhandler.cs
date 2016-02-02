@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Net;
 using System.IO;
 using HtmlAgilityPack;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
 
 namespace ILwin
 {
@@ -60,56 +64,39 @@ namespace ILwin
             System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
             System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);
 
-            //HtmlNodeCollection ires_tables = ires_node.ChildNodes;
-
-            
-
-            /*foreach (HtmlNode link in ires_tables)
-            {
-               System.IO.File.AppendAllText(filepath, link.InnerHtml, Encoding.Default);
-            }*/
-
-            //System.IO.File.AppendAllText(filepath, ires_node.InnerHtml, Encoding.Default);
-
-            /*
-            foreach (HtmlNode link in ires_node)
-            {
-
-                System.IO.File.AppendAllText(filepath, link.InnerHtml, Encoding.Default);
-                System.IO.File.AppendAllText(filepath, "===========\n", Encoding.Default);
-                
-            }*/
+          
 
 
         }
 
-        static public void getHTML2(string url, string filepath)
+        //getImages는 준 query를 이용해 urls에 요청한 개수만큼의 url을 담는다.
+        static public void getImages(List<string> urls, int num, string query)
+        {   
+            HtmlWeb hw = new HtmlWeb();
+            string urladdr = "http://www.google.com/search?q=" + query + "&tbm=isch";
+            string filepath = @"cfile.txt";
+
+            HtmlDocument doc = hw.Load(urladdr);
+            HtmlNode entire = doc.DocumentNode;
+
+            //테스트용 소쓰
+            System.IO.File.WriteAllText(filepath, entire.InnerHtml, Encoding.Default);
+
+        }
+
+
+        static public BitmapImage getImage(string url)
         {
-            
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-            if (resp.StatusCode == HttpStatusCode.OK)
-            {
-                Stream received = resp.GetResponseStream();
-                StreamReader readStream = null;
-
-                if (resp.CharacterSet == null)
-                {
-                    readStream = new StreamReader(received);
-                }
-                else
-                {
-                    readStream = new StreamReader(received, Encoding.GetEncoding(resp.CharacterSet));
-                }
-
-                string data = readStream.ReadToEnd();
-
-                System.IO.File.WriteAllText(filepath, data, Encoding.Default);
-
-                resp.Close();
-                readStream.Close();
-            }
+            /*
+            var bytes = await new WebClient().DownloadDataTaskAsync(url);
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.StreamSource = new MemoryStream(bytes);
+            image.EndInit();
+            RSSImage.Source = image;
+             * */
+            return null;
         }
     }
 }

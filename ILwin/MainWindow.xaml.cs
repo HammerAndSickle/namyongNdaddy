@@ -147,6 +147,11 @@ namespace ILwin
         }
 
 
+        //datas 참조가 필요할 때 반환하게 한다
+        public Datas getDatasReference()
+        {
+            return datas;
+        }
 
 
         //창 부분의 마우스 핸들러를 위함.
@@ -228,7 +233,7 @@ namespace ILwin
         }
         private void sndclick(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text);
+            ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
             this.requestMachine.Text = "";
         }
         private void tb_KeyDown(object sender, KeyEventArgs e)
@@ -237,7 +242,7 @@ namespace ILwin
             if (e.Key == Key.Return)
             {
                 //enter key is down
-                ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text);
+                ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
                 this.requestMachine.Text = "";
             }
         }
