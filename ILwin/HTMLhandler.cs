@@ -79,8 +79,24 @@ namespace ILwin
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
 
+
             //테스트용 소쓰
-            System.IO.File.WriteAllText(filepath, entire.InnerHtml, Encoding.Default);
+            //System.IO.File.WriteAllText(filepath, entire.InnerHtml, Encoding.Default);
+
+            //필요한 부분만 추출
+            //DIV id="center_col"
+            HtmlNode center_col_node = doc.DocumentNode.SelectSingleNode("//table[@class='images_table']");
+
+            HtmlNodeCollection images = center_col_node.SelectNodes(".//img");
+
+            System.IO.File.WriteAllText(filepath, center_col_node.InnerHtml, Encoding.Default);
+
+            System.IO.File.WriteAllText(@"dfile.txt", "\n\n=====\n\n", Encoding.Default);
+
+            foreach (HtmlNode ls in images)
+            {
+                System.IO.File.AppendAllText(@"dfile.txt", ls.Attributes["src"].Value + "\n\n", Encoding.Default);
+            }
 
         }
 

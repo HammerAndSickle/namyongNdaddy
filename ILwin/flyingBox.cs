@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace ILwin
 {
-    class flyingBox
+    public class flyingBox
     {
         //flying 박스 이미지들
         //[0] left normal, [1] right normal
@@ -63,7 +63,7 @@ namespace ILwin
             boximg.Margin = new Thickness(xpos, ypos, 0, 0);
             screen.sp.Children.Add(boximg);
 
-            ILtextBox.printMSG(screen.getMWinReference().responseMsgs, "margin : " + boximg.Margin + ", dir : " + dir);
+
         }
 
         public void startmove()

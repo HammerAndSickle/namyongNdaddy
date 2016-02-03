@@ -85,6 +85,11 @@
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Namyong.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ShowScreen.cs" />
     <Compile Include="staticCON.cs" />
     <Compile Include="WebItem.cs" />
@@ -123,6 +128,7 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

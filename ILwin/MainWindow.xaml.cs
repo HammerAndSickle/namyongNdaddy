@@ -60,6 +60,7 @@ namespace ILwin
 
         //show screen
         private ILwin.ShowScreen screen;
+        private ILwin.ILtextBox textbox;
         public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
 
         public MainWindow(ILwin.paraPackage packs)
@@ -84,8 +85,10 @@ namespace ILwin
             contentBr = packs.contentBr;
             bottomBr = packs.bottomBr;
             boxBr = packs.boxBr;
-            
-            
+
+            //텍스트박스는 response에 위치한 그곳이다.
+            textbox = new ILtextBox();
+
 
             //메인 윈도우 바를 만들기 위해 호출.
             createBar();
@@ -94,8 +97,12 @@ namespace ILwin
             createLayout();
 
 
+
             //윈도우를 만든다.
             screen = new ShowScreen(this.animationRec, SCREEN_RECT, this, packs);
+
+            //텍스트박스는 response에 위치한 그곳이다.
+            textbox.addShowScreenReference(screen);
 
             
         }
@@ -116,10 +123,10 @@ namespace ILwin
             DateTime currTime = DateTime.Now;
             string currTimeStr = currTime.ToString("yyyy") + "/" + currTime.ToString("MM") + "/" + currTime.ToString("dd") + " " + currTime.ToString("HH:mm:ss");
 
-            ILtextBox.printMSG(this.responseMsgs, "Namyong N Daddy started");
-            ILtextBox.printMSG(this.responseMsgs, "현 로그인 시간 : " + currTimeStr);
-            ILtextBox.printMSG(this.responseMsgs, "위치 : " + datas.getLoc());
-            ILtextBox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
+            textbox.printMSG(this.responseMsgs, "Namyong N Daddy started");
+            textbox.printMSG(this.responseMsgs, "현 로그인 시간 : " + currTimeStr);
+            textbox.printMSG(this.responseMsgs, "위치 : " + datas.getLoc());
+            textbox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
             
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
         
@@ -151,6 +158,12 @@ namespace ILwin
         public Datas getDatasReference()
         {
             return datas;
+        }
+
+        //textbox 참조가 필요할 때 반환하게 한다.
+        public ILtextBox getTextboxReference()
+        {
+            return textbox;
         }
 
 
@@ -233,7 +246,7 @@ namespace ILwin
         }
         private void sndclick(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
+            textbox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
             this.requestMachine.Text = "";
         }
         private void tb_KeyDown(object sender, KeyEventArgs e)
@@ -242,7 +255,7 @@ namespace ILwin
             if (e.Key == Key.Return)
             {
                 //enter key is down
-                ILtextBox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
+                textbox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
                 this.requestMachine.Text = "";
             }
         }

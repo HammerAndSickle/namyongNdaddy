@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace ILwin
 {
-    class ShowScreen
+    public class ShowScreen
     {
         //bigRectangle은 앞 mainWindow에서 그린 xaml의 rectangle을 그대로 참조하는 것.
         public System.Windows.Shapes.Rectangle bigRectangle;
@@ -160,7 +160,7 @@ namespace ILwin
         {
             if(MWin.getDatasReference().webItems.Count + num > Constants.MAX_WEB_ITEMS )
             {
-                ILtextBox.printMSG(MWin.responseMsgs, "최대 Web Item 개수를 넘는다. 안돼");
+                MWin.getTextboxReference().printMSG(MWin.responseMsgs, "최대 Web Item 개수를 넘는다. 안돼");
                 return;
             }
 
