@@ -37,6 +37,7 @@ namespace ILwin
             showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
                     this.imgrec = new System.Windows.Shapes.Rectangle();
+                    this.imgrec.Visibility = Visibility.Hidden;         //처음엔 숨겨놓는다
                     this.imgrec.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     this.imgrec.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     this.imgrec.Width = this.imgrec.Height = 120;     //이미지의 너비다.
@@ -50,18 +51,30 @@ namespace ILwin
 
         //string imgurl에서 다운받아와 이미지를 얻어낸다.
         //그리고 flyingbox의 x 위치, y 위치가 생성 위치에 영향을 준다.
-        public static void addDatas(WebItem thisitem, string imgurl, int box_posX, int box_posY)
+        public static void addDatas(ILwin.ShowScreen showscreen, WebItem thisitem, string imgurl, int box_posX, int box_posY)
         {
             //download image from url via internet
             thisitem.xPos = box_posX; thisitem.yPos = box_posY;
 
             //image(BitmapImage)를 URL로부터 얻어온다.
             thisitem.img = HTMLhandler.downloadImageFromURL(imgurl);
-
             thisitem.imgBr = new ImageBrush(thisitem.img);
+            
+            //********freezable 문제가 발생. 이미지 리소스에 freeze를 시행해 주자!
+            thisitem.img.Freeze();
+            thisitem.imgBr.Freeze();
+            
+
+            //이제 이미지를 연결하고 화면에 나타나도록 하여라
+            showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    thisitem.imgrec.Fill = thisitem.imgBr;
+                    thisitem.imgrec.Visibility = Visibility.Visible;         //이제 표시한다.
+                }));
 
 
             //************************************//
+            
             System.Drawing.Bitmap abit;
             using(MemoryStream outStream = new MemoryStream())
             {
@@ -74,7 +87,7 @@ namespace ILwin
             }
 
             abit.Save("temimg.png");
-
+            
         }
 
         
