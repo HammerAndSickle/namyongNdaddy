@@ -91,7 +91,15 @@ namespace ILwin
 
             System.IO.File.WriteAllText(filepath, center_col_node.InnerHtml, Encoding.Default);
 
-            System.IO.File.WriteAllText(@"dfile.txt", "\n\n=====\n\n", Encoding.Default);
+            System.IO.File.WriteAllText(@"dfile.txt", images.Count + "개", Encoding.Default);
+
+            System.IO.File.AppendAllText(@"dfile.txt", "\n\n=====\n\n", Encoding.Default);
+
+            //일단 urls에 담아보자.
+            for (int i = 0; i < num; i++ )
+            {
+                urls.Add(images[i].Attributes["src"].Value);
+            }
 
             foreach (HtmlNode ls in images)
             {
@@ -100,6 +108,32 @@ namespace ILwin
 
         }
 
+        static public BitmapImage downloadImageFromURL(string url)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(url))
+                    return null;
+
+                WebClient wc = new WebClient();
+                Byte[] MyData = wc.DownloadData(url);
+                wc.Dispose();
+
+                BitmapImage bimgTemp = new BitmapImage();
+                bimgTemp.BeginInit();
+                bimgTemp.StreamSource = new MemoryStream(MyData);
+                bimgTemp.EndInit();
+
+                return bimgTemp;
+
+            }
+
+            catch
+            {
+                return null;
+            }
+
+        }
 
         static public BitmapImage getImage(string url)
         {

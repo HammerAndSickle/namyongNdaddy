@@ -164,12 +164,24 @@ namespace ILwin
                 return;
             }
 
-            Thread thr = new Thread(() => generateWebImageThread(MWin.getDatasReference(), flyingbox, query, num));
+            //이미지들을 생성하기 전, 현존하는 webitems의 수를 가져온다.
+            int startCount = MWin.getDatasReference().webItems.Count;
+
+            //num 개수만큼 webitem을 추가한 뒤, startCount와 num을 이용해 그것들을 참조해나갈 것이다.
+            for (int i = 0; i < num; i++)
+            {
+                WebItem wb = new WebItem(this);
+                MWin.getDatasReference().webItems.Add(wb);
+            }
+
+            //만일 3개의 이미지를 요청했고, startCount가 2라면, 현재 2개의 item이 존재하며, webimagelist (2) (3) (4)를 만드는 것이다.
+            Thread thr = new Thread(() => generateWebImageThread(MWin.getDatasReference(), flyingbox, query, startCount+1, num, this));
             thr.Start();
+            
         }
 
         //webImage를 생성한다. 하나의 query에 대해 주어진 개수만큼 이미지를 가져올 것이다.
-        public static void generateWebImageThread(Datas datas, flyingBox flyingbox, string query, int num)
+        public static void generateWebImageThread(Datas datas, flyingBox flyingbox, string query, int start, int num, ILwin.ShowScreen showscreen)
         {
 
             List<string> urls = new List<string>();
@@ -183,7 +195,9 @@ namespace ILwin
             for(int i = 0; i < num; i++)
             {
                 //가져온 string 리스트의 url을 하나하나 넣어 webItem를 생성한다.
-                datas.addWebitems(urls[i], flyingbox.xpos, flyingbox.ypos);
+                WebItem.addDatas(datas.webItems.ElementAt(start + i), urls[i], flyingbox.xpos, flyingbox.ypos);
+                
+                //datas.addWebitems(urls[i], flyingbox.xpos, flyingbox.ypos, showscreen);
             }
         }
 

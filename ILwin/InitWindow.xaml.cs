@@ -278,7 +278,7 @@ namespace ILwin
                     thiswin.packs.resp_recImg.EndInit();
 
                     thiswin.packs.bottomImg.BeginInit();
-                    thiswin.packs.bottomImg.UriSource = new Uri(Constants.REL_PATH + "bottom.bmp", UriKind.Relative);
+                    thiswin.packs.bottomImg.UriSource = new Uri(Constants.REL_PATH + "spr_bottomLogo.png", UriKind.Relative);
                     thiswin.packs.bottomImg.EndInit();
 
 

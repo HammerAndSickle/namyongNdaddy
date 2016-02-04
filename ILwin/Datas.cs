@@ -37,14 +37,6 @@ namespace ILwin
             this.presentWea = presentWea;
         }
 
-        //webitems을 추가한다. flying box는 계속 이동하고 있으므로 box_pos는 변동을 계속할 것이다.
-        public void addWebitems(string query_word, int box_posX, int box_posY)
-        {
-            WebItem wb = new WebItem(query_word, box_posX, box_posY);
-            webItems.Add(wb);
-         
-        }
-
 
         public string getLoc()
         {

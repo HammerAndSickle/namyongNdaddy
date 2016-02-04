@@ -50,7 +50,7 @@
                      IsReadOnly="True" VerticalScrollBarVisibility="Visible">
             </TextBox>
         </Grid>
-        <Grid x:Name="etcbar" Margin="370, 670, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="409" Height="15">
+        <Grid x:Name="etcbar" Margin="370, 670, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="179" Height="15">
         </Grid>
     </Grid>
     
