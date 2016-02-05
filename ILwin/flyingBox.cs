@@ -34,7 +34,7 @@ namespace ILwin
         Thread thrmove;
 
         //rectangle. 이미지가 여기에 들어가서 움직인다.
-        System.Windows.Shapes.Rectangle boximg;
+        public System.Windows.Shapes.Rectangle boximg;
 
         //다루려는 screen 
         public ILwin.ShowScreen screen;

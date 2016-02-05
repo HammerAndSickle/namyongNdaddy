@@ -68,6 +68,7 @@ namespace ILwin
             //이제 이미지를 연결하고 화면에 나타나도록 하여라
             showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
+                    thisitem.imgrec.Margin = new Thickness(thisitem.xPos, thisitem.yPos, thisitem.imgrec.Margin.Right, thisitem.imgrec.Margin.Bottom);
                     thisitem.imgrec.Fill = thisitem.imgBr;
                     thisitem.imgrec.Visibility = Visibility.Visible;         //이제 표시한다.
                 }));
@@ -93,17 +94,37 @@ namespace ILwin
         
 
         //이제 그 이미지를 화면에 표시하고, 아래로 추락시키는 스레드를 연결시킨다.
-        public void showItem()
+        public static void fallingItem(ILwin.ShowScreen showscreen, WebItem thisitem)
         {
+            int item_y = 0;
 
-                
+
+            while (true)
+            {
+                //현재 webitem의 margin top 값을 가져온다
                 showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        item_y = (int)thisitem.imgrec.Margin.Top;
+                    }));
+
+                Thread.Sleep(50);
+
+                if (item_y > 300)
                 {
-                    this.imgrec.Margin = new Thickness(xPos, yPos, 0, 0);
-                    this.imgrec.Fill = this.imgBr;
-                    
-            }));
-            
+                    break;
+                }
+
+                else
+                {
+                    showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            thisitem.imgrec.Margin = new Thickness(thisitem.imgrec.Margin.Left, thisitem.imgrec.Margin.Top + 8,
+                                thisitem.imgrec.Margin.Right, thisitem.imgrec.Margin.Bottom);
+
+                        }));
+                }
+
+            }
             
                 
                 

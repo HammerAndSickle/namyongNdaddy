@@ -196,9 +196,20 @@ namespace ILwin
 
             for(int i = 0; i < num; i++)
             {
+                //현재 플라잉 박스의 위치
+                int flyingbox_x = 0;
+                int flyingbox_y = 0;
+
+                showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    flyingbox_x = (int)flyingbox.boximg.Margin.Left;
+                    flyingbox_y = (int)flyingbox.boximg.Margin.Top;
+                }));
+
                 //가져온 string 리스트의 url을 하나하나 넣어 webItem를 생성한다.
-                WebItem.addDatas(showscreen, datas.webItems.ElementAt(start + i), urls[i], flyingbox.xpos, flyingbox.ypos);
-                
+                WebItem.addDatas(showscreen, datas.webItems.ElementAt(start + i), urls[i], flyingbox_x, flyingbox_y);
+                WebItem.fallingItem(showscreen, datas.webItems.ElementAt(start + i));
+
                 //datas.addWebitems(urls[i], flyingbox.xpos, flyingbox.ypos, showscreen);
             }
         }
