@@ -16,6 +16,8 @@ namespace ILwin
     //박스에게 이미지를 요청했을 때, 그 이미지 하나하나가 이 WebItem 객체이다.
     public class WebItem
     {
+        int idx;                //datas에서의 webitems 리스트에서 해당 webitem 객체는 몇 번째에 해당하는 것이가.
+
         BitmapImage img;
         Brush imgBr;             //웹에서 건져온 이미지
         Rectangle imgrec;           //이미지 rectangle
@@ -46,7 +48,8 @@ namespace ILwin
                     this.imgrec.StrokeThickness = 2;
                     showscreen.sp.Children.Add(this.imgrec);
                 }));
-            
+
+            this.imgrec.MouseRightButtonUp += new System.Windows.Input.MouseButtonEventHandler(itemclick);
         }
 
         //string imgurl에서 다운받아와 이미지를 얻어낸다.
@@ -68,6 +71,8 @@ namespace ILwin
             //이제 이미지를 연결하고 화면에 나타나도록 하여라
             showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
+                    thisitem.imgrec.Width = thisitem.img.Width;
+                    thisitem.imgrec.Height = thisitem.img.Height;
                     thisitem.imgrec.Margin = new Thickness(thisitem.xPos, thisitem.yPos, thisitem.imgrec.Margin.Right, thisitem.imgrec.Margin.Bottom);
                     thisitem.imgrec.Fill = thisitem.imgBr;
                     thisitem.imgrec.Visibility = Visibility.Visible;         //이제 표시한다.
@@ -148,6 +153,27 @@ namespace ILwin
             {
                 
             }));
+        }
+
+        //마우스 핸들러.
+        private void itemclick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.imgrec.Visibility = Visibility.Hidden;
+            showscreen.getMWinReference().getTextboxReference().printMSG(showscreen.getMWinReference().responseMsgs, "Web image를 제거함");
+
+            //진짜로 리스트에서 해당 webitem을 빼도록 한다.
+            for(int i = 0; i < showscreen.getMWinReference().getDatasReference().webItems.Count; i++)
+            {
+                if(showscreen.getMWinReference().getDatasReference().webItems.ElementAt(i) == this)
+                {
+                    showscreen.getMWinReference().getDatasReference().webItems.RemoveAt(i);
+                }
+            }
+
+            this.imgBr = null;
+            this.img = null;
+            this.imgrec = null;
+            
         }
     }
 }
