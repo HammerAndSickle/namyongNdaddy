@@ -35,10 +35,13 @@ namespace ILwin
         //flying box 객체
         private ILwin.flyingBox flyingbox;
 
+        public bool doingWebitem;           //webitem을 떨어뜨리는 중이라면 true. 왜냐면, box images 명령어를 사용하여 webitem을 떨구는 중엔 블록 시키기 위해서이다.
+
         public ShowScreen(System.Windows.Shapes.Rectangle mainwin, Rect winRect, ILwin.MainWindow winref, ILwin.paraPackage packs)
         {
             MWin = winref;
             this.packs = packs;
+            this.doingWebitem = false;
 
             bigRectangle = mainwin;
             this.bigRect = winRect;
@@ -164,6 +167,15 @@ namespace ILwin
                 return;
             }
 
+            if(doingWebitem == true)
+            {
+                MWin.getTextboxReference().printMSG(MWin.responseMsgs, "지금은 Web Item을 떨어뜨리는 중이다..");
+                return;
+            }
+
+            //떨어뜨리는 도중에는 doingwebitem을 true로 하여 중복되지 않게 하자.
+            doingWebitem = true;
+
             //이미지들을 생성하기 전, 현존하는 webitems의 수를 가져온다.
             int startCount = MWin.getDatasReference().webItems.Count;
             MWin.getTextboxReference().printMSG(MWin.responseMsgs, "startCount : " + startCount);
@@ -200,6 +212,11 @@ namespace ILwin
                 int flyingbox_x = 0;
                 int flyingbox_y = 0;
 
+                //마지막 web item인지를 확인
+                bool isFinal = false;
+                if (i == (num - 1)) isFinal = true;
+
+
                 showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
                     flyingbox_x = (int)flyingbox.boximg.Margin.Left;
@@ -208,7 +225,7 @@ namespace ILwin
 
                 //가져온 string 리스트의 url을 하나하나 넣어 webItem를 생성한다.
                 WebItem.addDatas(showscreen, datas.webItems.ElementAt(start + i), urls[i], flyingbox_x, flyingbox_y);
-                WebItem.fallingItem(showscreen, datas.webItems.ElementAt(start + i));
+                WebItem.fallingItem(showscreen, datas.webItems.ElementAt(start + i), isFinal);
 
                 //datas.addWebitems(urls[i], flyingbox.xpos, flyingbox.ypos, showscreen);
             }

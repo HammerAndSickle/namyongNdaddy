@@ -31,10 +31,13 @@ namespace ILwin
 
         ILwin.ShowScreen showscreen;        //showscreen 레퍼런스
 
+        bool isFalling;             //떨어지는 중이라면 true. 떨어지고 나서야 마우스 핸들러를 사용 가능하도록 하는 것이다.
+
         //생성자는 rectangle을 만들어 추가만을 수행 한다. show screen 참조 정도는 필요하다.
         public WebItem(ILwin.ShowScreen showscreen)
         {
             this.showscreen = showscreen;
+            this.isFalling = true;
 
             showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
@@ -99,7 +102,7 @@ namespace ILwin
         
 
         //이제 그 이미지를 화면에 표시하고, 아래로 추락시키는 스레드를 연결시킨다.
-        public static void fallingItem(ILwin.ShowScreen showscreen, WebItem thisitem)
+        public static void fallingItem(ILwin.ShowScreen showscreen, WebItem thisitem, bool isFinal)
         {
             int item_y = 0;
 
@@ -130,11 +133,13 @@ namespace ILwin
                 }
 
             }
-            
-                
-                
-                
 
+
+            //마지막 webitem이라면 다 떨어질때까지 더 webitem을 호출하지 못하도록 블록을 시킨 걸 해제한다.
+            if (isFinal == true)
+                showscreen.doingWebitem = false;
+
+            thisitem.isFalling = false;
                 
                 
         }
@@ -158,6 +163,9 @@ namespace ILwin
         //마우스 핸들러.
         private void itemclick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            //떨어지는 중인 아이템은 제거하지 못하도록 막는다.
+            if (this.isFalling == true) return;
+
             this.imgrec.Visibility = Visibility.Hidden;
             showscreen.getMWinReference().getTextboxReference().printMSG(showscreen.getMWinReference().responseMsgs, "Web image를 제거함");
 
