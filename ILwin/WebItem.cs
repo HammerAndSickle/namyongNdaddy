@@ -137,7 +137,12 @@ namespace ILwin
 
             //마지막 webitem이라면 다 떨어질때까지 더 webitem을 호출하지 못하도록 블록을 시킨 걸 해제한다.
             if (isFinal == true)
+            {
                 showscreen.doingWebitem = false;
+
+                //박스 이미지를 일반 이미지로 바꾼다.
+                flyingBox.changeImg(showscreen.getFlyingboxReference(), showscreen.getMWinReference(), false);
+            }
 
             thisitem.isFalling = false;
                 

@@ -206,6 +206,9 @@ namespace ILwin
 
             //*************위 urlgetThread가 모두 끝날 때까지 기다린다. 그리고 나서 webitems를 추가하라.
 
+            //박스 이미지를 변경. 열린 박스로 만든다
+            flyingBox.changeImg(flyingbox, showscreen.getMWinReference(), true);
+
             for(int i = 0; i < num; i++)
             {
                 //현재 플라잉 박스의 위치
@@ -268,6 +271,11 @@ namespace ILwin
         public ILwin.MainWindow getMWinReference()
         {
             return MWin;
+        }
+
+        public flyingBox getFlyingboxReference()
+        {
+            return flyingbox;
         }
     }
 }

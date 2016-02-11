@@ -1,8 +1,8 @@
-<td rowspan="5" style="vertical-align:center;padding-right:10px"><img class="_Lbd" style="margin-right:3px;vertical-align:top" alt="대체로 맑음" src="//ssl.gstatic.com/onebox/weather/60/partly_cloudy.png" title="대체로 맑음" height="60" width="60"></td><td rowspan="2" style="font-size:140%;white-space:nowrap;vertical-align:top;padding-right:15px;font-weight:bold"><span class="wob_t" style="display:inline">10°C</span> | <a class="fl wob_t" style="display:inline" href="/setprefs?fheit=1&amp;sig=0_z-VAxyJEdrLferA9KvBqmC8FkAE=&amp;prev=https://www.google.co.kr/search%3Fnewwindow%3D1%26hl%3Dko%26site%3Dwebhp%26q%3D%25EB%2582%25A0%25EC%2594%25A8">&deg;F</a></td><td rowspan="5" style="width:5px;border-left:1px solid #d8d8d8"></td><td colspan="2" style="vertical-align:top;text-align:center">수</td><td colspan="2" style="vertical-align:top;text-align:center">목</td><td colspan="2" style="vertical-align:top;text-align:center">금</td><td colspan="2" style="vertical-align:top;text-align:center">토</td>
+<td rowspan="5" style="vertical-align:center;padding-right:10px"><img class="_Lbd" style="margin-right:3px;vertical-align:top" alt="대체로 흐림" src="//ssl.gstatic.com/onebox/weather/60/partly_cloudy.png" title="대체로 흐림" height="60" width="60"></td><td rowspan="2" style="font-size:140%;white-space:nowrap;vertical-align:top;padding-right:15px;font-weight:bold"><span class="wob_t" style="display:inline">13°C</span> | <a class="fl wob_t" style="display:inline" href="/setprefs?fheit=1&amp;sig=0_1ZBflOdnC4WoILu2Ccoqedjvf2c=&amp;prev=https://www.google.co.kr/search%3Fnewwindow%3D1%26hl%3Dko%26site%3Dwebhp%26q%3D%25EB%2582%25A0%25EC%2594%25A8">&deg;F</a></td><td rowspan="5" style="width:5px;border-left:1px solid #d8d8d8"></td><td colspan="2" style="vertical-align:top;text-align:center">목</td><td colspan="2" style="vertical-align:top;text-align:center">금</td><td colspan="2" style="vertical-align:top;text-align:center">토</td><td colspan="2" style="vertical-align:top;text-align:center">일</td>
 
 
 ===========
 
 
-대체로 맑음
-10°C
+대체로 흐림
+13°C

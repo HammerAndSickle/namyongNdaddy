@@ -140,42 +140,48 @@ namespace ILwin
                     }
                 }
 
-                /*
-                //왼쪽을 보고있었다
-                if (flyingbox.dir == LEFT)
-                {
-                    thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-                        {
-                            while (flyingbox.boximg.Margin.Left >= 0)
-                            {
-                                flyingbox.boximg.Margin = new Thickness(flyingbox.boximg.Margin.Left - 3, flyingbox.boximg.Margin.Top,
-                                    flyingbox.boximg.Margin.Right, flyingbox.boximg.Margin.Bottom);
-                            }
-
-                            ILtextBox.printMSG(thisWin.responseMsgs, "margin : " + flyingbox.boximg.Margin + ", dir : " + flyingbox.dir);
-                        }));
-
-                    flyingbox.dir = RIGHT;
-
-                }
-
-                else
-                {
-                    thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-                        {
-                            while (flyingbox.boximg.Margin.Left <= 800)
-                            {
-                                flyingbox.boximg.Margin = new Thickness(flyingbox.boximg.Margin.Left + 3, flyingbox.boximg.Margin.Top,
-                                    flyingbox.boximg.Margin.Right, flyingbox.boximg.Margin.Bottom);
-                            }
-
-                            ILtextBox.printMSG(thisWin.responseMsgs, "margin : " + flyingbox.boximg.Margin + ", dir : " + flyingbox.dir);
-                        }));
-
-                    flyingbox.dir = LEFT;
-                }*/
 
             }
+
+
         }
+
+        //web item을 떨어뜨리거나 할 때, 상자 이미지가 바뀔 것이다. 그것을 다루는 것.
+        //bool opening이 true라면 열린 상자 이미지로, false라면 일반 상자 이미지로
+        public static void changeImg(flyingBox flyingbox, ILwin.MainWindow thisWin, bool opening)
+        {
+            //열린 상자 이미지로 바꾸어라
+            if(opening)
+            {
+                if(flyingbox.dir == LEFT)
+                    thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        flyingbox.boximg.Fill = flyingbox.boxBr[2];
+                    }));
+
+                else if(flyingbox.dir == RIGHT)
+                    thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        flyingbox.boximg.Fill = flyingbox.boxBr[3];
+                    }));
+            }
+
+            //일반 상자 이미지로 바꾸어라
+            else
+            {
+                if (flyingbox.dir == LEFT)
+                    thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        flyingbox.boximg.Fill = flyingbox.boxBr[0];
+                    }));
+
+                else if (flyingbox.dir == RIGHT)
+                    thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        flyingbox.boximg.Fill = flyingbox.boxBr[1];
+                    }));
+            }
+        }
+
     }
 }
