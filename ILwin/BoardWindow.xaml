@@ -1,0 +1,8 @@
+﻿<Window x:Class="ILwin.BoardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BoardWindow" Height="686" Width="800" ResizeMode="NoResize" >
+    <Grid>
+        <TextBox x:Name="texts" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50, 50, 0, 0"></TextBox>
+    </Grid>
+</Window>

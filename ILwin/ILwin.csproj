@@ -76,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Board.cs" />
+    <Compile Include="BoardWindow.xaml.cs">
+      <DependentUpon>BoardWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Daddy.cs" />
     <Compile Include="Datas.cs" />
     <Compile Include="flyingBox.cs" />
@@ -94,6 +98,10 @@
     <Compile Include="staticCON.cs" />
     <Compile Include="WebItem.cs" />
     <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BoardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

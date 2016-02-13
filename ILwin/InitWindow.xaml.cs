@@ -88,6 +88,14 @@ namespace ILwin
         public BitmapImage resp_recImg;
         public Brush resp_recBr;
 
+        
+        //화면에 출력할 스프라이트들
+        //-게시판
+        public BitmapImage boardImg;
+        public Brush boardBr;
+        public BitmapImage boardbodyImg;
+        public Brush boardbodyBr;
+        //-가격비교
 
 
     }
@@ -337,6 +345,19 @@ namespace ILwin
 
                     //바 이미지들
 
+
+                    //스프라이트
+                    //-게시판
+                    thiswin.packs.boardImg = new BitmapImage();
+                    thiswin.packs.boardImg.BeginInit();
+                    thiswin.packs.boardImg.UriSource = new Uri(Constants.REL_PATH_SPRITE + "boardicon.png", UriKind.Relative);
+                    thiswin.packs.boardImg.EndInit();
+                    thiswin.packs.boardBr = new ImageBrush(thiswin.packs.boardImg);
+                    thiswin.packs.boardbodyImg = new BitmapImage();
+                    thiswin.packs.boardbodyImg.BeginInit();
+                    thiswin.packs.boardbodyImg.UriSource = new Uri(Constants.REL_OTEHR_WIN_PATH + "boardbg.png", UriKind.Relative);
+                    thiswin.packs.boardbodyImg.EndInit();
+                    thiswin.packs.boardbodyBr = new ImageBrush(thiswin.packs.boardbodyImg);
                    
 
 

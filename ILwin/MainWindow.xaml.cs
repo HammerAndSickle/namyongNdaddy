@@ -104,6 +104,8 @@ namespace ILwin
             //텍스트박스는 response에 위치한 그곳이다.
             textbox.addShowScreenReference(screen);
 
+            this.requestMachine.Focus();
+
             
         }
 

@@ -32,8 +32,11 @@ namespace ILwin
 
         private ILwin.MainWindow MWin;      //mainwindow의 레퍼런스
         private ILwin.paraPackage packs;      //이미지 리소스가 담긴 packs
-        //flying box 객체
+        
+        //-flying box 객체
         private ILwin.flyingBox flyingbox;
+        //-Board 객체
+        private ILwin.Board board; 
 
         public bool doingWebitem;           //webitem을 떨어뜨리는 중이라면 true. 왜냐면, box images 명령어를 사용하여 webitem을 떨구는 중엔 블록 시키기 위해서이다.
 
@@ -97,6 +100,7 @@ namespace ILwin
             //logoRectangle.StrokeThickness = 1;
 
             //확인용
+            /*
             System.Diagnostics.Debug.WriteLine("showing");
             System.Diagnostics.Debug.WriteLine("width : " + bigRectangle.Width + ", height : " + bigRectangle.Height);
             System.Diagnostics.Debug.WriteLine("width : " + winRectangle.Width + ", height : " + winRectangle.Height);
@@ -106,18 +110,61 @@ namespace ILwin
                 + ", width : " + bigRect.Width + ", height : " + bigRect.Height);
             System.Diagnostics.Debug.WriteLine("topleft : " + winRect.TopLeft + ", bottomright : " + winRect.BottomRight
                 + ", width : " + winRect.Width + ", height : " + winRect.Height);
-            
-            //테스트 출력.
+            */
+             
+            //배경을 임의로 선택.
+            //현재 시간에 따라 선택되어야 한다.
             winRectangle.Fill = new ImageBrush
             {
-                ImageSource = new BitmapImage(new Uri(Constants.REL_PATH_BG2_SUNNY + "city1.png", UriKind.Relative))
+                ImageSource = new BitmapImage(new Uri(selectBG(), UriKind.Relative))
             };
 
             generateSprite();
             generateBox();
+            generateBoard();
 
             //winBox.DrawRectangle(grayPen, targetRect);
             
+        }
+
+        public string selectBG()
+        {
+            //초기값으로는 sunny를 해두자..
+            string filename = Constants.REL_PATH_BG2_SUNNY + "sunny";
+
+            //현재 시간을 받아온 후.
+            DateTime currTime = DateTime.Now;
+            string currHour = currTime.ToString("HH");
+            int currHourInt = Convert.ToInt32(currHour);        //시간을 정수 값으로 얻어옴
+
+            //난수 만들자
+            Random rd = new Random();
+            int imgnum = 0;
+
+            //새벽은 2AM~8AM
+            if (currHourInt >= 2 && currHourInt <= 8)
+            {
+                filename = Constants.REL_PATH_BG2_DAWN + "dawn";
+                imgnum = rd.Next(0, Constants.DAWN_IMGS);
+            }
+
+            //낮은 9AM~5PM
+            else if (currHourInt >= 9 && currHourInt <= 17)
+            {
+                filename = Constants.REL_PATH_BG2_SUNNY + "sunny";
+                imgnum = rd.Next(0, Constants.SUNNY_IMGS);
+            }
+
+            //밤은 6PM~1AM
+            else if (currHourInt >= 18 || currHourInt <= 1)
+            {
+                filename = Constants.REL_PATH_BG2_NIGHT + "night";
+                imgnum = rd.Next(0, Constants.NIGHT_IMGS);
+            }
+
+            filename += imgnum + ".png";
+
+            return filename;
         }
 
         //테스트용 스프라이트 생성
@@ -157,6 +204,15 @@ namespace ILwin
 
 
         }
+
+        //board icon을 생성한다. board는 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        public void generateBoard()
+        {
+            //board를 만든다.
+            board = new Board(packs.boardBr, packs.boardbodyBr, packs.boardImg.Width, packs.boardImg.Height, this);
+            
+        }
+
 
         //webImage를 생성한다. 단, 더 생성 가능한지만 확인하고, 가능하다면 스레드를 돌린다.
         public void generateWebImage(string query, int num)
