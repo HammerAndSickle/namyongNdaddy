@@ -41,6 +41,12 @@ namespace ILwin
         //화면 에 존재 가능한 web items 개수
         public const int MAX_WEB_ITEMS = 5;
 
+        //남용이 이미지 size
+        public const int NAYONG_WIDTH = 140;
+        public const int NAYONG_HEIGHT = 233;
+        //아버지 이미지 size
+        public const int DADDY_WIDTH = 160;
+        public const int DADDY_HEIGHT = 233;
     }
 
 }

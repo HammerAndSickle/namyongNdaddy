@@ -35,8 +35,15 @@ namespace ILwin
         
         //-flying box 객체
         private ILwin.flyingBox flyingbox;
+        //-namyong 객체
+        private ILwin.Namyong namyong;
+        //-daddy 객체
+        private ILwin.Daddy daddy;
         //-Board 객체
         private ILwin.Board board; 
+
+        //위치 선정을 위한 random
+        private Random rnd;
 
         public bool doingWebitem;           //webitem을 떨어뜨리는 중이라면 true. 왜냐면, box images 명령어를 사용하여 webitem을 떨구는 중엔 블록 시키기 위해서이다.
 
@@ -45,6 +52,7 @@ namespace ILwin
             MWin = winref;
             this.packs = packs;
             this.doingWebitem = false;
+            this.rnd = new Random();
 
             bigRectangle = mainwin;
             this.bigRect = winRect;
@@ -122,6 +130,8 @@ namespace ILwin
             generateSprite();
             generateBox();
             generateBoard();
+            generateNamyong();
+            generateDaddy();
 
             //winBox.DrawRectangle(grayPen, targetRect);
             
@@ -193,13 +203,26 @@ namespace ILwin
             //ThreadStart th = new ThreadStart(working);
             
         }
-        
+
+        //namyong을 생성한다. namyong은 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        public void generateNamyong()
+        {
+            namyong = new Namyong(packs.namyongBr, this,  rnd.Next(0, 701), rnd.Next(180, 271), rnd.Next(0, 2));
+            namyong.startmove();
+        }
+
+        //daddy을 생성한다. daddy은 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        public void generateDaddy()
+        {
+            daddy = new Daddy(packs.daddyBr, this,  rnd.Next(0, 701), rnd.Next(180, 271), rnd.Next(0, 2));
+            daddy.startmove();
+        }
+
         //flying box를 생성한다. flying box는 최소 하나 존재하므로 datas에 포함시키지 않는다.
         public void generateBox()
         {
             //flying box를 만든다.
-            flyingbox = new flyingBox( packs.boxBr, this);
-
+            flyingbox = new flyingBox(packs.boxBr, this, rnd.Next(0, 701), rnd.Next(0, 101), rnd.Next(0, 2));
             flyingbox.startmove();
 
 

@@ -39,19 +39,22 @@ namespace ILwin
         //다루려는 screen 
         public ILwin.ShowScreen screen;
 
-        public flyingBox(Brush[] boxBr, ILwin.ShowScreen screen)
+        public flyingBox(Brush[] boxBr, ILwin.ShowScreen screen, int xpos, int ypos, int dir)
         {
             Random rnd = new Random();
 
             this.boxBr = boxBr;
             this.screen = screen;
 
+            this.dir = dir;
+            this.ypos = ypos;
+            this.xpos = xpos;
             //위치 선정
             
 
-            dir = rnd.Next(0, 2);
-            ypos = rnd.Next(0, 100);
-            xpos = rnd.Next(0, 700);
+            //dir = rnd.Next(0, 2);
+            //ypos = rnd.Next(0, 100);
+            //xpos = rnd.Next(0, 700);
             //xpos = 500; ypos = 20; dir = 0;
 
             //생성

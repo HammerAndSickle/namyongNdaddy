@@ -97,6 +97,13 @@ namespace ILwin
         public Brush boardbodyBr;
         //-가격비교
 
+        //-남용
+        public BitmapImage[] namyongImg;
+        public Brush[] namyongBr;
+        //-아버지
+        public BitmapImage[] daddyImg;
+        public Brush[] daddyBr;
+
 
     }
 
@@ -441,6 +448,30 @@ namespace ILwin
                         thiswin.packs.okButtonBr[i] = new ImageBrush(thiswin.packs.okButton[i]);
                     }
 
+                    //남용&아버지 리소스 등록
+                    
+
+                    thiswin.packs.namyongImg = new BitmapImage[4];
+                    thiswin.packs.namyongBr = new Brush[4];
+                    thiswin.packs.daddyImg = new BitmapImage[4];
+                    thiswin.packs.daddyBr = new Brush[4];
+
+                    for (int i = 0; i < 4; i++ )
+                    {
+                        thiswin.packs.namyongImg[i] = new BitmapImage();
+                        thiswin.packs.namyongImg[i].BeginInit();
+                        thiswin.packs.namyongImg[i].UriSource = new Uri(Constants.REL_PATH_SPRITE + "sp_namyong_" + (i + 1) + ".png", UriKind.Relative);
+                        thiswin.packs.namyongImg[i].EndInit();
+
+                        thiswin.packs.namyongBr[i] = new ImageBrush(thiswin.packs.namyongImg[i]);
+
+                        thiswin.packs.daddyImg[i] = new BitmapImage();
+                        thiswin.packs.daddyImg[i].BeginInit();
+                        thiswin.packs.daddyImg[i].UriSource = new Uri(Constants.REL_PATH_SPRITE + "sp_daddy_" + (i + 1) + ".png", UriKind.Relative);
+                        thiswin.packs.daddyImg[i].EndInit();
+
+                        thiswin.packs.daddyBr[i] = new ImageBrush(thiswin.packs.daddyImg[i]);
+                    }
 
 
                     //**이벤트 클래스의 leftLoading에 직접 접근하는 게 아니라, 그 set 함수에 접근해라!! 안 그러면 이벤트 안떠
