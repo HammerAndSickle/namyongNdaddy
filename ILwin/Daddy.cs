@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace ILwin
 {
-    class Daddy
+    public class Daddy
     {
         //아버지 이미지들
         //[0] left_1, [1] left_2
@@ -148,7 +148,7 @@ namespace ILwin
                     {
                         daddy.dir = LEFT;
 
-                        //말풍선도 오른쪽으로 바뀌고, 말풍선 위치도 바뀐다.
+                        //말풍선도 왼쪽으로 바뀌고, 말풍선 위치도 바뀐다.
                         thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                         {
                             daddy.balloon.rec.Background = daddy.balloon.ballBr[LEFT];

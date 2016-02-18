@@ -9,11 +9,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace ILwin
 {
     //말풍선이다. 기본적으로 namyong이나 daddy가 하나씩 가지고 있으며, 그때그때 감추거나 메세지를 변경하거나 하면서 드러낼 것이다.
-    class Balloon
+    public class Balloon
     {
 
         //바라보는 방향.
@@ -26,7 +28,10 @@ namespace ILwin
 
         private TextBox textbox;                    //그 텍스트박스
         public Grid rec;                      //말풍선이 담긴 rectangle
-        
+
+        Thread showing;                     //말풍선 출력, 일정시간 후 제거하는 스레드
+        bool isShowing;                     //현재 출력 중인가.
+
         ILwin.ShowScreen screen;            //showscreen이 있어야 말풍선을 넣는다.
 
         public Balloon(ILwin.ShowScreen screen)
@@ -34,6 +39,9 @@ namespace ILwin
             ballImg = new BitmapImage[2];
             ballBr = new Brush[2];
             textbox = new TextBox();
+            rec = new Grid();
+
+            isShowing = false;
 
 
             ballImg[0] = new BitmapImage();
@@ -62,12 +70,48 @@ namespace ILwin
             textbox.Background = Brushes.White;
             textbox.IsReadOnly = true;
             textbox.Cursor = Cursors.Arrow;
+
+            //일단은 숨김
+            rec.Visibility = Visibility.Hidden;
+            textbox.Visibility = Visibility.Hidden;
         }
 
         //말풍선 메시지
-        public static void setMSG(TextBox textbox, ILwin.ShowScreen screen, string text)
+        public void setMSG(string text)
         {
-            textbox.Text = text;
+            //만일 말풍선이 켜져있던 상태라면
+            if(isShowing)
+            {
+                showing.Abort();                    //일단 그 스레드를 종료한다.
+                rec.Visibility = Visibility.Hidden;         //그리고 말풍선을 모두 닫아버린다.
+                textbox.Visibility = Visibility.Hidden;
+                this.textbox.Text = "";
+                isShowing = false;
+            }
+
+            isShowing = true;
+            rec.Visibility = Visibility.Visible;
+            textbox.Visibility = Visibility.Visible;
+            this.textbox.Text = text;
+
+            showing = new Thread(() => setMSG(this, this.screen.getMWinReference()));
+            showing.Start();
+        }
+
+        //말풍선 메시지
+        public static void setMSG(Balloon thisballoon, ILwin.MainWindow thisWin)
+        {
+            //5초 후, 메세지를 닫아버린다.
+            Thread.Sleep(5000);
+
+            thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            {
+                thisballoon.textbox.Visibility = Visibility.Hidden;
+                thisballoon.rec.Visibility = Visibility.Hidden;
+                thisballoon.textbox.Text = "";
+            }));
+
+            thisballoon.isShowing = false;
         }
 
         //풍선을 출력, 여기서 매개변수로 들어오는 xPos, yPos는 Namyong/Daddy의 xpos, ypos이다.
@@ -87,7 +131,6 @@ namespace ILwin
                     break;
             }
 
-            rec = new Grid();
             rec.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             rec.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             rec.Width = Constants.BALLOON_WIDTH;

@@ -356,5 +356,15 @@ namespace ILwin
         {
             return flyingbox;
         }
+
+        public Daddy getDaddy()
+        {
+            return daddy;
+        }
+
+        public Namyong getNamyong()
+        {
+            return namyong;
+        }
     }
 }

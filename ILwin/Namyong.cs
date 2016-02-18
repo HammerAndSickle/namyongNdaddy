@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace ILwin
 {
-    class Namyong
+    public class Namyong
     {
         //남용이 이미지들
         //[0] left_1, [1] left_2
@@ -40,6 +40,9 @@ namespace ILwin
         //다루려는 screen 
         public ILwin.ShowScreen screen;
 
+        //가지고 있는 말풍선
+        public Balloon balloon;
+
 
 
         public Namyong(Brush[] imgs, ILwin.ShowScreen screen, int xpos, int ypos, int dir)
@@ -54,6 +57,9 @@ namespace ILwin
             this.xpos = xpos;
 
             speedTerm = Constants.NAMYONG_SPEED;
+
+            balloon = new Balloon(screen);
+            balloon.showBalloon(Constants.IS_NAMYONG, dir, xpos, ypos);
 
             //dir = rnd.Next(0, 2);
             //ypos = rnd.Next(180, 270);
@@ -109,6 +115,13 @@ namespace ILwin
                     {
                         //방향은 오른쪽으로 바뀌고, 그림도 바뀌어야지.
                         namyong.dir = RIGHT;
+
+                        //말풍선도 오른쪽으로 바뀌고, 말풍선 위치도 바뀐다.
+                        thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            namyong.balloon.rec.Background = namyong.balloon.ballBr[RIGHT];
+                            namyong.balloon.rec.Margin = new Thickness(namyong.namyongRec.Margin.Left - Constants.NAMYONG_BALLOON_RIGHT_DIST, namyong.namyongRec.Margin.Top, 0, 0);
+                        }));
                     }
 
                     //그렇지 않다면 계속 왼쪽으로 이동
@@ -119,6 +132,9 @@ namespace ILwin
                         {
                             namyong.namyongRec.Margin = new Thickness(namyong.namyongRec.Margin.Left - 2, namyong.namyongRec.Margin.Top,
                                 namyong.namyongRec.Margin.Right, namyong.namyongRec.Margin.Bottom);
+
+                            namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left - 2, namyong.balloon.rec.Margin.Top,
+                                namyong.balloon.rec.Margin.Right, namyong.balloon.rec.Margin.Bottom);
                         }));
                     }
                 }
@@ -132,6 +148,12 @@ namespace ILwin
                     {
                         namyong.dir = LEFT;
 
+                        //말풍선도 왼쪽으로 바뀌고, 말풍선 위치도 바뀐다.
+                        thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            namyong.balloon.rec.Background = namyong.balloon.ballBr[LEFT];
+                            namyong.balloon.rec.Margin = new Thickness(namyong.namyongRec.Margin.Left + Constants.NAMYONG_BALLOON_LEFT_DIST, namyong.namyongRec.Margin.Top, 0, 0);
+                        }));
                     }
 
                     //그렇지 않다면 계속 왼쪽으로 이동
@@ -142,6 +164,9 @@ namespace ILwin
                         {
                             namyong.namyongRec.Margin = new Thickness(namyong.namyongRec.Margin.Left + 2, namyong.namyongRec.Margin.Top,
                                 namyong.namyongRec.Margin.Right, namyong.namyongRec.Margin.Bottom);
+
+                            namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left + 2, namyong.balloon.rec.Margin.Top,
+                                namyong.balloon.rec.Margin.Right, namyong.balloon.rec.Margin.Bottom);
 
                         }));
                     }
