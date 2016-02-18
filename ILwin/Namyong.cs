@@ -53,7 +53,7 @@ namespace ILwin
             this.ypos = ypos;
             this.xpos = xpos;
 
-            speedTerm = 80;
+            speedTerm = Constants.NAMYONG_SPEED;
 
             //dir = rnd.Next(0, 2);
             //ypos = rnd.Next(180, 270);

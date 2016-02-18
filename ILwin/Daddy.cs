@@ -40,6 +40,9 @@ namespace ILwin
         //다루려는 screen 
         public ILwin.ShowScreen screen;
 
+        //가지고 있는 말풍선
+        public Balloon balloon;
+
 
 
         public Daddy(Brush[] imgs, ILwin.ShowScreen screen, int xpos, int ypos, int dir)
@@ -53,7 +56,10 @@ namespace ILwin
             this.ypos = ypos;
             this.xpos = xpos;
 
-            this.speedTerm = 100;
+            this.speedTerm = Constants.DADDY_SPEED;
+            
+            balloon = new Balloon(screen);
+            balloon.showBalloon(Constants.IS_DADDY, dir, xpos, ypos);
 
             //dir = rnd.Next(0, 2);
             //ypos = rnd.Next(180, 270);
@@ -109,6 +115,13 @@ namespace ILwin
                     {
                         //방향은 오른쪽으로 바뀌고, 그림도 바뀌어야지.
                         daddy.dir = RIGHT;
+
+                        //말풍선도 오른쪽으로 바뀌고, 말풍선 위치도 바뀐다.
+                        thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            daddy.balloon.rec.Background = daddy.balloon.ballBr[RIGHT];
+                            daddy.balloon.rec.Margin = new Thickness(daddy.daddyRec.Margin.Left - Constants.DADDY_BALLOON_RIGHT_DIST, daddy.daddyRec.Margin.Top, 0, 0);
+                        }));
                     }
 
                     //그렇지 않다면 계속 왼쪽으로 이동
@@ -119,6 +132,9 @@ namespace ILwin
                         {
                             daddy.daddyRec.Margin = new Thickness(daddy.daddyRec.Margin.Left - 2, daddy.daddyRec.Margin.Top,
                                 daddy.daddyRec.Margin.Right, daddy.daddyRec.Margin.Bottom);
+
+                            daddy.balloon.rec.Margin = new Thickness(daddy.balloon.rec.Margin.Left - 2, daddy.balloon.rec.Margin.Top,
+                                daddy.balloon.rec.Margin.Right, daddy.balloon.rec.Margin.Bottom);
                         }));
                     }
                 }
@@ -131,6 +147,13 @@ namespace ILwin
                     if (daddyLoc_x >= 640)
                     {
                         daddy.dir = LEFT;
+
+                        //말풍선도 오른쪽으로 바뀌고, 말풍선 위치도 바뀐다.
+                        thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            daddy.balloon.rec.Background = daddy.balloon.ballBr[LEFT];
+                            daddy.balloon.rec.Margin = new Thickness(daddy.daddyRec.Margin.Left + Constants.DADDY_BALLOON_LEFT_DIST, daddy.daddyRec.Margin.Top, 0, 0);
+                        }));
                     }
 
                     //그렇지 않다면 계속 왼쪽으로 이동
@@ -141,6 +164,9 @@ namespace ILwin
                         {
                             daddy.daddyRec.Margin = new Thickness(daddy.daddyRec.Margin.Left + 2, daddy.daddyRec.Margin.Top,
                                 daddy.daddyRec.Margin.Right, daddy.daddyRec.Margin.Bottom);
+
+                            daddy.balloon.rec.Margin = new Thickness(daddy.balloon.rec.Margin.Left + 2, daddy.balloon.rec.Margin.Top,
+                                daddy.balloon.rec.Margin.Right, daddy.balloon.rec.Margin.Bottom);
 
                         }));
                     }

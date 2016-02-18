@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Balloon.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="BoardWindow.xaml.cs">
       <DependentUpon>BoardWindow.xaml</DependentUpon>
