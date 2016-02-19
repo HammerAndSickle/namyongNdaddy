@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace ILwin
 {
@@ -21,6 +23,9 @@ namespace ILwin
     {
         Brush bodyimg;
 
+        //뉴스를 크롤링해오는 스레드
+        Thread newsthr;
+
         public BoardWindow(Brush bodyimg)
         {
             InitializeComponent();
@@ -30,15 +35,20 @@ namespace ILwin
             this.Background = bodyimg;
 
             this.texts.IsReadOnly = true;
-            this.texts.Background = Brushes.SkyBlue;
+            var brush = new SolidColorBrush(Color.FromArgb(255, (byte)216, (byte)255, (byte)250));
+            this.texts.Background = brush;
             this.texts.FontSize = 15;
             this.texts.Text = "Crawling articles.....";
+
+            //처음에 기사를 일단 가져온다
+            updateArticle();
         }
 
         //기사를 가져올 것이다.
         public void updateArticle()
         {
-
+            newsthr = new Thread(() => HTMLhandler.getNews(this, this.texts));
+            newsthr.Start();
         }
     }
 }

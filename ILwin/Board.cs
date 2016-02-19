@@ -32,6 +32,8 @@ namespace ILwin
 
         //색깔을 계속 변하게 하는 스레드
         Thread colorchangeTh;
+
+     
         
 
         //rectangle을 생성한다. 초기에 호출될 함수.

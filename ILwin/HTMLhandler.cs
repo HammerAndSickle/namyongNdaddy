@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using System.Threading;
 using System.Net;
 using System.IO;
 using HtmlAgilityPack;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Text.RegularExpressions;
 
 
 namespace ILwin
@@ -21,7 +24,7 @@ namespace ILwin
             //HTML agility pack을 사용.
             HtmlWeb hw = new HtmlWeb();
             string urladdr = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=webhp&q=%EB%82%A0%EC%94%A8";
-            string filepath = @"bfile.txt";
+            //string filepath = @"bfile.txt";
 
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
@@ -30,7 +33,7 @@ namespace ILwin
             System.IO.File.WriteAllText(@"afile.txt", entire.InnerHtml, Encoding.Default);
 
             //파일 초기화
-            System.IO.File.WriteAllText(filepath, "", Encoding.Default);
+            //System.IO.File.WriteAllText(filepath, "", Encoding.Default);
 
             //div 중, id = ires인 걸 찾아낸다.
             // ex) //가 붙으면 doc 전체에서 찾는다. 즉, HtmlNode는 일종의 포인터일 뿐인 듯하다
@@ -51,8 +54,8 @@ namespace ILwin
 
             HtmlNode loc_b = ires_node.SelectSingleNode(".//b");
 
-            System.IO.File.AppendAllText(filepath, ires_first_tr.InnerHtml, Encoding.Default);
-            System.IO.File.AppendAllText(filepath, "\n\n\n===========\n\n\n", Encoding.Default);
+            //System.IO.File.AppendAllText(filepath, ires_first_tr.InnerHtml, Encoding.Default);
+            //System.IO.File.AppendAllText(filepath, "\n\n\n===========\n\n\n", Encoding.Default);
             
             string todayVal = ires_first_img.Attributes["title"].Value;
             string todayTem = ires_first_span.InnerText;
@@ -61,8 +64,8 @@ namespace ILwin
             datas.setPresentWeathers(todayTem, todayVal);
             datas.setLocation(currentLoc);
 
-            System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
-            System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);
+            //System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
+            //System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);
 
           
 
@@ -74,7 +77,7 @@ namespace ILwin
         {   
             HtmlWeb hw = new HtmlWeb();
             string urladdr = "http://www.google.com/search?q=" + query + "&tbm=isch";
-            string filepath = @"cfile.txt";
+            //string filepath = @"cfile.txt";
 
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
@@ -89,11 +92,11 @@ namespace ILwin
 
             HtmlNodeCollection images = center_col_node.SelectNodes(".//img");
 
-            System.IO.File.WriteAllText(filepath, center_col_node.InnerHtml, Encoding.Default);
+            //System.IO.File.WriteAllText(filepath, center_col_node.InnerHtml, Encoding.Default);
 
-            System.IO.File.WriteAllText(@"dfile.txt", images.Count + "개", Encoding.Default);
+            //System.IO.File.WriteAllText(@"dfile.txt", images.Count + "개", Encoding.Default);
 
-            System.IO.File.AppendAllText(@"dfile.txt", "\n\n=====\n\n", Encoding.Default);
+            //System.IO.File.AppendAllText(@"dfile.txt", "\n\n=====\n\n", Encoding.Default);
 
             //일단 urls에 담아보자.
             for (int i = 0; i < num; i++ )
@@ -101,10 +104,12 @@ namespace ILwin
                 urls.Add(images[i].Attributes["src"].Value);
             }
 
+            /*
             foreach (HtmlNode ls in images)
             {
                 System.IO.File.AppendAllText(@"dfile.txt", ls.Attributes["src"].Value + "\n\n", Encoding.Default);
             }
+            */
 
         }
 
@@ -132,6 +137,142 @@ namespace ILwin
             {
                 return null;
             }
+
+        }
+
+        //포털 사이트에서 뉴스를 가져온다.  boardWindow 전용
+        static public void getNews(ILwin.BoardWindow bWin, TextBox textbox)
+        {
+            //http://reedfim.tistory.com/31 참고,
+            //국내 웹 페이지를 크롤링할 때는 유의, 글자가 깨질 수도 있어서..
+            int ARTICLES_TO_CRAWL = 6;      //가져올 기사 개수
+
+            //가져올 기사의 제목&내용들
+            List<string> article_titles = new List<string>();
+            List<string> article_contents = new List<string>();
+
+
+            //필요한 자료구조
+            WebRequest req;
+            HttpWebResponse resp;
+            Stream datas;
+            HtmlDocument docu;
+
+            //필요한 데이터
+            string urladdr = "http://news.naver.com/main/list.nhn?mode=LS2D&mid=shm&sid1=102&sid2=249";
+            string testfile = @"newsfile.txt";
+
+            //이제 내용을 크롤링해온다.
+            req = WebRequest.Create(urladdr);
+            req.Credentials = CredentialCache.DefaultCredentials;
+            resp = (HttpWebResponse)req.GetResponse();
+            datas = resp.GetResponseStream();
+            docu = new HtmlDocument();
+            docu.Load(datas, Encoding.Default);
+
+            //이제 모든 document가 HtmlNode에 담겼다.
+            HtmlNode entire = docu.DocumentNode;
+
+            //네이버 기사들이 담긴 HtmlNode
+            HtmlNode mainnewsNode = docu.DocumentNode.SelectSingleNode("//div[@class='list_body newsflash_body']");
+
+            //인제 그 밑에 있는 DL들을 모두 가져온다.
+            HtmlNodeCollection DLs = mainnewsNode.SelectNodes(".//dl");
+
+            System.IO.File.WriteAllText(@"longsrc.txt", entire.InnerHtml, Encoding.Default);
+            System.IO.File.WriteAllText(testfile, "", Encoding.Default);
+
+            //while(ARTICLES_TO_CRAWL > 0)
+            {
+                //DL 아래 : DT는 기사 제목을, DD는 기사 내용을 담는다.
+                //DL들을 가져온 후, 각 DL 안에서 selectsinglenode로 DT와 DD를 가져온다.
+                
+                //일반 DT는 사진 섬네일이 없는 기사로, DT의 A의 text에서 기사 제목 추출
+                //일반 DT의 DD는 곧바로 text에서 기사 내용 추출
+
+                //class가 photo인 DT는 사진 섬네일이 달린 기사로, DT의 A의 IMG의 alt에서 기사 제목 추출
+                //class가 photo인 DT의 DD는 곧바로 text에서 기사 내용 추출
+
+                //for (int i = 0; i < ARTICLES_TO_CRAWL; i++ )
+                foreach(HtmlNode a_DLNode in DLs)
+                {
+                    //HtmlNode a_DLNode = DLs.ElementAt(i);
+
+                    HtmlNode a_DTNode = a_DLNode.SelectSingleNode(".//dt");
+                    HtmlNode a_DDNode = a_DLNode.SelectSingleNode(".//dd");
+
+                    //DT의 class가 "photo"인지 확인, 
+                    if (a_DTNode.Attributes["class"] != null)
+                    {
+                        if (a_DTNode.Attributes["class"].Value.Equals("photo"))
+                        {
+                            //DTNode 아래의 <a> 아래의 img의 alt가 기사 제목을 가지고 있다.
+                            HtmlNode article_a = a_DTNode.SelectSingleNode(".//img");
+                            article_titles.Add(article_a.Attributes["alt"].Value);
+
+                            //DDNode의 text가 기사 내용을 가지고 있다.
+                            HtmlNode article_text = a_DTNode.SelectSingleNode(".//img");
+                            article_contents.Add(a_DDNode.InnerText);
+                            
+                            /*
+                            System.IO.File.AppendAllText(testfile, "<PHOTO!!>\n", Encoding.Default);
+                            System.IO.File.AppendAllText(testfile, a_DTNode.InnerHtml, Encoding.Default);
+                            System.IO.File.AppendAllText(testfile, "\n\n", Encoding.Default);
+                            System.IO.File.AppendAllText(testfile, a_DDNode.InnerHtml, Encoding.Default);
+                            System.IO.File.AppendAllText(testfile, "\n\n=================\n\n", Encoding.Default);
+                            */
+                        }
+                    }
+
+                    else
+                    {
+                        //DTNode 아래의 <a>의 text가 기사 제목을 가지고 있다.
+                        HtmlNode article_a = a_DTNode.SelectSingleNode(".//a");
+                        article_titles.Add(article_a.InnerText);
+
+                        //DDNode의 text가 기사 내용을 가지고 있다.
+                        HtmlNode article_text = a_DTNode.SelectSingleNode(".//img");
+                        article_contents.Add(a_DDNode.InnerText);
+                            
+                        /*
+                        System.IO.File.AppendAllText(testfile, a_DTNode.InnerHtml, Encoding.Default);
+                        System.IO.File.AppendAllText(testfile, "\n\n", Encoding.Default);
+                        System.IO.File.AppendAllText(testfile, a_DDNode.InnerHtml, Encoding.Default);
+                        System.IO.File.AppendAllText(testfile, "\n\n=================\n\n", Encoding.Default);
+                         */
+                    }
+                }
+
+
+            }
+
+            
+           
+            //article_contents의 불필요한 공백들을 제거한다.
+            for (int i = 0; i < article_contents.Count; i++ )
+            {
+                //System.Text.RegularExpressions의 Regex을 이용해 정규식으로 걸러낸다.
+                //var spacesSquashed = Regex.Replace(article_contents.ElementAt(i), @"\s+", " ", RegexOptions.Singleline);
+                
+            }
+
+
+                bWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    textbox.Text = "";
+
+                    for (int i = 0; i < ARTICLES_TO_CRAWL; i++)
+                    {
+                        var output_title = Regex.Replace(article_titles.ElementAt(i), @"\s+", " ", RegexOptions.Singleline);
+                        textbox.Text += "<" + output_title + ">\n";
+                        var output_content = Regex.Replace(article_contents.ElementAt(i), @"\s+", " ", RegexOptions.Singleline);
+                        //textbox.Text += "{" + article_contents.ElementAt(i) + "}\n\n";
+                        textbox.Text += "{" + output_content + "}\n\n";
+
+                    }
+
+
+                }));
 
         }
 
