@@ -69,6 +69,7 @@ namespace ILwin
             textbox.BorderThickness = new Thickness(0.0);
             textbox.Background = Brushes.White;
             textbox.IsReadOnly = true;
+            textbox.TextWrapping = TextWrapping.WrapWithOverflow;
             textbox.Cursor = Cursors.Arrow;
 
             //일단은 숨김

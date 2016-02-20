@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace ILwin
 {
-    public class Namyong
+    public class Namyong : talking
     {
         //남용이 이미지들
         //[0] left_1, [1] left_2
@@ -176,6 +176,24 @@ namespace ILwin
             }
 
 
+        }
+
+
+
+
+        //sayHello
+        public void sayHello()
+        {
+            balloon.setMSG("안녕하쇼");
+        }
+        
+        //sayTime
+        public void sayTime()
+        {
+            DateTime currTime = DateTime.Now;
+            string currTimeStr = "날짜 : " + currTime.ToString("yyyy") + "/" + currTime.ToString("MM") + "/"
+                + currTime.ToString("dd") + ", 시간 : " + currTime.ToString("HH:mm") + "요.";
+            balloon.setMSG(currTimeStr);
         }
     }
 }

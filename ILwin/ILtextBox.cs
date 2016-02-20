@@ -30,11 +30,19 @@ namespace ILwin
             //help를 입력받음
             else if (ssize[0].Equals("help")) cmdreq = printHelp();
 
-            //hello를 입력받은
+            //hello를 입력받음
             else if(ssize[0].Equals("hello"))
             {
-                showscreen.getDaddy().balloon.setMSG("그래");
-                showscreen.getNamyong().balloon.setMSG("안녕하쇼");
+                showscreen.getNamyong().sayHello();
+                showscreen.getDaddy().sayHello();
+            }
+
+            //hello를 입력받음
+            else if (ssize[0].Equals("time"))
+            {
+                showscreen.getNamyong().sayTime();
+                showscreen.getDaddy().sayTime();
+
             }
 
             //box를 처음에 입력받음

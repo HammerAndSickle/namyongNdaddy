@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace ILwin
 {
-    public class Daddy
+    public class Daddy : talking
     {
         //아버지 이미지들
         //[0] left_1, [1] left_2
@@ -177,5 +177,24 @@ namespace ILwin
 
 
         }
+        //이동 함수 끝
+
+
+        //sayHello
+        public void sayHello()
+        {
+            balloon.setMSG("그래");
+        }
+
+        //sayTime
+        public void sayTime()
+        {
+            DateTime currTime = DateTime.Now;
+            string currTimeStr = "오늘은 " + currTime.ToString("yyyy") + "월 " + currTime.ToString("MM") + "일 "
+                + currTime.ToString("dd") + "일이구, 지금 시간은 " + currTime.ToString("HH") + "시" + currTime.ToString("mm") + "분이여.";
+            balloon.setMSG(currTimeStr);
+        }
+
+
     }
 }
