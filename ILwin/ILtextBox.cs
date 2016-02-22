@@ -23,6 +23,7 @@ namespace ILwin
         {
             //공백 기준으로 나누어보자.
             string[] ssize = cmdreq.Split(new char[0]);
+            int len = ssize.Length;
 
             //아무것도 없다.
             if (ssize[0].Equals("")) return;
@@ -33,15 +34,81 @@ namespace ILwin
             //hello를 입력받음
             else if(ssize[0].Equals("hello"))
             {
-                showscreen.getNamyong().sayHello();
-                showscreen.getDaddy().sayHello();
+                //그냥 hello는 둘 다에게 인사
+                if (len == 1)
+                {
+                    showscreen.getNamyong().sayHello();
+                    showscreen.getDaddy().sayHello();
+                }
+
+                 //hello n은 남용이에게 인사
+                else if(len == 2 && ssize[1].Equals("n"))
+                    showscreen.getNamyong().sayHello();
+
+                 //hello d는 아버지에게 인사
+                else if (len == 2 && ssize[1].Equals("d"))
+                    showscreen.getDaddy().sayHello();
+
             }
 
-            //hello를 입력받음
+            //time를 입력받음
             else if (ssize[0].Equals("time"))
             {
-                showscreen.getNamyong().sayTime();
-                showscreen.getDaddy().sayTime();
+                //그냥 time는 둘 다에게 묻기
+                if (len == 1)
+                {
+                    showscreen.getNamyong().sayTime();
+                    showscreen.getDaddy().sayTime();
+                }
+
+                 //time n은 남용이에게 묻기
+                else if (len == 2 && ssize[1].Equals("n"))
+                    showscreen.getNamyong().sayTime();
+
+                 //time d는 아버지에게 묻기
+                else if (len == 2 && ssize[1].Equals("d"))
+                    showscreen.getDaddy().sayTime();
+
+            }
+
+            //speed를 입력받음
+            else if (ssize[0].Equals("speed"))
+            {
+                //그냥 speed [n]는 둘 다의 속도 변경
+                if (len == 2)
+                {
+                    //speed [숫자] 일 경우. 이젠 단어만 추출하면 된다.
+                    int num;
+
+                    //숫자가 들어있는지 확인하며, 맞다면 num에 집어넣고 그 레벨만큼으로 둘의 속도를 설정
+                    if (int.TryParse(ssize[1], out num))
+                    {
+                        showscreen.getNamyong().sayQuick(num);
+                        showscreen.getDaddy().sayQuick(num);
+                    }
+                }
+
+                 //speed n은 남용이 속도 변경
+                else if (len == 3 && ssize[1].Equals("n"))
+                {
+                    //speed [숫자] 일 경우. 이젠 단어만 추출하면 된다.
+                    int num;
+
+                    //숫자가 들어있는지 확인하며, 맞다면 num에 집어넣고 그 레벨만큼으로 둘의 속도를 설정
+                    if (int.TryParse(ssize[2], out num))
+                        showscreen.getNamyong().sayQuick(num);
+                }
+
+                 //speed d는 아버지 속도 변경
+                else if (len == 3 && ssize[1].Equals("d"))
+                {
+                    //speed [숫자] 일 경우. 이젠 단어만 추출하면 된다.
+                    int num;
+
+                    //숫자가 들어있는지 확인하며, 맞다면 num에 집어넣고 그 레벨만큼으로 둘의 속도를 설정
+                    if (int.TryParse(ssize[2], out num))
+                        showscreen.getDaddy().sayQuick(num);
+                }
 
             }
 

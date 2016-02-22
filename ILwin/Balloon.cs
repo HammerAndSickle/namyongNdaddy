@@ -63,7 +63,7 @@ namespace ILwin
             textbox.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             textbox.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             textbox.Margin = new Thickness(6, 6, 0, 0);
-            textbox.FontSize = 9;
+            textbox.FontSize = 10;
             textbox.Width = 80;
             textbox.Height = 50;
             textbox.BorderThickness = new Thickness(0.0);

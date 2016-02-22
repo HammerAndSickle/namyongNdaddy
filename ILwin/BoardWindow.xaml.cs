@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace ILwin
 {
@@ -23,12 +24,17 @@ namespace ILwin
     {
         Brush bodyimg;
 
+        //이건 윈도우가 켜져있는지, 아닌지를 판별할 datas
+        Datas datas;
+
         //뉴스를 크롤링해오는 스레드
         Thread newsthr;
 
-        public BoardWindow(Brush bodyimg)
+        public BoardWindow(Brush bodyimg, Datas datas)
         {
             InitializeComponent();
+
+            this.datas = datas;
 
             this.Title = "게시판";
             this.bodyimg = bodyimg;
@@ -49,6 +55,12 @@ namespace ILwin
         {
             newsthr = new Thread(() => HTMLhandler.getNews(this, this.texts));
             newsthr.Start();
+        }
+
+        //닫길 때는, board 창이 닫겼다는 걸 bool로 표시
+        void boardClosing(object sender, CancelEventArgs e)
+        {
+            this.datas.isBoardWinOn = false;
         }
     }
 }

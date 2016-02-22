@@ -18,10 +18,18 @@ namespace ILwin
         public List<WebItem> webItems; //화면에 존재하는 web items 큐
         public int numOfwebitems;       //화면에 존재하는 web items의 개수. 최대는 staticCON.MAX_WEB_ITEMS개이다.
 
+        //지금 켜져있는 윈도우들
+        public bool isAboutWinOn;       //AboutWindow가 켜져있는가
+        public bool isBoardWinOn;       //boardWindow가 켜져있는가
+        public bool isMallWinOn;       //mallWindow가 켜져있는가
+
         public Datas()
         {
             webItems = new List<WebItem>();
             numOfwebitems = 0;          //첨엔 0개의 item이 존재한다.
+
+            //처음엔 etc 윈도우는 모두 꺼져있다.
+            isAboutWinOn = isBoardWinOn = isMallWinOn = false;
         }
 
         //web crawling으로 얻어온 사용자의 위치를 set

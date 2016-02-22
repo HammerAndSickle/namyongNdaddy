@@ -20,3 +20,5 @@ D:\igongwin\ILwin\ILwin\obj\Debug\InitWindow.baml
 D:\igongwin\ILwin\ILwin\obj\Debug\InitWindow.g.cs
 D:\igongwin\ILwin\ILwin\obj\Debug\BoardWindow.baml
 D:\igongwin\ILwin\ILwin\obj\Debug\BoardWindow.g.cs
+D:\igongwin\ILwin\ILwin\obj\Debug\MallWindow.baml
+D:\igongwin\ILwin\ILwin\obj\Debug\MallWindow.g.cs

@@ -33,21 +33,27 @@ namespace ILwin
         //색깔을 계속 변하게 하는 스레드
         Thread colorchangeTh;
 
+
+        //board 윈도우
+        private Window boardWin;
+
+        //이건 윈도우가 켜져있는지, 아닌지를 판별할 datas
+        Datas datas;
+
      
         
 
         //rectangle을 생성한다. 초기에 호출될 함수.
         //w와 h는 원래의 bitmapimage의 width, height
-        public Board(Brush img, Brush bodyimg, double w, double h, ILwin.ShowScreen showscreen)
+        public Board(Brush img, Brush bodyimg, double w, double h, int xpos, int ypos, ILwin.ShowScreen showscreen, Datas datas)
         {
             Random rnd = new Random();
-
-            int ypos = rnd.Next(300, 400);
-            int xpos = rnd.Next(0, 700);
 
             this.img = img;
             this.bodyimg = bodyimg;
             this.screen = showscreen;
+            this.datas = datas;
+        
 
             //생성
             imgrec = new Grid();
@@ -151,7 +157,13 @@ namespace ILwin
         //클릭 시 게시판을 열자
         private void board_up(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Window boardWin = new BoardWindow(bodyimg);
+            if(datas.isBoardWinOn)
+            {
+                return;
+            }
+
+            boardWin = new BoardWindow(bodyimg, datas);
+            datas.isBoardWinOn = true;
             boardWin.Show();
         }
 

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net;
 using System.IO;
+using System.ComponentModel;
 
 namespace ILwin
 {
@@ -24,13 +25,17 @@ namespace ILwin
         Brush OKB;
         Brush OKBClicked;
 
-        public AboutWindow(Brush contentImg, Brush OKB, Brush OKBClicked)
+        //이건 윈도우가 켜져있는지, 아닌지를 판별할 datas
+        Datas datas;
+
+        public AboutWindow(Brush contentImg, Brush OKB, Brush OKBClicked, Datas datas)
         {
             InitializeComponent();
 
             //this.okbutton.Background = OKB;
             this.Background = contentImg;
 
+            this.datas = datas;
 
             this.OKB = OKB;
             this.OKBClicked = OKBClicked;
@@ -74,6 +79,12 @@ namespace ILwin
         private void okup(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             
+        }
+
+        //닫길 때는, about 창이 닫겼다는 걸 bool로 표시
+        void aboutClosing(object sender, CancelEventArgs e)
+        {
+            this.datas.isAboutWinOn = false;
         }
     }
 }

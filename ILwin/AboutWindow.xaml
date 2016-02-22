@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ILwin.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AboutWindow" Height="280" Width="260"  ResizeMode="NoResize" WindowStyle="None">
+        Title="AboutWindow" Height="280" Width="260"  ResizeMode="NoResize" WindowStyle="None" Closing="aboutClosing">
 	<Window.Triggers>
 		<EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="okbut"/>
 	</Window.Triggers>

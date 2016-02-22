@@ -96,6 +96,10 @@ namespace ILwin
         public BitmapImage boardbodyImg;
         public Brush boardbodyBr;
         //-가격비교
+        public BitmapImage mallImg;
+        public Brush mallBr;
+        public BitmapImage mallbodyImg;
+        public Brush mallbodyBr;
 
         //-남용
         public BitmapImage[] namyongImg;
@@ -365,7 +369,17 @@ namespace ILwin
                     thiswin.packs.boardbodyImg.UriSource = new Uri(Constants.REL_OTEHR_WIN_PATH + "boardbg.png", UriKind.Relative);
                     thiswin.packs.boardbodyImg.EndInit();
                     thiswin.packs.boardbodyBr = new ImageBrush(thiswin.packs.boardbodyImg);
-                   
+                    //-가격비교
+                    thiswin.packs.mallImg = new BitmapImage();
+                    thiswin.packs.mallImg.BeginInit();
+                    thiswin.packs.mallImg.UriSource = new Uri(Constants.REL_PATH_SPRITE + "mall1.png", UriKind.Relative);
+                    thiswin.packs.mallImg.EndInit();
+                    thiswin.packs.mallBr = new ImageBrush(thiswin.packs.mallImg);
+                    thiswin.packs.mallbodyImg = new BitmapImage();
+                    thiswin.packs.mallbodyImg.BeginInit();
+                    thiswin.packs.mallbodyImg.UriSource = new Uri(Constants.REL_OTEHR_WIN_PATH + "mallbg.png", UriKind.Relative);
+                    thiswin.packs.mallbodyImg.EndInit();
+                    thiswin.packs.mallbodyBr = new ImageBrush(thiswin.packs.mallbodyImg);
 
 
                     //메뉴바

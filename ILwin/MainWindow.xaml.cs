@@ -63,6 +63,9 @@ namespace ILwin
         private ILwin.ILtextBox textbox;
         public Rect SCREEN_RECT = new Rect(20, 30, 760, 470);
 
+        //윈도우 데이터
+        private Window aboutWin;
+
         public MainWindow(ILwin.paraPackage packs)
         {
             InitializeComponent();
@@ -196,8 +199,12 @@ namespace ILwin
         }
         private void icon_up(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Window aboutWin = new AboutWindow(aboutcontentBr, okButtonBr[0], okButtonBr[1]);
+            //이미 aboutWindow가 켜져있으면 다시 키지 않도록 한다.
+            if (datas.isAboutWinOn) return;
+
+            aboutWin = new AboutWindow(aboutcontentBr, okButtonBr[0], okButtonBr[1], datas);
             aboutWin.Show();
+            datas.isAboutWinOn = true;
         }
         private void icon_clicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

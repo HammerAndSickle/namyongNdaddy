@@ -40,7 +40,9 @@ namespace ILwin
         //-daddy 객체
         private ILwin.Daddy daddy;
         //-Board 객체
-        private ILwin.Board board; 
+        private ILwin.Board board;
+        //-Mall 객체
+        private ILwin.Mall mall; 
 
         //위치 선정을 위한 random
         private Random rnd;
@@ -129,6 +131,7 @@ namespace ILwin
 
             generateSprite();
             generateBox();
+            generateMall();
             generateBoard();
             generateNamyong();
             generateDaddy();
@@ -204,21 +207,21 @@ namespace ILwin
             
         }
 
-        //namyong을 생성한다. namyong은 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        //namyong을 생성한다. namyong은 한 개 존재하므로 datas에 포함시키지 않는다.
         public void generateNamyong()
         {
             namyong = new Namyong(packs.namyongBr, this,  rnd.Next(0, 701), rnd.Next(180, 271), rnd.Next(0, 2));
             namyong.startmove();
         }
 
-        //daddy을 생성한다. daddy은 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        //daddy을 생성한다. daddy은 한 개 존재하므로 datas에 포함시키지 않는다.
         public void generateDaddy()
         {
             daddy = new Daddy(packs.daddyBr, this,  rnd.Next(0, 701), rnd.Next(180, 271), rnd.Next(0, 2));
             daddy.startmove();
         }
 
-        //flying box를 생성한다. flying box는 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        //flying box를 생성한다. flying box는 한 개 존재하므로 datas에 포함시키지 않는다.
         public void generateBox()
         {
             //flying box를 만든다.
@@ -228,14 +231,21 @@ namespace ILwin
 
         }
 
-        //board icon을 생성한다. board는 최소 하나 존재하므로 datas에 포함시키지 않는다.
+        //board icon을 생성한다. board는 한 개 존재하므로 datas에 포함시키지 않는다.
         public void generateBoard()
         {
             //board를 만든다.
-            board = new Board(packs.boardBr, packs.boardbodyBr, packs.boardImg.Width, packs.boardImg.Height, this);
+            board = new Board(packs.boardBr, packs.boardbodyBr, packs.boardImg.Width, packs.boardImg.Height, rnd.Next(0, 701), rnd.Next(300, 401), this, MWin.getDatasReference());
             
         }
 
+        //mall icon을 생성한다. mall는 한 개 존재하므로 datas에 포함시키지 않는다.
+        public void generateMall()
+        {
+            //mall를 만든다.
+            mall = new Mall(packs.mallBr, packs.mallbodyBr, packs.mallImg.Width, packs.mallImg.Height, rnd.Next(0, 701), rnd.Next(300, 401), this, MWin.getDatasReference());
+
+        }
 
         //webImage를 생성한다. 단, 더 생성 가능한지만 확인하고, 가능하다면 스레드를 돌린다.
         public void generateWebImage(string query, int num)

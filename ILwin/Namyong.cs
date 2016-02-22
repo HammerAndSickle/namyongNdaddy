@@ -195,5 +195,52 @@ namespace ILwin
                 + currTime.ToString("dd") + ", 시간 : " + currTime.ToString("HH:mm") + "요.";
             balloon.setMSG(currTimeStr);
         }
+
+        //sayQuick. level 1~level 5에 따라 속도도 다르다.
+        public void sayQuick(int level)
+        {
+            //속도는 1~5만 가능하다.
+            if(level < 1 || level > 5)
+            {
+                if(level > 5)
+                    balloon.setMSG("그렇게 빨리 못뜁니다.");
+
+                else if(level < 1)
+                    balloon.setMSG("그럼 아예 걷지 말란 거잖아요.");
+
+                return;
+            }
+
+            //속도가 조건에 맞을 경우.
+            switch(level)
+            {
+                case 1:
+                    this.speedTerm = (int)(Constants.NAMYONG_SPEED * 4);
+                    balloon.setMSG("1단계로 걷습니다. 많이 느려요.");
+                    break;
+                case 2:
+                    this.speedTerm = (int)(Constants.NAMYONG_SPEED * 2);
+                    balloon.setMSG("2단계로 걷습니다. 쪼매 느려요.");
+                    break;
+                case 3:
+                    this.speedTerm = (Constants.NAMYONG_SPEED);
+                    balloon.setMSG("3단계로 걷습니다. 이게 내 평소 걸음속도에요.");
+                    break;
+                case 4:
+                    this.speedTerm = (int)(Constants.NAMYONG_SPEED * 0.5);
+                    balloon.setMSG("4단계로 뜁니다. 좀 빠른데 헉헉..");
+                    break;
+                case 5:
+                    this.speedTerm = (int)(Constants.NAMYONG_SPEED * 0.25);
+                    balloon.setMSG("5단계로 뛰라고? 이건 미친짓이야..");
+                    break;
+                default:
+                    this.speedTerm = (Constants.NAMYONG_SPEED);
+                    balloon.setMSG("뭔가 이상한데?");
+                    break;
+            }
+
+            
+        }
     }
 }
