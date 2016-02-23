@@ -110,6 +110,7 @@ namespace ILwin
                         showscreen.getDaddy().sayQuick(num);
                 }
 
+
             }
 
             //box를 처음에 입력받음
@@ -142,6 +143,27 @@ namespace ILwin
                         cmdreq = "박스에게 [" + queryImage + "] 이미지 " + num + "개 를 요청함!";
                     }
                 }
+            }
+
+            //talk를 처음에 입력받음
+            else if(ssize[0].Equals("talk"))
+            {
+                //그냥 talk는 둘 다에게 말걸기
+                if (len == 1)
+                {
+                    showscreen.getNamyong().sayKeyword(showscreen.getNamyong().balloon);
+                    showscreen.getDaddy().sayKeyword( showscreen.getDaddy().balloon);
+                }
+
+                 //talk n은 남용이에게 말걸기
+                else if (len == 2 && ssize[1].Equals("n"))
+                    showscreen.getNamyong().sayKeyword(showscreen.getNamyong().balloon);
+                    
+
+                 //time d는 아버지에게 말걸기
+                else if (len == 2 && ssize[1].Equals("d"))
+                    showscreen.getDaddy().sayKeyword(showscreen.getDaddy().balloon);
+
             }
 
             else

@@ -10,6 +10,7 @@ namespace ILwin
     {
         void sayHello();
         void sayTime();
+        void sayKeyword(Balloon balloon);
         void sayQuick(int level);
     }
 }

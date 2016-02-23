@@ -32,7 +32,9 @@ namespace ILwin
         public int status;      //0과 1 중 하나, 그림 상태를 바뀌게 하는 데 쓴다.
 
         //사용중인 스레드
-        Thread thrmove;
+        Thread thrmove; //움직이는 스레드
+        Thread thrtalk; //대화 스레드
+        bool isGettingKeyword;      //지금 키워드 가져오는 스레드가 실행중인가?
 
         //rectangle. 이미지가 여기에 들어가서 움직인다.
         public System.Windows.Shapes.Rectangle daddyRec;
@@ -75,6 +77,8 @@ namespace ILwin
             daddyRec.Fill = daddyBr[dir];
             daddyRec.Margin = new Thickness(xpos, ypos, 0, 0);
             screen.sp.Children.Add(daddyRec);
+
+            isGettingKeyword = false;
         }
 
 
@@ -193,6 +197,38 @@ namespace ILwin
             string currTimeStr = "오늘은 " + currTime.ToString("yyyy") + "월 " + currTime.ToString("MM") + "일 "
                 + currTime.ToString("dd") + "일이구, 지금 시간은 " + currTime.ToString("HH") + "시" + currTime.ToString("mm") + "분이여.";
             balloon.setMSG(currTimeStr);
+        }
+
+        //sayKeyword
+        public void sayKeyword(Balloon balloon)
+        {
+            if(isGettingKeyword)
+            {
+                thrtalk.Abort();
+                isGettingKeyword = false;
+            }
+
+            isGettingKeyword = true;
+            thrtalk = new Thread(() => sayKeywordThr(this, balloon));
+            thrtalk.Start();
+        }
+
+
+        //sayKeyword에서 실행되는 스레드.
+        public static void sayKeywordThr(Daddy daddy, Balloon balloon)
+        {
+            //가져올 검색어들. 2개 정도만 가져온다.
+            List<string> keywords = new List<string>();
+
+            Thread thrkeyword = new Thread(() => HTMLhandler.getHotKeyword(Constants.IS_DADDY, keywords));
+            thrkeyword.Start();
+
+            //기다리자
+            thrkeyword.Join();
+
+            daddy.isGettingKeyword = false;
+
+            Balloon.setMSGsub(daddy.screen.getMWinReference(), balloon, "요새는 " + keywords.ElementAt(0) + ", " + keywords.ElementAt(1) + "가 뜨고있댄다");
         }
 
         //sayQuick. level 1~level 5에 따라 속도도 다르다.

@@ -77,7 +77,7 @@ namespace ILwin
             textbox.Visibility = Visibility.Hidden;
         }
 
-        //말풍선 메시지
+        //메인 스레드에서 호출하는 말풍선 메시지 함수
         public void setMSG(string text)
         {
             //만일 말풍선이 켜져있던 상태라면
@@ -99,7 +99,38 @@ namespace ILwin
             showing.Start();
         }
 
-        //말풍선 메시지
+
+        //서브 스레드에서 호출하는 말풍선 메시지 함수
+        public static void setMSGsub(ILwin.MainWindow thisWin, Balloon thisballoon, string text)
+        {
+            //만일 말풍선이 켜져있던 상태라면
+            if (thisballoon.isShowing)
+            {
+                thisballoon.showing.Abort();                    //일단 그 스레드를 종료한다.
+
+                thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        thisballoon.rec.Visibility = Visibility.Hidden;         //그리고 말풍선을 모두 닫아버린다.
+                        thisballoon.textbox.Visibility = Visibility.Hidden;
+                        thisballoon.textbox.Text = "";
+                    }));
+                thisballoon.isShowing = false;
+            }
+
+            thisballoon.isShowing = true;
+            thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        thisballoon.rec.Visibility = Visibility.Visible;
+                        thisballoon.textbox.Visibility = Visibility.Visible;
+                        thisballoon.textbox.Text = text;
+                    }));
+
+            thisballoon.showing = new Thread(() => setMSG(thisballoon, thisballoon.screen.getMWinReference()));
+            thisballoon.showing.Start();
+        }
+
+
+        //말풍선 메시지 내부의 스레드
         public static void setMSG(Balloon thisballoon, ILwin.MainWindow thisWin)
         {
             //5초 후, 메세지를 닫아버린다.

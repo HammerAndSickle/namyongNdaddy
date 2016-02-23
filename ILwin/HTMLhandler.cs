@@ -246,15 +246,7 @@ namespace ILwin
 
             }
 
-            
-           
-            //article_contents의 불필요한 공백들을 제거한다.
-            for (int i = 0; i < article_contents.Count; i++ )
-            {
-                //System.Text.RegularExpressions의 Regex을 이용해 정규식으로 걸러낸다.
-                //var spacesSquashed = Regex.Replace(article_contents.ElementAt(i), @"\s+", " ", RegexOptions.Singleline);
-                
-            }
+
 
 
                 bWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
@@ -274,6 +266,63 @@ namespace ILwin
 
                 }));
 
+        }
+
+        //화재의 검색어 가져온다
+        static public void getHotKeyword(int NAMYOUNG_OR_DADDY, List<string> keywordsStore)
+        {
+            string urladdr = "http://www.naver.com";
+
+            //가져올 검색어들
+            List<string> keywords = new List<string>();
+
+            //필요한 자료구조
+            HtmlWeb hw = new HtmlWeb();
+            HtmlDocument doc = hw.Load(urladdr);
+            HtmlNode entire = doc.DocumentNode;
+
+            //System.IO.File.WriteAllText(@"longsrc.txt", entire.InnerHtml, Encoding.Default);
+            System.IO.File.WriteAllText(@"longsrc.txt", "", Encoding.Default);
+
+            //실시간 급상승 검색어는 이 노드들에
+            HtmlNode OL_Node = entire.SelectSingleNode("//ol[@id='realrank']");
+            HtmlNodeCollection LI_Nodes = OL_Node.SelectNodes("./li");
+
+            foreach(HtmlNode node in LI_Nodes)
+            {
+                HtmlNode A_NODE = node.SelectSingleNode("a");
+                keywords.Add( A_NODE.Attributes["title"].Value );
+                System.IO.File.AppendAllText(@"longsrc.txt", A_NODE.Attributes["title"].Value + "\n\n", Encoding.Default);
+            }
+            
+            //아버지는 좀 상위에 속한 걸 2개 반환하고, 남용이는 하위에 속한 걸 2개 반환
+            Random rnd = new Random();
+
+            //난수의 범위는 아버지냐? 남용이냐? 에 따라 다르지
+            int RndStart = 0; int RndEnd = 6;
+            switch(NAMYOUNG_OR_DADDY)
+            {
+                case Constants.IS_DADDY:
+                    RndStart = 6; RndEnd = 11;
+                    break;
+                default:
+                    break;
+            }
+
+            //두개가 모일 때까지 랜덤을 돌린다
+            while(keywordsStore.Count < 2)
+            {
+                int thisIdx = rnd.Next(RndStart, RndEnd);
+                
+                //두번째 검색어를 뽑을 때, 그게 이미 뽑은 적 있던 검색어라면 다시.
+                if (keywordsStore.Count == 1 && keywordsStore.ElementAt(0).Equals(keywords.ElementAt(thisIdx)))
+                    continue;
+
+                else
+                    keywordsStore.Add(keywords.ElementAt(thisIdx));
+            }
+
+            //이제 각 범위에 알맞게 검색어 두개가 추출되었다.
         }
 
         static public BitmapImage getImage(string url)
