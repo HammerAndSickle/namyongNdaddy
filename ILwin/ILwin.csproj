@@ -93,6 +93,7 @@
     <Compile Include="MallWindow.xaml.cs">
       <DependentUpon>MallWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sign.cs" />
     <Compile Include="talking.cs" />
     <Compile Include="Namyong.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

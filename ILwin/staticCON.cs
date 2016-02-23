@@ -27,6 +27,9 @@ namespace ILwin
 
         //스프라이트 이미지 경로
 
+        //날씨 표지판 이미지 경로
+        public const String REL_WEATHER_PATH = "rscs\\weath\\";
+
 
         //배경 이미지
         public const String REL_PATH_BG2_SUNNY = "rscs\\bg2\\sunny\\";

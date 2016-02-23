@@ -33,6 +33,8 @@ namespace ILwin
         private ILwin.MainWindow MWin;      //mainwindow의 레퍼런스
         private ILwin.paraPackage packs;      //이미지 리소스가 담긴 packs
         
+        //-Sign 객체
+        private ILwin.Sign sign;
         //-flying box 객체
         private ILwin.flyingBox flyingbox;
         //-namyong 객체
@@ -130,6 +132,7 @@ namespace ILwin
             };
 
             generateSprite();
+            generateSign();
             generateBox();
             generateMall();
             generateBoard();
@@ -245,6 +248,13 @@ namespace ILwin
             //mall를 만든다.
             mall = new Mall(packs.mallBr, packs.mallbodyBr, packs.mallImg.Width, packs.mallImg.Height, rnd.Next(0, 701), rnd.Next(300, 401), this, MWin.getDatasReference());
 
+        }
+
+        //sign icon을 생성한다. sign는 한 개 존재하므로 datas에 포함시키지 않는다.
+        public void generateSign()
+        {
+            //sign을 만든다
+            sign = new Sign(rnd.Next(0, 701), rnd.Next(140, 170), this, MWin.getDatasReference());
         }
 
         //webImage를 생성한다. 단, 더 생성 가능한지만 확인하고, 가능하다면 스레드를 돌린다.
