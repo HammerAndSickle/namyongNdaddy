@@ -22,6 +22,7 @@ namespace ILwin
         public bool isAboutWinOn;       //AboutWindow가 켜져있는가
         public bool isBoardWinOn;       //boardWindow가 켜져있는가
         public bool isMallWinOn;       //mallWindow가 켜져있는가
+        public bool isHelpWinOn;       //helpWindow가 켜져있는가
 
         public Datas()
         {
@@ -29,7 +30,7 @@ namespace ILwin
             numOfwebitems = 0;          //첨엔 0개의 item이 존재한다.
 
             //처음엔 etc 윈도우는 모두 꺼져있다.
-            isAboutWinOn = isBoardWinOn = isMallWinOn = false;
+            isAboutWinOn = isBoardWinOn = isMallWinOn = isHelpWinOn = false;
         }
 
         //web crawling으로 얻어온 사용자의 위치를 set

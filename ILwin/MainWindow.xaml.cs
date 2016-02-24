@@ -65,6 +65,7 @@ namespace ILwin
 
         //윈도우 데이터
         private Window aboutWin;
+        private Window helpWin;
 
         public MainWindow(ILwin.paraPackage packs)
         {
@@ -269,6 +270,41 @@ namespace ILwin
             }
         }
 
+        //reload 버튼
+        private void reload_mousemove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.button1.Background = this.packs.button1CBr;
+        }
+        private void reload_mouseleave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.button1.Background = this.packs.button1Br;
+        }
+        private void reload_click(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            
+        }
+
+        //help 버튼
+        private void help_mousemove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.button2.Background = this.packs.button2CBr;
+        }
+        private void help_mouseleave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.button2.Background = this.packs.button2Br;
+        }
+        private void help_click(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            //이미 helpwindow가 켜져있으면 또 켜지지 않게하라.
+            if(this.datas.isHelpWinOn)
+                return;
+
+            helpWin = new HelpWindow(this.packs.helpbodyBr, datas);
+            helpWin.Show();
+            datas.isHelpWinOn = true;
+
+        }
+
 
         //마우스 x, y가 rect 안에 있는가?
         public bool isInThere(int x, int y, Rect rect)
@@ -279,6 +315,8 @@ namespace ILwin
 
             else return false;
         }
+
+      
     
     }
 

@@ -84,6 +84,9 @@
     <Compile Include="Daddy.cs" />
     <Compile Include="Datas.cs" />
     <Compile Include="flyingBox.cs" />
+    <Compile Include="HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HTMLhandler.cs" />
     <Compile Include="ILtextBox.cs" />
     <Compile Include="InitWindow.xaml.cs">
@@ -109,6 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BoardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

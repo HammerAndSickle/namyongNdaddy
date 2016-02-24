@@ -34,7 +34,9 @@ namespace ILwin
         //사용중인 스레드
         Thread thrmove; //움직이는 스레드
         Thread thrtalk; //대화 스레드
+        Thread thrjump; //점프 스레드
         bool isGettingKeyword;      //지금 키워드 가져오는 스레드가 실행중인가?
+        bool isJumping;             //지금 점프 중인가?
 
         //rectangle. 이미지가 여기에 들어가서 움직인다.
         public System.Windows.Shapes.Rectangle namyongRec;
@@ -81,6 +83,7 @@ namespace ILwin
             screen.sp.Children.Add(namyongRec);
 
             isGettingKeyword = false;
+            isJumping = false;
         }
 
 
@@ -140,7 +143,7 @@ namespace ILwin
                                 namyong.namyongRec.Margin.Right, namyong.namyongRec.Margin.Bottom);
 
                             namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left - 2, namyong.balloon.rec.Margin.Top,
-                                namyong.balloon.rec.Margin.Right, namyong.balloon.rec.Margin.Bottom);
+                                namyong.balloon.rec.Margin.Right, namyong.namyongRec.Margin.Bottom);
                         }));
                     }
                 }
@@ -172,7 +175,7 @@ namespace ILwin
                                 namyong.namyongRec.Margin.Right, namyong.namyongRec.Margin.Bottom);
 
                             namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left + 2, namyong.balloon.rec.Margin.Top,
-                                namyong.balloon.rec.Margin.Right, namyong.balloon.rec.Margin.Bottom);
+                                namyong.balloon.rec.Margin.Right, namyong.namyongRec.Margin.Bottom);
 
                         }));
                     }
@@ -183,7 +186,60 @@ namespace ILwin
 
 
         }
+        //이동 함수 끝
 
+        //점프 함수
+        public void startjump()
+        {
+            //이미 점프중이라면 더 점프하지 않는다.
+            if (isJumping)
+            {
+                thrjump.Abort();
+                isJumping = false;
+            }
+
+
+            balloon.setMSG("으아아아~");
+
+            thrjump = new Thread(() => startjumping(this, screen.getMWinReference()));
+            isJumping = true;
+            thrjump.Start();
+        }
+
+        //박스가 날아다니기 시작할 것이다.
+        public static void startjumping(Namyong namyong, ILwin.MainWindow thisWin)
+        {
+            //점프를 수행한다.
+
+            int jumpY;
+
+            for (jumpY = 0; jumpY < 50; jumpY++)
+            {
+                thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    namyong.namyongRec.Margin = new Thickness(namyong.namyongRec.Margin.Left, (namyong.ypos - jumpY * 3), 0, 0);
+                }));
+
+                Thread.Sleep(5);
+            }
+
+            Thread.Sleep(600);
+
+            for (; jumpY > 0; jumpY--)
+            {
+                thisWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    namyong.namyongRec.Margin = new Thickness(namyong.namyongRec.Margin.Left, (namyong.ypos - jumpY * 3), 0, 0);
+                }));
+
+                Thread.Sleep(5);
+            }
+
+
+            //점프가 끝났음을 알린다.
+            namyong.isJumping = false;
+
+        }
 
 
 

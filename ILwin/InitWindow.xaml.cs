@@ -75,11 +75,15 @@ namespace ILwin
         public BitmapImage req_recImg;
         public BitmapImage button1Img;
         public BitmapImage button2Img;
+        public BitmapImage button1CImg;
+        public BitmapImage button2CImg;
         public BitmapImage requestSndImg;
         public BitmapImage requestSndImgClicked;
         public Brush req_recBr;
         public Brush button1Br;
         public Brush button2Br;
+        public Brush button1CBr;
+        public Brush button2CBr;
         public Brush requestSndBr;
         public Brush requestSndBrClicked;
 
@@ -100,6 +104,9 @@ namespace ILwin
         public Brush mallBr;
         public BitmapImage mallbodyImg;
         public Brush mallbodyBr;
+        //-도움말
+        public BitmapImage helpbodyImg;
+        public Brush helpbodyBr;
 
         //-남용
         public BitmapImage[] namyongImg;
@@ -266,6 +273,8 @@ namespace ILwin
                     thiswin.packs.req_recImg = new BitmapImage();
                     thiswin.packs.button1Img = new BitmapImage();
                     thiswin.packs.button2Img = new BitmapImage();
+                    thiswin.packs.button1CImg = new BitmapImage();
+                    thiswin.packs.button2CImg = new BitmapImage();
                     thiswin.packs.requestSndImg = new BitmapImage();
                     thiswin.packs.requestSndImgClicked = new BitmapImage();
                     thiswin.packs.resp_recImg = new BitmapImage();
@@ -279,6 +288,14 @@ namespace ILwin
                     thiswin.packs.button1Img.BeginInit();
                     thiswin.packs.button1Img.UriSource = new Uri(Constants.REL_PATH + "1button.bmp", UriKind.Relative);
                     thiswin.packs.button1Img.EndInit();
+
+                    thiswin.packs.button2CImg.BeginInit();
+                    thiswin.packs.button2CImg.UriSource = new Uri(Constants.REL_PATH + "2buttonOver.bmp", UriKind.Relative);
+                    thiswin.packs.button2CImg.EndInit();
+
+                    thiswin.packs.button1CImg.BeginInit();
+                    thiswin.packs.button1CImg.UriSource = new Uri(Constants.REL_PATH + "1buttonOver.bmp", UriKind.Relative);
+                    thiswin.packs.button1CImg.EndInit();
 
                     thiswin.packs.button2Img.BeginInit();
                     thiswin.packs.button2Img.UriSource = new Uri(Constants.REL_PATH + "2button.bmp", UriKind.Relative);
@@ -305,6 +322,8 @@ namespace ILwin
                     thiswin.packs.req_recBr = new ImageBrush(thiswin.packs.req_recImg);
                     thiswin.packs.button1Br = new ImageBrush(thiswin.packs.button1Img);
                     thiswin.packs.button2Br = new ImageBrush(thiswin.packs.button2Img);
+                    thiswin.packs.button1CBr = new ImageBrush(thiswin.packs.button1CImg);
+                    thiswin.packs.button2CBr = new ImageBrush(thiswin.packs.button2CImg);
                     thiswin.packs.requestSndBr = new ImageBrush(thiswin.packs.requestSndImg);
                     thiswin.packs.requestSndBrClicked = new ImageBrush(thiswin.packs.requestSndImgClicked);
                     thiswin.packs.resp_recBr = new ImageBrush(thiswin.packs.resp_recImg);
@@ -380,7 +399,12 @@ namespace ILwin
                     thiswin.packs.mallbodyImg.UriSource = new Uri(Constants.REL_OTEHR_WIN_PATH + "mallbg.png", UriKind.Relative);
                     thiswin.packs.mallbodyImg.EndInit();
                     thiswin.packs.mallbodyBr = new ImageBrush(thiswin.packs.mallbodyImg);
-
+                    //-도움말
+                    thiswin.packs.helpbodyImg = new BitmapImage();
+                    thiswin.packs.helpbodyImg.BeginInit();
+                    thiswin.packs.helpbodyImg.UriSource = new Uri(Constants.REL_OTEHR_WIN_PATH + "helpbg.png", UriKind.Relative);
+                    thiswin.packs.helpbodyImg.EndInit();
+                    thiswin.packs.helpbodyBr = new ImageBrush(thiswin.packs.helpbodyImg);
 
                     //메뉴바
                     thiswin.packs.mainBarImg = new BitmapImage();

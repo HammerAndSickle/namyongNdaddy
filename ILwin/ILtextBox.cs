@@ -71,6 +71,26 @@ namespace ILwin
 
             }
 
+            //jump를 입력받음
+            else if (ssize[0].Equals("jump"))
+            {
+                //그냥 jump는 둘 다 점프
+                if (len == 1)
+                {
+                    showscreen.getNamyong().startjump();
+                    showscreen.getDaddy().startjump();
+                }
+
+                 //jump n은 남용이 점프
+                else if (len == 2 && ssize[1].Equals("n"))
+                    showscreen.getNamyong().startjump();
+
+                 //jump d는 아버지 점프
+                else if (len == 2 && ssize[1].Equals("d"))
+                    showscreen.getDaddy().startjump();
+
+            }
+
             //speed를 입력받음
             else if (ssize[0].Equals("speed"))
             {

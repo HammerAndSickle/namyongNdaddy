@@ -8,6 +8,8 @@ namespace ILwin
 {
     interface talking
     {
+        void startmove();
+        void startjump();
         void sayHello();
         void sayTime();
         void sayKeyword(Balloon balloon);
