@@ -142,8 +142,8 @@ namespace ILwin
                             namyong.namyongRec.Margin = new Thickness(namyong.namyongRec.Margin.Left - 2, namyong.namyongRec.Margin.Top,
                                 namyong.namyongRec.Margin.Right, namyong.namyongRec.Margin.Bottom);
 
-                            namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left - 2, namyong.balloon.rec.Margin.Top,
-                                namyong.balloon.rec.Margin.Right, namyong.namyongRec.Margin.Bottom);
+                            namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left - 2, namyong.namyongRec.Margin.Top,
+                                0, 0);
                         }));
                     }
                 }
@@ -174,8 +174,8 @@ namespace ILwin
                             namyong.namyongRec.Margin = new Thickness(namyong.namyongRec.Margin.Left + 2, namyong.namyongRec.Margin.Top,
                                 namyong.namyongRec.Margin.Right, namyong.namyongRec.Margin.Bottom);
 
-                            namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left + 2, namyong.balloon.rec.Margin.Top,
-                                namyong.balloon.rec.Margin.Right, namyong.namyongRec.Margin.Bottom);
+                            namyong.balloon.rec.Margin = new Thickness(namyong.balloon.rec.Margin.Left + 2, namyong.namyongRec.Margin.Top,
+                                0, 0);
 
                         }));
                     }

@@ -5,8 +5,9 @@
     <Grid>
         <TextBox x:Name="queryitem" HorizontalAlignment="Left" Width="200" VerticalAlignment="Top" Margin="180, 23, 0, 0"  
                  BorderThickness="0" Foreground="SkyBlue" FontSize="14" ></TextBox>
-        <TextBox x:Name="status" HorizontalAlignment="Left" Width="260" VerticalAlignment="Top" Margin="110, 145, 0, 0" TextWrapping="WrapWithOverflow" 
+        <TextBox x:Name="status" HorizontalAlignment="Left" Width="220" VerticalAlignment="Top" Margin="110, 145, 0, 0" TextWrapping="WrapWithOverflow" 
                  BorderThickness="0" Foreground="White" FontSize="20"></TextBox>
+        <Grid x:Name="okbutton" HorizontalAlignment="Left" Width="182" Height="38" VerticalAlignment="Top" Margin="112, 68, 0, 0" MouseLeftButtonUp="searchItems"></Grid>
         <TextBox x:Name="texts" HorizontalAlignment="Left" Width="408" VerticalAlignment="Top" Margin="10, 250, 0, 0" TextWrapping="WrapWithOverflow" 
                  BorderThickness="0" Foreground="White" ></TextBox>
     </Grid>

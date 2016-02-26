@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Threading;
 using System.Net;
+using System.Web;
 using System.IO;
 using HtmlAgilityPack;
 using System.Windows.Controls;
@@ -73,9 +74,13 @@ namespace ILwin
         }
 
         //getImages는 준 query를 이용해 urls에 요청한 개수만큼의 url을 담는다.
-        static public void getImages(List<string> urls, int num, string query)
+        static public void getImages(List<string> urls, int num, string queryKR)
         {   
             HtmlWeb hw = new HtmlWeb();
+
+            //System.Web dll 리퍼런스를 추가해 httpUtility를 사용하자. 인코딩해야 하니.
+            string query = HttpUtility.UrlEncode(queryKR);
+            
             string urladdr = "http://www.google.com/search?q=" + query + "&tbm=isch";
             //string filepath = @"cfile.txt";
 
@@ -268,7 +273,7 @@ namespace ILwin
 
         }
 
-        //화재의 검색어 가져온다
+        //화제의 검색어 가져온다
         static public void getHotKeyword(int NAMYOUNG_OR_DADDY, List<string> keywordsStore)
         {
             string urladdr = "http://www.naver.com";
@@ -281,8 +286,7 @@ namespace ILwin
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
 
-            //System.IO.File.WriteAllText(@"longsrc.txt", entire.InnerHtml, Encoding.Default);
-            System.IO.File.WriteAllText(@"longsrc.txt", "", Encoding.Default);
+            //System.IO.File.WriteAllText(@"longsrc.txt", "", Encoding.Default);
 
             //실시간 급상승 검색어는 이 노드들에
             HtmlNode OL_Node = entire.SelectSingleNode("//ol[@id='realrank']");
@@ -323,6 +327,101 @@ namespace ILwin
             }
 
             //이제 각 범위에 알맞게 검색어 두개가 추출되었다.
+        }
+
+        //상품 가격비교 정보들을 가져온다.
+        static public void getPrices(List<string> products, string queryKR, ILwin.MallWindow mallWin)
+        {
+            //System.Web dll 리퍼런스를 추가해 httpUtility를 사용하자. 인코딩해야 하니.
+            string query = HttpUtility.UrlEncode(queryKR);
+
+            //mallWin의 텍스트박스에 최종적으로 출력할 string
+            string resultList = ""; //아무 상품도 나오지 않았을 때에 대한 대비
+
+            //가져올 상품 최대 개수
+            int MAX_PRODUCT = 8;
+
+            HtmlWeb hw = new HtmlWeb();
+            string urladdr = "http://shopping.naver.com/search/all_search.nhn?query=" + query + "&cat_id=&frm=NVSHATC&nlu=true&=&=&=&=";
+            //string urladdr = "http://search.auction.co.kr/search/search.aspx?keyword=" + query;
+            //string filepath = @"cfile.txt";
+
+
+            HtmlDocument doc = hw.Load(urladdr);
+            HtmlNode entire = doc.DocumentNode;
+
+
+            System.IO.File.WriteAllText(@"auctsrc.txt", entire.InnerHtml, Encoding.Default);
+
+            //목록의 소스들을 가져오라
+            HtmlNode search_list = entire.SelectSingleNode("//div[@class='sort_content']");
+
+            //product_list가 한 product이다.
+            HtmlNodeCollection products_list = search_list.SelectNodes(".//li[@class='_product_list']");
+
+            System.IO.File.WriteAllText(@"auctsrc2.txt", search_list.InnerHtml, Encoding.Default);
+            System.IO.File.WriteAllText(@"auctsrc3.txt", "", Encoding.Default);
+
+            //===만약 _product_list를 찾지 못한다면, 이 상품은 없는 것이다.
+            if (products_list == null)
+                resultList = "검색 결과 X";
+
+            //아니라면 그대로 진행
+            else
+            {
+                //foreach (HtmlNode a_product in products_list)
+                for (int i = 0; i < MAX_PRODUCT; i++)
+                {
+                    //상품의 이름 노드
+                    HtmlNode prod_info_div = products_list.ElementAt(i).SelectSingleNode(".//div[@class='info']");
+                    HtmlNode prod_info_a = prod_info_div.SelectSingleNode("./a");
+                    string pro_info_str = prod_info_a.Attributes["title"].Value;
+
+                    //상품의 가격 노드
+                    HtmlNode prod_val_span = prod_info_div.SelectSingleNode(".//span[@class='num _price_reload']");
+                    string pro_val_str = prod_val_span.InnerText;
+
+                    //상품의 판매처 노드
+                    HtmlNode prod_mall_div = products_list.ElementAt(i).SelectSingleNode(".//div[@class='info_mall']");
+
+                    HtmlNode prod_mall_a = prod_mall_div.SelectSingleNode(".//a");
+                    //info_mall 밑에서 얻어낸 a 중,
+                    //1) a의 text에 바로 매장 이름이 있거나
+                    //2) a의 아래에 img가 있고 그곳의 alt에 매장 이름이 있거나
+
+                    //일단 a 아래에 img 노드가 있는지 한번 확인
+                    HtmlNode prod_mall_div_img = prod_mall_a.SelectSingleNode("./img");
+                    string pro_mall_str = "";
+
+                    //없다면, a의 text에 바로 매장 이름이 있다.
+                    if (prod_mall_div_img == null)
+                        pro_mall_str = prod_mall_a.InnerText;
+
+                    //있다면, a의 img의 alt에 매장 이름이 있다.
+                    else
+                        pro_mall_str = prod_mall_div_img.Attributes["alt"].Value;
+
+
+
+                    resultList += "(No. " + (i + 1) + ")\n" + "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n";
+                    System.IO.File.AppendAllText(@"auctsrc3.txt", "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n", Encoding.Default);
+                }
+            }
+
+            //이제 윈도우에 출력한다.
+            mallWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        mallWin.texts.FontSize = 13;
+                        mallWin.texts.Text = resultList;
+
+                        //다 탐색했다면 이제 mallWindow 객체에다 탐색이 끝난 상태임을 알린다.
+                        mallWin.isSearching = false;
+                        mallWin.status.Text = "검색어를 입력하쇼";
+                        mallWin.status.Margin = mallWin.originalMargin;
+                    }));
+
+            
+
         }
 
         static public BitmapImage getImage(string url)
