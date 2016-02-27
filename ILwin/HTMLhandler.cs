@@ -31,7 +31,7 @@ namespace ILwin
             HtmlNode entire = doc.DocumentNode;
 
             //테스트용 소쓰
-            System.IO.File.WriteAllText(@"afile.txt", entire.InnerHtml, Encoding.Default);
+            //System.IO.File.WriteAllText(@"afile.txt", entire.InnerHtml, Encoding.Default);
 
             //파일 초기화
             //System.IO.File.WriteAllText(filepath, "", Encoding.Default);
@@ -184,8 +184,8 @@ namespace ILwin
             //인제 그 밑에 있는 DL들을 모두 가져온다.
             HtmlNodeCollection DLs = mainnewsNode.SelectNodes(".//dl");
 
-            System.IO.File.WriteAllText(@"longsrc.txt", entire.InnerHtml, Encoding.Default);
-            System.IO.File.WriteAllText(testfile, "", Encoding.Default);
+            //System.IO.File.WriteAllText(@"longsrc.txt", entire.InnerHtml, Encoding.Default);
+            //System.IO.File.WriteAllText(testfile, "", Encoding.Default);
 
             //while(ARTICLES_TO_CRAWL > 0)
             {
@@ -296,7 +296,7 @@ namespace ILwin
             {
                 HtmlNode A_NODE = node.SelectSingleNode("a");
                 keywords.Add( A_NODE.Attributes["title"].Value );
-                System.IO.File.AppendAllText(@"longsrc.txt", A_NODE.Attributes["title"].Value + "\n\n", Encoding.Default);
+                //System.IO.File.AppendAllText(@"longsrc.txt", A_NODE.Attributes["title"].Value + "\n\n", Encoding.Default);
             }
             
             //아버지는 좀 상위에 속한 걸 2개 반환하고, 남용이는 하위에 속한 걸 2개 반환
@@ -351,7 +351,7 @@ namespace ILwin
             HtmlNode entire = doc.DocumentNode;
 
 
-            System.IO.File.WriteAllText(@"auctsrc.txt", entire.InnerHtml, Encoding.Default);
+            //System.IO.File.WriteAllText(@"auctsrc.txt", entire.InnerHtml, Encoding.Default);
 
             //목록의 소스들을 가져오라
             HtmlNode search_list = entire.SelectSingleNode("//div[@class='sort_content']");
@@ -359,8 +359,8 @@ namespace ILwin
             //product_list가 한 product이다.
             HtmlNodeCollection products_list = search_list.SelectNodes(".//li[@class='_product_list']");
 
-            System.IO.File.WriteAllText(@"auctsrc2.txt", search_list.InnerHtml, Encoding.Default);
-            System.IO.File.WriteAllText(@"auctsrc3.txt", "", Encoding.Default);
+            //System.IO.File.WriteAllText(@"auctsrc2.txt", search_list.InnerHtml, Encoding.Default);
+            //System.IO.File.WriteAllText(@"auctsrc3.txt", "", Encoding.Default);
 
             //===만약 _product_list를 찾지 못한다면, 이 상품은 없는 것이다.
             if (products_list == null)
@@ -404,7 +404,7 @@ namespace ILwin
 
 
                     resultList += "(No. " + (i + 1) + ")\n" + "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n";
-                    System.IO.File.AppendAllText(@"auctsrc3.txt", "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n", Encoding.Default);
+                    //System.IO.File.AppendAllText(@"auctsrc3.txt", "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n", Encoding.Default);
                 }
             }
 

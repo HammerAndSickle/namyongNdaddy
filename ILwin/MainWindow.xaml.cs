@@ -133,7 +133,8 @@ namespace ILwin
             textbox.printMSG(this.responseMsgs, "현 로그인 시간 : " + currTimeStr);
             textbox.printMSG(this.responseMsgs, "위치 : " + datas.getLoc());
             textbox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
-            
+            textbox.printMSG(this.responseMsgs, "램 사용가능 : " + datas.getUsableRAM());
+
             System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
         
             //screen = new ShowScreen(this.animationRec);

@@ -14,5 +14,7 @@ namespace ILwin
         void sayTime();
         void sayKeyword(Balloon balloon);
         void sayQuick(int level);
+        void introduce();
+        void sayaboutCom();
     }
 }

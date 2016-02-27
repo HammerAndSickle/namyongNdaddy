@@ -35,8 +35,10 @@ namespace ILwin
         Thread thrmove; //움직이는 스레드
         Thread thrtalk; //대화 스레드
         Thread thrjump; //점프 스레드
+        Thread thrRAM;  //RAM 계산 스레드
         bool isGettingKeyword;      //지금 키워드 가져오는 스레드가 실행중인가?
         bool isJumping;             //지금 점프 중인가?
+        bool isComputingRAM;        //지금 RAM 계산 중인가?
 
         //rectangle. 이미지가 여기에 들어가서 움직인다.
         public System.Windows.Shapes.Rectangle namyongRec;
@@ -84,6 +86,7 @@ namespace ILwin
 
             isGettingKeyword = false;
             isJumping = false;
+            isComputingRAM = false;
         }
 
 
@@ -335,6 +338,44 @@ namespace ILwin
             }
 
             
+        }
+
+        //자기를 소개
+        public void introduce()
+        {
+            balloon.setMSG("저는 안남용입니다");
+        }
+
+        //컴퓨터에 대해서.
+        public void sayaboutCom()
+        {
+            //이미 계산 중이라면 끝낸다.
+            if(isComputingRAM)
+            {
+                thrRAM.Abort();
+                isComputingRAM = false;
+            }
+
+            //아니라면 진행
+            isComputingRAM = true;
+            balloon.setMSG("잠시만요.. RAM 정보 계산중이에요..");
+            thrRAM = new Thread(() => sayaboutComThread(screen, this));
+            thrRAM.Start();
+        }
+
+        //위 sayaboutCom에서 작동할 스레드
+        public static void sayaboutComThread(ShowScreen screen, Namyong namyong)
+        {
+            //WMIhandler에 있는 RAM 계산 함수를 작동시켜서 정보를 얻고, 그 스레드를 기다리자
+            Thread thrRAMWMI = new Thread(() => WMIhandler.initialRAMdata(screen.getMWinReference().getDatasReference()));
+            thrRAMWMI.Start();
+
+            thrRAMWMI.Join();
+            screen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            {
+                namyong.balloon.setMSG("현재 사용가능한 RAM 용량은 " + screen.getMWinReference().getDatasReference().getUsableRAM() + "에요.");
+                namyong.isComputingRAM = false;
+            }));
         }
     }
 }

@@ -539,6 +539,8 @@ namespace ILwin
         //WMI 정보를 얻는다.
         public static void initWMI(ILwin.InitWindow thiswin)
         {
+            WMIhandler.initialRAMdata(thiswin.packs.datas);
+
             thiswin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
                     //**이벤트 클래스의 leftLoading에 직접 접근하는 게 아니라, 그 set 함수에 접근해라!! 안 그러면 이벤트 안떠

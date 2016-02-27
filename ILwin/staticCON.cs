@@ -51,13 +51,13 @@ namespace ILwin
         public const int DADDY_WIDTH = 160;
         public const int DADDY_HEIGHT = 233;
         //말풍선 이미지 size
-        public const int BALLOON_WIDTH = 95;
-        public const int BALLOON_HEIGHT = 69;
+        public const int BALLOON_WIDTH = 121;
+        public const int BALLOON_HEIGHT = 95;
         //남용&아버지와 말풍선 거리
-        public const int DADDY_BALLOON_RIGHT_DIST = 95;
-        public const int DADDY_BALLOON_LEFT_DIST = 180;
-        public const int NAMYONG_BALLOON_RIGHT_DIST = 50;
-        public const int NAMYONG_BALLOON_LEFT_DIST = 100;
+        public const int DADDY_BALLOON_RIGHT_DIST = 115;
+        public const int DADDY_BALLOON_LEFT_DIST = 200;
+        public const int NAMYONG_BALLOON_RIGHT_DIST = 70;
+        public const int NAMYONG_BALLOON_LEFT_DIST = 120;
 
         //이미지 speed
         public const int NAMYONG_SPEED = 80;

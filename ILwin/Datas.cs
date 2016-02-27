@@ -18,6 +18,12 @@ namespace ILwin
         public List<WebItem> webItems; //화면에 존재하는 web items 큐
         public int numOfwebitems;       //화면에 존재하는 web items의 개수. 최대는 staticCON.MAX_WEB_ITEMS개이다.
 
+        //CPU, RAM 등의 정보
+        private string CPUusage;        //CPU 사용량
+        private string usableRAM;       //RAM 사용가능량
+        private string myProcessCPU;     //my process CPU 사용량
+        public bool computingCPU;        //CPU 사용량을 체크하는 중이라면 true. 아니라면 false
+
         //지금 켜져있는 윈도우들
         public bool isAboutWinOn;       //AboutWindow가 켜져있는가
         public bool isBoardWinOn;       //boardWindow가 켜져있는가
@@ -28,6 +34,8 @@ namespace ILwin
         {
             webItems = new List<WebItem>();
             numOfwebitems = 0;          //첨엔 0개의 item이 존재한다.
+
+            computingCPU = false;
 
             //처음엔 etc 윈도우는 모두 꺼져있다.
             isAboutWinOn = isBoardWinOn = isMallWinOn = isHelpWinOn = false;
@@ -46,6 +54,18 @@ namespace ILwin
             this.presentWea = presentWea;
         }
 
+        //ram 정보
+        public void setRAMDatas(string usableRAM)
+        {
+            this.usableRAM = usableRAM;
+        }
+
+        //CPU 정보
+        public void setCPUDatas(string CPUusage, string myProcessCPU)
+        {
+            this.CPUusage = CPUusage;
+            this.myProcessCPU = myProcessCPU;
+        }
 
         public string getLoc()
         {
@@ -61,5 +81,21 @@ namespace ILwin
         {
             return presentWea;
         }
+
+        public string getCPUusage()
+        {
+            return this.CPUusage;
+        }
+
+        public string getUsableRAM()
+        {
+            return this.usableRAM;
+        }
+
+        public string getMyProcessCPU()
+        {
+            return this.myProcessCPU;
+        }
+
     }
 }

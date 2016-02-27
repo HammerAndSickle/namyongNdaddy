@@ -64,8 +64,8 @@ namespace ILwin
             textbox.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             textbox.Margin = new Thickness(6, 6, 0, 0);
             textbox.FontSize = 10;
-            textbox.Width = 80;
-            textbox.Height = 50;
+            textbox.Width = 110;
+            textbox.Height = 70;
             textbox.BorderThickness = new Thickness(0.0);
             textbox.Background = Brushes.White;
             textbox.IsReadOnly = true;

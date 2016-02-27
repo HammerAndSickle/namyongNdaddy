@@ -35,8 +35,10 @@ namespace ILwin
         Thread thrmove; //움직이는 스레드
         Thread thrjump; //점프하는 스레드
         Thread thrtalk; //대화 스레드
+        Thread thrCPU;  //CPU 계산 스레드
         bool isGettingKeyword;      //지금 키워드 가져오는 스레드가 실행중인가?
         bool isJumping;             //지금 점프 중인가?
+        bool isComputingCPU;        //지금 CPU 정보 계산 중인가?
 
         //rectangle. 이미지가 여기에 들어가서 움직인다.
         public System.Windows.Shapes.Rectangle daddyRec;
@@ -82,6 +84,7 @@ namespace ILwin
 
             isGettingKeyword = false;
             isJumping = false;
+            isComputingCPU = false;
         }
 
 
@@ -325,7 +328,7 @@ namespace ILwin
                     break;
                 case 5:
                     this.speedTerm = (int)(Constants.DADDY_SPEED * 0.25);
-                    balloon.setMSG("내보고 5단계로 뛰라고? 헉.. 뭔데? 니.. 직이삔다..");
+                    balloon.setMSG("내보고 5단계로 뛰라고? 뭔데 새끼마. 직이삔다..");
                     break;
                 default:
                     this.speedTerm = (Constants.DADDY_SPEED);
@@ -336,6 +339,43 @@ namespace ILwin
 
         }
 
+        //자기를 소개
+        public void introduce()
+        {
+            balloon.setMSG("내는 안병욱 박사요");
+        }
 
+        //컴퓨터에 대해서.
+        public void sayaboutCom()
+        {
+            //이미 계산 중이라면 끝낸다.
+            if (isComputingCPU)
+            {
+                thrCPU.Abort();
+                isComputingCPU = false;
+            }
+
+            //아니라면 진행
+            isComputingCPU = true;
+            balloon.setMSG("기다리바라. CPU 정보 계산할끼니께");
+            thrCPU = new Thread(() => sayaboutComThread(screen, this));
+            thrCPU.Start();
+        }
+
+        //위 sayaboutCom에서 작동할 스레드
+        public static void sayaboutComThread(ShowScreen screen, Daddy daddy)
+        {
+            //WMIhandler에 있는 RAM 계산 함수를 작동시켜서 정보를 얻고, 그 스레드를 기다리자
+            Thread thrCPUWMI = new Thread(() => WMIhandler.getCPUdata(screen.getMWinReference().getDatasReference()));
+            thrCPUWMI.Start();
+
+            thrCPUWMI.Join();
+            screen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            {
+                daddy.balloon.setMSG("CPU 사용량 : " + screen.getMWinReference().getDatasReference().getCPUusage() + ", IL CPU 사용량 : "
+                    + screen.getMWinReference().getDatasReference().getMyProcessCPU());
+                daddy.isComputingCPU = false;
+            }));
+        }
     }
 }

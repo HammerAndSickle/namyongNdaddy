@@ -186,12 +186,55 @@ namespace ILwin
 
             }
 
+            //introduce를 처음에 입력받음
+            else if (ssize[0].Equals("introduce"))
+            {
+                //그냥 introduce는 둘 다에게 말걸기
+                if (len == 1)
+                {
+                    showscreen.getNamyong().introduce();
+                    showscreen.getDaddy().introduce();
+                }
+
+                 //introduce n은 남용이에게 말걸기
+                else if (len == 2 && ssize[1].Equals("n"))
+                    showscreen.getNamyong().introduce();
+
+
+                 //introduce d는 아버지에게 말걸기
+                else if (len == 2 && ssize[1].Equals("d"))
+                    showscreen.getDaddy().introduce();
+
+            }
+
+            //computer를 처음에 입력받음
+            else if (ssize[0].Equals("computer"))
+            {
+                //그냥 computer는 둘 다에게 말걸기
+                if (len == 1)
+                {
+                    showscreen.getNamyong().sayaboutCom();
+                    showscreen.getDaddy().sayaboutCom();
+                }
+
+                 //computer n은 남용이에게 말걸기
+                else if (len == 2 && ssize[1].Equals("n"))
+                    showscreen.getNamyong().sayaboutCom();
+
+
+                 //computer d는 아버지에게 말걸기
+                else if (len == 2 && ssize[1].Equals("d"))
+                    showscreen.getDaddy().sayaboutCom();
+
+            }
+
+
             else
             {
                 cmdreq = "received \"" + cmdreq + "\"";
             }
 
-            msgbox.Text += cmdreq + "\n";
+            //msgbox.Text += cmdreq + "\n";
 
             msgbox.ScrollToEnd();
         }
@@ -212,7 +255,5 @@ namespace ILwin
                 "box images  [num] [word] : 박스에게 num개(max : 3)의 이미지 요구";
 
         }
-
-        //날씨와 온도 업데이트
     }
 }
