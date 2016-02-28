@@ -28,7 +28,7 @@ namespace ILwin
         public Rect bigRect;
         public Rect logoRect;
         public Rect winRect;
-        public Grid sp;             //위 rectangle들이 들어있는 grid
+        public Grid sp;             //위 rectangle들이 들어있는 grid (showscreengrid)
 
         private ILwin.MainWindow MWin;      //mainwindow의 레퍼런스
         private ILwin.paraPackage packs;      //이미지 리소스가 담긴 packs
@@ -51,14 +51,14 @@ namespace ILwin
 
         public bool doingWebitem;           //webitem을 떨어뜨리는 중이라면 true. 왜냐면, box images 명령어를 사용하여 webitem을 떨구는 중엔 블록 시키기 위해서이다.
 
-        public ShowScreen(System.Windows.Shapes.Rectangle mainwin, Rect winRect, ILwin.MainWindow winref, ILwin.paraPackage packs)
+        public ShowScreen(Grid ScreenGrid, Rect winRect, ILwin.MainWindow winref, ILwin.paraPackage packs)
         {
             MWin = winref;
             this.packs = packs;
             this.doingWebitem = false;
             this.rnd = new Random();
 
-            bigRectangle = mainwin;
+            //bigRectangle = mainwin;
             this.bigRect = winRect;
             this.winRect = new Rect(winRect.X, winRect.Y + 20, winRect.Width, winRect.Height - 20);
             this.logoRect = new Rect(winRect.X, winRect.Y, winRect.Width, 20);
@@ -68,9 +68,9 @@ namespace ILwin
             winRectangle.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             winRectangle.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             winRectangle.Margin = new Thickness(0, 20, 0, 0);
-            winRectangle.Width = bigRectangle.Width;        //가로는 bigrectangle과 같다.
-            winRectangle.Height = bigRectangle.Height - 20; //세로는 좀 더 작어.
-            sp = (Grid)bigRectangle.Parent;
+            winRectangle.Width = ScreenGrid.Width;        //가로는 bigrectangle과 같다.
+            winRectangle.Height = ScreenGrid.Height - 20; //세로는 좀 더 작어.
+            sp = ScreenGrid;
             sp.Children.Add(winRectangle);                  //부모 grid에 추가한다.
 
             //logoRectangle을 만들 것이다.
@@ -78,7 +78,7 @@ namespace ILwin
             logoRectangle.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             logoRectangle.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             logoRectangle.Margin = new Thickness(0, 0, 0, 0);
-            logoRectangle.Width = bigRectangle.Width;        //가로는 bigrectangle과 같다.
+            logoRectangle.Width = ScreenGrid.Width;        //가로는 bigrectangle과 같다.
             logoRectangle.Height = 21;                      //세로는 딱 20픽셀이어야 하지만, 두께가 1픽셀이니 감안한다.
             sp.Children.Add(logoRectangle);                  //부모 grid에 추가한다.
          
@@ -131,7 +131,7 @@ namespace ILwin
                 ImageSource = new BitmapImage(new Uri(selectBG(), UriKind.Relative))
             };
 
-            generateSprite();
+            //generateSprite();
             generateSign();
             generateBox();
             generateMall();
@@ -188,10 +188,9 @@ namespace ILwin
         {
             //Image를 가져와(FromFile로) Bitmap으로 타입캐스띵 해주면 될 거이다.
             BitmapImage pictogram = new BitmapImage(new Uri(Constants.REL_PATH_SPRITE + "tman1.png", UriKind.Relative));
-            //Bitmap pictogram = (Bitmap)System.Drawing.Image.FromFile(Constants.REL_PATH_SPRITE + "man1.png", true);
-            System.Diagnostics.Debug.WriteLine("png width : " + pictogram.Width + ", height : " + pictogram.Height);
-            
 
+
+            //개발 중 테스트용으로 픽토그램을 움직이게 해 본 코드
             //image가 들어갈 rectangle이 만들어져야 한다.
             System.Windows.Shapes.Rectangle imgRec = new System.Windows.Shapes.Rectangle();
             imgRec.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
@@ -203,10 +202,11 @@ namespace ILwin
 
             sp.Children.Add(imgRec);
 
-            //쓰레드를 만들어보자.
+            
             Thread thr = new Thread(() => working(MWin, imgRec));
             thr.Start();
             //ThreadStart th = new ThreadStart(working);
+             
             
         }
 
@@ -333,6 +333,7 @@ namespace ILwin
             }
         }
 
+        //개발 중 테스트용으로 픽토그램을 움직이게 해 보았다. 
         public static void working(ILwin.MainWindow mWin, System.Windows.Shapes.Rectangle imgRec)
         {
             while (true)
@@ -385,6 +386,16 @@ namespace ILwin
         public Namyong getNamyong()
         {
             return namyong;
+        }
+
+        public Mall getMall()
+        {
+            return mall;
+        }
+
+        public Board getBoard()
+        {
+            return board;
         }
     }
 }

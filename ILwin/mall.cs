@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace ILwin
 {
-    class Mall
+    public class Mall
     {
         //게시판 스프라이트 이미지
         Brush img;
@@ -126,7 +126,12 @@ namespace ILwin
         //클릭 시 게시판을 열자
         private void mall_up(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if(datas.isMallWinOn)
+            openMallWindow();
+        }
+
+        public void openMallWindow()            //mall 클릭 혹은 mall 입력 시 실행
+        {
+            if (datas.isMallWinOn)
             {
                 return;
             }
@@ -134,6 +139,17 @@ namespace ILwin
             mallWin = new MallWindow(bodyimg, datas);
             datas.isMallWinOn = true;
             mallWin.Show();
+        }
+
+
+
+        //제거 함수
+        public void deleteMall()
+        {
+            textchangeTh.Abort();
+            textchangeTh = null;
+
+            imgrec.Children.Clear();
         }
 
     }

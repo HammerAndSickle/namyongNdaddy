@@ -6,20 +6,16 @@
         Title="Igonggye" Height="700" Width="800" ResizeMode="NoResize" AllowsTransparency="True">
 	<Grid x:Name="Entire" HorizontalAlignment="Left" Height="700" VerticalAlignment="Top" Width="800">
         <Grid x:Name="MainBar" MouseLeftButtonDown="entire_dragging" Margin="0,0,0,682">
-            <Image Source="rscs\winbar\mainbar.bmp"/>
 
             <Grid x:Name="icon"  HorizontalAlignment="Left"
 				Margin="4, 2,0,0" VerticalAlignment="Top" Width="13" Height="14" 
                     MouseEnter="icon_mousemove" MouseLeave="icon_mouseleave" MouseLeftButtonUp="icon_up" MouseLeftButtonDown="icon_clicked">
-                <Image Source="rscs\winbar\ilicon.bmp"/>
             </Grid>
             <Grid x:Name="minimi" Margin="760, 2, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="14" Height="14"
                     MouseEnter="mini_mousemove" MouseLeave="mini_mouseleave" MouseLeftButtonUp="mini_up" MouseLeftButtonDown="mini_clicked">
-                <Image Source="rscs\winbar\minibutton.bmp"/>
             </Grid>
             <Grid x:Name="xbutton" Margin="780, 2, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="14" Height="14"
                     MouseEnter="x_mousemove" MouseLeave="x_mouseleave" PreviewMouseLeftButtonUp="x_up">
-                <Image Source="rscs\winbar\xbutton.bmp"/>
             </Grid>
 
 
@@ -27,7 +23,7 @@
 
         </Grid>
         <Grid x:Name="Content" Margin="0, 18, 0, 0" HorizontalAlignment="Left" Height="682" VerticalAlignment="Top" Width="800"/>
-        <Grid Margin="20, 30, 20, 200">
+        <Grid x:Name="showScreenGrid" Width="760" Height="470" Margin="20, 30, 20, 200">
             <Rectangle
                 Name="animationRec" Width="760" Height="470" Fill="White">
                 
@@ -40,7 +36,8 @@
         <Grid x:Name="button2" Margin="11, 85, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="50"
               MouseEnter="help_mousemove" MouseLeave="help_mouseleave" MouseLeftButtonDown="help_click">
         </Grid>
-            <TextBox x:Name="requestMachine" Margin="60, 149, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="15">
+            <TextBox x:Name="requestMachine" Margin="60, 149, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="15"
+                     PreviewKeyDown="textBoxKeydown">
                 
             </TextBox>
             <Grid x:Name="requestSend" Margin="288, 149, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="15"

@@ -100,10 +100,8 @@ namespace ILwin
             //윈도우와 버튼들을 만들기 위해 호출.
             createLayout();
 
-
-
             //윈도우를 만든다.
-            screen = new ShowScreen(this.animationRec, SCREEN_RECT, this, packs);
+            screen = new ShowScreen(showScreenGrid, SCREEN_RECT, this, packs);
 
             //텍스트박스는 response에 위치한 그곳이다.
             textbox.addShowScreenReference(screen);
@@ -126,6 +124,13 @@ namespace ILwin
             this.responses.Background = resp_recBr;
             this.responseMsgs.FontSize = 11;
 
+            //첫 메시지들을 출력
+            printInitMsgs();
+
+        }
+
+        public void printInitMsgs()
+        {
             DateTime currTime = DateTime.Now;
             string currTimeStr = currTime.ToString("yyyy") + "/" + currTime.ToString("MM") + "/" + currTime.ToString("dd") + " " + currTime.ToString("HH:mm:ss");
 
@@ -133,12 +138,7 @@ namespace ILwin
             textbox.printMSG(this.responseMsgs, "현 로그인 시간 : " + currTimeStr);
             textbox.printMSG(this.responseMsgs, "위치 : " + datas.getLoc());
             textbox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
-            textbox.printMSG(this.responseMsgs, "램 사용가능 : " + datas.getUsableRAM());
-
-            System.Diagnostics.Debug.WriteLine("메시지aaaddddddddd");
-        
-            //screen = new ShowScreen(this.animationRec);
-
+            textbox.printMSG(this.responseMsgs, "램 사용가능량 : " + datas.getUsableRAM());
         }
 
         public void createBar()
@@ -201,6 +201,10 @@ namespace ILwin
         }
         private void icon_up(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            openAboutWIndow();
+        }
+        public void openAboutWIndow()          //아이콘을 누르거나 about 입력 시 실행
+        {
             //이미 aboutWindow가 켜져있으면 다시 키지 않도록 한다.
             if (datas.isAboutWinOn) return;
 
@@ -208,6 +212,7 @@ namespace ILwin
             aboutWin.Show();
             datas.isAboutWinOn = true;
         }
+
         private void icon_clicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
@@ -241,6 +246,10 @@ namespace ILwin
         }
         private void x_up(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            exitNamyongNDaddy();
+        }
+        public void exitNamyongNDaddy()         //x버튼 누르거나 exit 입력 시 실행
+        {
             Environment.Exit(0);
             System.Diagnostics.Process.GetCurrentProcess().Kill();
             this.Close();
@@ -260,14 +269,46 @@ namespace ILwin
             textbox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
             this.requestMachine.Text = "";
         }
+
+        //엔터키를 누르면 request input에 있던 명령어를 프로그램으로 보내는 것이다.
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
-            
             if (e.Key == Key.Return)
             {
                 //enter key is down
                 textbox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
                 this.requestMachine.Text = "";
+            }
+
+            
+        }
+
+        //텍스트박스에서 위/아래 버튼이 눌러지면 이전의 명령어들을 훑어보는 것.
+        //previewKeyDown으로 수행해야 한다. Control 안에서 일어나는 이벤트이기 때문이다. 
+        private void textBoxKeydown(object sender, KeyEventArgs e)
+        {
+            //위 버튼을 누르면 이전에 사용한 명령어를 탐색
+            if (e.Key == Key.Up)
+            {
+                //up key is down
+                if(textbox.currentLine > 0) textbox.currentLine--;
+
+                //아무 문자열도 없다면?
+                if (textbox.lines <= 0) return;
+
+                this.requestMachine.Text = textbox.textboxlines.ElementAt(textbox.currentLine);
+            }
+
+            //아래 버튼을 누르면 이전에 사용한 명령어를 탐색
+            else if (e.Key == Key.Down)
+            {
+                //down key is down
+                if (textbox.currentLine < textbox.lines-1) textbox.currentLine++;
+
+                //이미 끝 문자열이라면?
+                if (textbox.currentLine >= textbox.lines) return;
+
+                this.requestMachine.Text = textbox.textboxlines.ElementAt(textbox.currentLine);
             }
         }
 
@@ -282,8 +323,10 @@ namespace ILwin
         }
         private void reload_click(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            
+            reloadScreen();
         }
+
+        
 
         //help 버튼
         private void help_mousemove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -296,14 +339,18 @@ namespace ILwin
         }
         private void help_click(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            OpenHelpWindow();
+
+        }
+        public void OpenHelpWindow()                //help 버튼을 누르거나 help 입력시 실행
+        {
             //이미 helpwindow가 켜져있으면 또 켜지지 않게하라.
-            if(this.datas.isHelpWinOn)
+            if (this.datas.isHelpWinOn)
                 return;
 
             helpWin = new HelpWindow(this.packs.helpbodyBr, datas);
             helpWin.Show();
             datas.isHelpWinOn = true;
-
         }
 
 
@@ -317,8 +364,44 @@ namespace ILwin
             else return false;
         }
 
-      
-    
+
+
+
+        //RELOAD======================
+        public void reloadScreen()          //reload 버튼 클릭 혹은 reload 입력시 실행. 화면을 갱신하는 함수.
+        {
+            //---여러 객체들을 다 지운다. 거기에 달려있는 스레드들도 제거
+            screen.getBoard().deleteBoard();
+            screen.getNamyong().deleteNamyong();
+            screen.getDaddy().deleteDaddy();
+            screen.getFlyingboxReference().deleteBOX();
+            screen.getMall().deleteMall();
+
+            
+            screen.sp.Children.Clear();
+            showScreenGrid.Background = packs.refreshBr;
+
+            //---날씨/장소/시간 정보를 다시 가져온다.
+            HTMLhandler.getWeatherFromHTML(packs.datas);
+
+
+
+            //윈도우를 만든다.
+            screen = new ShowScreen(showScreenGrid, SCREEN_RECT, this, packs);
+
+            //텍스트박스를 재생성
+            textbox.textboxlines = new List<string>();
+            textbox.lines = textbox.currentLine = 0;
+            this.responseMsgs.Text = "";
+
+            printInitMsgs();
+
+            //텍스트박스는 response에 위치한 그곳이다.
+            textbox.addShowScreenReference(screen);
+
+            this.requestMachine.Focus();
+
+        }
     }
 
     

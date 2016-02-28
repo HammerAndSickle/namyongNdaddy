@@ -181,5 +181,18 @@ namespace ILwin
             return textbox;
         }
 
+
+
+
+        //말풍선 제거 함수
+        public void deleteBalloon()
+        {
+            if (isShowing)
+                showing.Abort();
+
+            rec.Children.Clear();
+
+            
+        }
     }
 }

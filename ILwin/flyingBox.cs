@@ -186,5 +186,16 @@ namespace ILwin
             }
         }
 
+
+
+
+
+        //제거 함수
+        public void deleteBOX()
+        {
+            thrmove.Abort();
+            thrmove = null;
+        }
+
     }
 }

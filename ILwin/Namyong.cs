@@ -377,5 +377,28 @@ namespace ILwin
                 namyong.isComputingRAM = false;
             }));
         }
+
+
+
+
+
+
+
+        //relod 시 호출되는 delete 함수
+        public void deleteNamyong()
+        {
+            //사용중인 스레드 종료
+            thrmove.Abort();
+            if(isJumping) thrjump.Abort();
+            if(isGettingKeyword) thrtalk.Abort();
+            if(isComputingRAM) thrRAM.Abort();
+
+            thrmove = thrjump = thrtalk = thrRAM = null;
+
+            balloon.deleteBalloon();
+
+
+
+        }
     }
 }

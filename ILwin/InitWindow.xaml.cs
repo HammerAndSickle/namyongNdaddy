@@ -115,6 +115,9 @@ namespace ILwin
         public BitmapImage[] daddyImg;
         public Brush[] daddyBr;
 
+        //갱신 이미지
+        public BitmapImage refreshImg;
+        public Brush refreshBr;
 
     }
 
@@ -510,6 +513,13 @@ namespace ILwin
 
                         thiswin.packs.daddyBr[i] = new ImageBrush(thiswin.packs.daddyImg[i]);
                     }
+
+                    //reload 갱신 이미지
+                    thiswin.packs.refreshImg = new BitmapImage();
+                    thiswin.packs.refreshImg.BeginInit();
+                    thiswin.packs.refreshImg.UriSource = new Uri(Constants.REL_PATH_INIT + "il_refresh.png", UriKind.Relative);
+                    thiswin.packs.refreshImg.EndInit();
+                    thiswin.packs.refreshBr = new ImageBrush(thiswin.packs.refreshImg);
 
 
                     //**이벤트 클래스의 leftLoading에 직접 접근하는 게 아니라, 그 set 함수에 접근해라!! 안 그러면 이벤트 안떠

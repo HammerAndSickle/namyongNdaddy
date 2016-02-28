@@ -10,26 +10,40 @@ namespace ILwin
 {
     public class ILtextBox
     {
-        ShowScreen showscreen;      //showscreen의 레퍼런스
+        public ShowScreen showscreen;      //showscreen의 레퍼런스
+        public List<string> textboxlines;    //텍스트박스의 문장들
+        public int lines;                 //현재 텍스트 박스에 몇 문장이 존재?
+        public int currentLine;            //현재 텍스트 박스의 문장 index
+
+        public ILtextBox()
+        {
+            currentLine = lines = 0;
+            textboxlines = new List<string>();
+        }
 
         //생성 후, showscreen 레퍼런스를 넣는다.
         public void addShowScreenReference(ShowScreen showscreen)
         {
+            if (this.showscreen != null)
+                this.showscreen = null;
+
             this.showscreen = showscreen;
         }
 
 
         public void handleRequest(TextBox msgbox, string cmdreq, Datas datas)
         {
+            //텍스트박스 라인에 추가한다.
+            textboxlines.Add(cmdreq);
+            lines++;
+            currentLine = lines;
+
             //공백 기준으로 나누어보자.
             string[] ssize = cmdreq.Split(new char[0]);
             int len = ssize.Length;
 
             //아무것도 없다.
             if (ssize[0].Equals("")) return;
-
-            //help를 입력받음
-            else if (ssize[0].Equals("help")) cmdreq = printHelp();
 
             //hello를 입력받음
             else if(ssize[0].Equals("hello"))
@@ -228,6 +242,41 @@ namespace ILwin
 
             }
 
+            //board 입력
+            else if(ssize[0].Equals("board") && len == 1)
+            {
+                showscreen.getBoard().openBoardWindow();
+            }
+
+            //product 입력
+            else if (ssize[0].Equals("product") && len == 1)
+            {
+                showscreen.getMall().openMallWindow();
+            }
+
+            //help 입력
+            else if(ssize[0].Equals("help") && len == 1)
+            {
+                showscreen.getMWinReference().OpenHelpWindow();
+            }
+
+            //about 입력
+            else if (ssize[0].Equals("about") && len == 1)
+            {
+                showscreen.getMWinReference().openAboutWIndow();
+            }
+
+            //exit 입력
+            else if (ssize[0].Equals("exit") && len == 1)
+            {
+                showscreen.getMWinReference().exitNamyongNDaddy();
+            }
+
+            //reload 입력
+            else if (ssize[0].Equals("reload") && len == 1)
+            {
+                showscreen.getMWinReference().reloadScreen();
+            }
 
             else
             {
@@ -235,6 +284,8 @@ namespace ILwin
             }
 
             //msgbox.Text += cmdreq + "\n";
+            
+            
 
             msgbox.ScrollToEnd();
         }
@@ -247,13 +298,6 @@ namespace ILwin
             msgbox.ScrollToEnd();
         }
 
-        public string printHelp()
-        {
-            return "========[HELP]========\n" + "hello : 남용이와 아버지에게 인사\n"
-                + "hello n : 남용이에게 인사\n" + "hello d : 아버지에게 인사\n" +
-                "help : 커맨드 도움\n" + "talk n [word] : 남용이에게 말 걸기\n" + "talk d [word] : 아버지에게 말 걸기\n" +
-                "box images  [num] [word] : 박스에게 num개(max : 3)의 이미지 요구";
-
-        }
+      
     }
 }

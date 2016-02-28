@@ -377,5 +377,25 @@ namespace ILwin
                 daddy.isComputingCPU = false;
             }));
         }
+
+
+
+
+        //relod 시 호출되는 delete 함수
+        public void deleteDaddy()
+        {
+            //사용중인 스레드 종료
+            thrmove.Abort();
+            if(isJumping) thrjump.Abort();
+            if(isGettingKeyword) thrtalk.Abort();
+            if(isComputingCPU) thrCPU.Abort();
+
+            thrmove = thrjump = thrtalk = thrCPU = null;
+
+            balloon.deleteBalloon();
+
+           
+            
+        }
     }
 }

@@ -11,10 +11,11 @@ using System.Windows.Controls;
 using System.Threading;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace ILwin
 {
-    class Board
+    public class Board
     {
         //게시판 스프라이트 이미지
         Brush img;
@@ -157,7 +158,12 @@ namespace ILwin
         //클릭 시 게시판을 열자
         private void board_up(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if(datas.isBoardWinOn)
+            openBoardWindow();
+        }
+
+        public void openBoardWindow()           //board 클릭 혹은 board 입력 시 실행
+        {
+            if (datas.isBoardWinOn)
             {
                 return;
             }
@@ -165,7 +171,16 @@ namespace ILwin
             boardWin = new BoardWindow(bodyimg, datas);
             datas.isBoardWinOn = true;
             boardWin.Show();
+
         }
 
+
+        //relod 시 호출되는 delete 함수
+        public void deleteBoard()
+        {
+            colorchangeTh.Abort();
+            colorchangeTh = null;
+            imgrec.Children.Clear();
+        }
     }
 }
