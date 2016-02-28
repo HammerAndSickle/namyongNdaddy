@@ -27,10 +27,14 @@ namespace ILwin
         //이건 윈도우가 켜져있는지, 아닌지를 판별할 datas
         Datas datas;
 
+        //OK 버튼
+        Brush OKB;
+        Brush OKBClicked;
+
         //뉴스를 크롤링해오는 스레드
         Thread newsthr;
 
-        public BoardWindow(Brush bodyimg, Datas datas)
+        public BoardWindow(Brush bodyimg, Brush OKB, Brush OKBClicked, Datas datas)
         {
             InitializeComponent();
 
@@ -46,6 +50,10 @@ namespace ILwin
             this.texts.FontSize = 15;
             this.texts.Text = "Crawling articles.....";
 
+            this.OKB = OKB;
+            this.OKBClicked = OKBClicked;
+            this.okbut.Background = OKB;
+
             //처음에 기사를 일단 가져온다
             updateArticle();
         }
@@ -55,6 +63,25 @@ namespace ILwin
         {
             newsthr = new Thread(() => HTMLhandler.getNews(this, this.texts));
             newsthr.Start();
+        }
+
+        //드래그 부분을 드래그하면 창이 옮겨간다.
+        private void board_dragging(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void okenter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.okbut.Background = this.OKBClicked;
+        }
+        private void okleave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.okbut.Background = this.OKB;
+        }
+        private void okdown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.Close();
         }
 
         //닫길 때는, board 창이 닫겼다는 걸 bool로 표시

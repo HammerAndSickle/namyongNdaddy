@@ -58,7 +58,6 @@ namespace ILwin
             this.doingWebitem = false;
             this.rnd = new Random();
 
-            //bigRectangle = mainwin;
             this.bigRect = winRect;
             this.winRect = new Rect(winRect.X, winRect.Y + 20, winRect.Width, winRect.Height - 20);
             this.logoRect = new Rect(winRect.X, winRect.Y, winRect.Width, 20);
@@ -104,25 +103,6 @@ namespace ILwin
 
             //이미지 연결
             logoRectangle.Fill = logoBr;
-            /*logoRectangle.Fill = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri(Constants.REL_PATH + "screenlogo.bmp", UriKind.Relative))
-            };*/
-            //logoRectangle.Stroke = new SolidColorBrush(System.Windows.Media.Color.FromRgb(194, 194, 194));
-            //logoRectangle.StrokeThickness = 1;
-
-            //확인용
-            /*
-            System.Diagnostics.Debug.WriteLine("showing");
-            System.Diagnostics.Debug.WriteLine("width : " + bigRectangle.Width + ", height : " + bigRectangle.Height);
-            System.Diagnostics.Debug.WriteLine("width : " + winRectangle.Width + ", height : " + winRectangle.Height);
-            System.Diagnostics.Debug.WriteLine("width : " + logoRectangle.Width + ", height : " + logoRectangle.Height);
-            System.Diagnostics.Debug.WriteLine("showing");
-            System.Diagnostics.Debug.WriteLine("topleft : " + bigRect.TopLeft + ", bottomright : " + bigRect.BottomRight
-                + ", width : " + bigRect.Width + ", height : " + bigRect.Height);
-            System.Diagnostics.Debug.WriteLine("topleft : " + winRect.TopLeft + ", bottomright : " + winRect.BottomRight
-                + ", width : " + winRect.Width + ", height : " + winRect.Height);
-            */
              
             //배경을 임의로 선택.
             //현재 시간에 따라 선택되어야 한다.
@@ -131,15 +111,29 @@ namespace ILwin
                 ImageSource = new BitmapImage(new Uri(selectBG(), UriKind.Relative))
             };
 
-            //generateSprite();
+            //generateSprite(); 개발 테스트용
             generateSign();
             generateBox();
             generateMall();
             generateBoard();
-            generateNamyong();
-            generateDaddy();
 
-            //winBox.DrawRectangle(grayPen, targetRect);
+            //남용이와 아버지는, 더 아래에 있는 사람이 더 앞으로 보이도록 해야 하므로 난수를 잘 다루어야 한다.
+            int yPosNamyong = rnd.Next(180, 271);
+            int yPosDaddy = rnd.Next(180, 271);
+
+            //더 큰 숫자를 Ypos(Y 위치)로 갖는 사람이 늦게 생성되어야 한다. 그래야 앞으로 보인다,
+            if(yPosNamyong < yPosDaddy)
+            {
+                generateNamyong(yPosNamyong);
+                generateDaddy(yPosDaddy);
+            }
+
+            else
+            {
+                generateDaddy(yPosDaddy);
+                generateNamyong(yPosNamyong);
+            }
+            
             
         }
 
@@ -194,7 +188,6 @@ namespace ILwin
             //image가 들어갈 rectangle이 만들어져야 한다.
             System.Windows.Shapes.Rectangle imgRec = new System.Windows.Shapes.Rectangle();
             imgRec.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-            //imgRec.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             imgRec.Margin = new Thickness(0, 250, 0, 0);
             imgRec.Width = pictogram.Width;
             imgRec.Height = pictogram.Height;
@@ -211,16 +204,16 @@ namespace ILwin
         }
 
         //namyong을 생성한다. namyong은 한 개 존재하므로 datas에 포함시키지 않는다.
-        public void generateNamyong()
+        public void generateNamyong(int yPos)
         {
-            namyong = new Namyong(packs.namyongBr, this,  rnd.Next(0, 701), rnd.Next(180, 271), rnd.Next(0, 2));
+            namyong = new Namyong(packs.namyongBr, this,  rnd.Next(0, 701), yPos, rnd.Next(0, 2));
             namyong.startmove();
         }
 
         //daddy을 생성한다. daddy은 한 개 존재하므로 datas에 포함시키지 않는다.
-        public void generateDaddy()
+        public void generateDaddy(int yPos)
         {
-            daddy = new Daddy(packs.daddyBr, this,  rnd.Next(0, 701), rnd.Next(180, 271), rnd.Next(0, 2));
+            daddy = new Daddy(packs.daddyBr, this,  rnd.Next(0, 701), yPos, rnd.Next(0, 2));
             daddy.startmove();
         }
 
@@ -228,7 +221,7 @@ namespace ILwin
         public void generateBox()
         {
             //flying box를 만든다.
-            flyingbox = new flyingBox(packs.boxBr, this, rnd.Next(0, 701), rnd.Next(0, 101), rnd.Next(0, 2));
+            flyingbox = new flyingBox(packs.boxBr, this, rnd.Next(0, 701), rnd.Next(0, 71), rnd.Next(0, 2));
             flyingbox.startmove();
 
 
@@ -301,7 +294,6 @@ namespace ILwin
 
             //string 리스트에 url을 필요한 개수만큼 받아온다.
             HTMLhandler.getImages(urls, num, query);
-            //Thread urlgetThread = new Thread(() => HTMLhandler.getImages(urls, num, query));
 
             //*************위 urlgetThread가 모두 끝날 때까지 기다린다. 그리고 나서 webitems를 추가하라.
 
@@ -328,8 +320,6 @@ namespace ILwin
                 //가져온 string 리스트의 url을 하나하나 넣어 webItem를 생성한다.
                 WebItem.addDatas(showscreen, datas.webItems.ElementAt(start + i), urls[i], flyingbox_x, flyingbox_y);
                 WebItem.fallingItem(showscreen, datas.webItems.ElementAt(start + i), isFinal);
-
-                //datas.addWebitems(urls[i], flyingbox.xpos, flyingbox.ypos, showscreen);
             }
         }
 
@@ -349,7 +339,7 @@ namespace ILwin
 
 
                     Thread.Sleep(50);
-                    //winRectangle.UpdateLayout();
+                    //winRectangle.UpdateLayout()                
                 }
 
                 for (int i = 0; i < 15; i++)
@@ -362,9 +352,9 @@ namespace ILwin
 
 
                     Thread.Sleep(50);
-                    //winRectangle.UpdateLayout();
                 }
             }
+
         }
 
 

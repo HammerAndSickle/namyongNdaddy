@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Threading;
+using System.Windows.Threading;
 
 
 
@@ -67,6 +68,9 @@ namespace ILwin
         private Window aboutWin;
         private Window helpWin;
 
+        //현재 갱신 중인가?
+        public bool isRefreshing;
+
         public MainWindow(ILwin.paraPackage packs)
         {
             InitializeComponent();
@@ -108,6 +112,8 @@ namespace ILwin
 
             this.requestMachine.Focus();
 
+            isRefreshing = false;
+
             
         }
 
@@ -125,20 +131,21 @@ namespace ILwin
             this.responseMsgs.FontSize = 11;
 
             //첫 메시지들을 출력
-            printInitMsgs();
+            printInitMsgs(textbox, this);
 
         }
 
-        public void printInitMsgs()
+        //첫 메세지들을 출력한다. 매개변수만 잘 전달하면 메인 스레드에서든, 서브 스레드에서든 호출가능
+        public static void printInitMsgs(ILtextBox textbox, MainWindow mWin)
         {
             DateTime currTime = DateTime.Now;
             string currTimeStr = currTime.ToString("yyyy") + "/" + currTime.ToString("MM") + "/" + currTime.ToString("dd") + " " + currTime.ToString("HH:mm:ss");
 
-            textbox.printMSG(this.responseMsgs, "Namyong N Daddy started");
-            textbox.printMSG(this.responseMsgs, "현 로그인 시간 : " + currTimeStr);
-            textbox.printMSG(this.responseMsgs, "위치 : " + datas.getLoc());
-            textbox.printMSG(this.responseMsgs, "온도 : " + datas.getTemper() + ", 날씨 : " + datas.getWeather());
-            textbox.printMSG(this.responseMsgs, "램 사용가능량 : " + datas.getUsableRAM());
+            textbox.printMSG(mWin.responseMsgs, "Namyong N Daddy started");
+            textbox.printMSG(mWin.responseMsgs, "현 로그인 시간 : " + currTimeStr);
+            textbox.printMSG(mWin.responseMsgs, "위치 : " + mWin.datas.getLoc());
+            textbox.printMSG(mWin.responseMsgs, "온도 : " + mWin.datas.getTemper() + ", 날씨 : " + mWin.datas.getWeather());
+            textbox.printMSG(mWin.responseMsgs, "램 사용가능량 : " + mWin.datas.getUsableRAM());
         }
 
         public void createBar()
@@ -250,6 +257,7 @@ namespace ILwin
         }
         public void exitNamyongNDaddy()         //x버튼 누르거나 exit 입력 시 실행
         {
+            responseMsgs.Text += "프로그램을 종료합니다..\n";
             Environment.Exit(0);
             System.Diagnostics.Process.GetCurrentProcess().Kill();
             this.Close();
@@ -266,6 +274,9 @@ namespace ILwin
         }
         private void sndclick(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            //현재 갱신 중이라면 먹히지 않는다.
+            if (isRefreshing) return;
+
             textbox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
             this.requestMachine.Text = "";
         }
@@ -275,6 +286,9 @@ namespace ILwin
         {
             if (e.Key == Key.Return)
             {
+                //현재 갱신 중이라면 먹히지 않는다.
+                if (isRefreshing) return;
+
                 //enter key is down
                 textbox.handleRequest(this.responseMsgs, this.requestMachine.Text, datas);
                 this.requestMachine.Text = "";
@@ -323,6 +337,9 @@ namespace ILwin
         }
         private void reload_click(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            //현재 갱신 중이라면 먹히지 않는다.
+            if (isRefreshing) return;
+
             reloadScreen();
         }
 
@@ -339,6 +356,9 @@ namespace ILwin
         }
         private void help_click(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            //현재 갱신 중이라면 먹히지 않는다.
+            if (isRefreshing) return;
+
             OpenHelpWindow();
 
         }
@@ -348,7 +368,8 @@ namespace ILwin
             if (this.datas.isHelpWinOn)
                 return;
 
-            helpWin = new HelpWindow(this.packs.helpbodyBr, datas);
+            this.responseMsgs.Text += "도움말 창을 엽니다.\n";
+            helpWin = new HelpWindow(this.packs.helpbodyBr, packs.okButtonBr[0], packs.okButtonBr[1], datas);
             helpWin.Show();
             datas.isHelpWinOn = true;
         }
@@ -370,37 +391,80 @@ namespace ILwin
         //RELOAD======================
         public void reloadScreen()          //reload 버튼 클릭 혹은 reload 입력시 실행. 화면을 갱신하는 함수.
         {
-            //---여러 객체들을 다 지운다. 거기에 달려있는 스레드들도 제거
-            screen.getBoard().deleteBoard();
-            screen.getNamyong().deleteNamyong();
-            screen.getDaddy().deleteDaddy();
-            screen.getFlyingboxReference().deleteBOX();
-            screen.getMall().deleteMall();
+            //그동안 reload버튼이나 텍스트창은 비활성시킨다.
+            isRefreshing = true;
 
-            
-            screen.sp.Children.Clear();
-            showScreenGrid.Background = packs.refreshBr;
-
-            //---날씨/장소/시간 정보를 다시 가져온다.
-            HTMLhandler.getWeatherFromHTML(packs.datas);
+            this.responseMsgs.Text += "화면을 재구성합니다.\n";
 
 
+            Thread refresh1 = new Thread(() => reloadScreenThr(this));
+            refresh1.Start();
 
-            //윈도우를 만든다.
-            screen = new ShowScreen(showScreenGrid, SCREEN_RECT, this, packs);
-
-            //텍스트박스를 재생성
-            textbox.textboxlines = new List<string>();
-            textbox.lines = textbox.currentLine = 0;
-            this.responseMsgs.Text = "";
-
-            printInitMsgs();
-
-            //텍스트박스는 response에 위치한 그곳이다.
-            textbox.addShowScreenReference(screen);
 
             this.requestMachine.Focus();
 
+        }
+
+        //위 reload에서 호출하는 스레드. 여기선 스크린의 객체들을 제거한다.
+        public static void reloadScreenThr(MainWindow mWin)
+        {
+            //---여러 객체들을 다 지운다. 거기에 달려있는 스레드들도 제거
+
+            mWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            {
+                mWin.screen.getBoard().deleteBoard();
+                mWin.screen.getNamyong().deleteNamyong();
+                mWin.screen.getDaddy().deleteDaddy();
+                mWin.screen.getFlyingboxReference().deleteBOX();
+                mWin.screen.getMall().deleteMall();
+
+
+                mWin.screen.sp.Children.Clear();
+                mWin.showScreenGrid.Background = mWin.packs.refreshBr;
+            }));
+
+            //크롤링을 이용해 새로이 정보를 얻어올 것이다.
+            Thread refresh2 = new Thread(() => getNewDatas(mWin));
+            refresh2.Start();
+            refresh2.Join();
+
+            //정보를 다 얻어왔다면 텍스트박스를 재생성, 메시지 재출력
+
+            mWin.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            {
+
+                mWin.textbox.textboxlines = new List<string>();
+                mWin.textbox.lines = mWin.textbox.currentLine = 0;
+                mWin.responseMsgs.Text = "";
+                printInitMsgs(mWin.textbox, mWin);
+
+                //윈도우를 만든다.
+                mWin.screen = new ShowScreen(mWin.showScreenGrid, mWin.SCREEN_RECT, mWin, mWin.packs);
+
+                //텍스트 박스가 새로 만든 ShowScreen을 참조하도록 지시
+                mWin.textbox.addShowScreenReference(mWin.screen);
+
+            }));
+
+            //갱신 끝
+            
+            mWin.isRefreshing = false;
+            
+        }
+
+        //위 reloadCreenThr에서 실행시키는, 새로이 정보를 얻어오는 스레드
+        public static void getNewDatas(MainWindow mWin)
+        {
+            //---날씨/장소/시간, RAM 정보를 다시 가져온다.
+            HTMLhandler.getWeatherFromHTML(mWin.packs.datas);
+            WMIhandler.initialRAMdata(mWin.packs.datas);
+            
+        }
+
+        //리소스가 담긴 pack 레퍼런스  반환
+        public paraPackage getPacks()
+        {
+            return packs;
         }
     }
 

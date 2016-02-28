@@ -25,16 +25,9 @@ namespace ILwin
             //HTML agility pack을 사용.
             HtmlWeb hw = new HtmlWeb();
             string urladdr = "https://www.google.co.kr/search?newwindow=1&hl=ko&site=webhp&q=%EB%82%A0%EC%94%A8";
-            //string filepath = @"bfile.txt";
 
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
-
-            //테스트용 소쓰
-            //System.IO.File.WriteAllText(@"afile.txt", entire.InnerHtml, Encoding.Default);
-
-            //파일 초기화
-            //System.IO.File.WriteAllText(filepath, "", Encoding.Default);
 
             //div 중, id = ires인 걸 찾아낸다.
             // ex) //가 붙으면 doc 전체에서 찾는다. 즉, HtmlNode는 일종의 포인터일 뿐인 듯하다
@@ -54,9 +47,6 @@ namespace ILwin
             //span의 text에는 현재의 기온이 들어있다.
 
             HtmlNode loc_b = ires_node.SelectSingleNode(".//b");
-
-            //System.IO.File.AppendAllText(filepath, ires_first_tr.InnerHtml, Encoding.Default);
-            //System.IO.File.AppendAllText(filepath, "\n\n\n===========\n\n\n", Encoding.Default);
             
             string todayVal = ires_first_img.Attributes["title"].Value;
             string todayTem = ires_first_span.InnerText;
@@ -64,10 +54,6 @@ namespace ILwin
 
             datas.setPresentWeathers(todayTem, todayVal);
             datas.setLocation(currentLoc);
-
-            //System.IO.File.AppendAllText(filepath, todayVal + "\n", Encoding.Default);
-            //System.IO.File.AppendAllText(filepath, todayTem + "\n", Encoding.Default);
-
           
 
 
@@ -87,21 +73,11 @@ namespace ILwin
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
 
-
-            //테스트용 소쓰
-            //System.IO.File.WriteAllText(filepath, entire.InnerHtml, Encoding.Default);
-
             //필요한 부분만 추출
             //DIV id="center_col"
             HtmlNode center_col_node = doc.DocumentNode.SelectSingleNode("//table[@class='images_table']");
 
             HtmlNodeCollection images = center_col_node.SelectNodes(".//img");
-
-            //System.IO.File.WriteAllText(filepath, center_col_node.InnerHtml, Encoding.Default);
-
-            //System.IO.File.WriteAllText(@"dfile.txt", images.Count + "개", Encoding.Default);
-
-            //System.IO.File.AppendAllText(@"dfile.txt", "\n\n=====\n\n", Encoding.Default);
 
             //일단 urls에 담아보자.
             for (int i = 0; i < num; i++ )
@@ -109,12 +85,6 @@ namespace ILwin
                 urls.Add(images[i].Attributes["src"].Value);
             }
 
-            /*
-            foreach (HtmlNode ls in images)
-            {
-                System.IO.File.AppendAllText(@"dfile.txt", ls.Attributes["src"].Value + "\n\n", Encoding.Default);
-            }
-            */
 
         }
 
@@ -184,8 +154,6 @@ namespace ILwin
             //인제 그 밑에 있는 DL들을 모두 가져온다.
             HtmlNodeCollection DLs = mainnewsNode.SelectNodes(".//dl");
 
-            //System.IO.File.WriteAllText(@"longsrc.txt", entire.InnerHtml, Encoding.Default);
-            //System.IO.File.WriteAllText(testfile, "", Encoding.Default);
 
             //while(ARTICLES_TO_CRAWL > 0)
             {
@@ -219,13 +187,6 @@ namespace ILwin
                             HtmlNode article_text = a_DTNode.SelectSingleNode(".//img");
                             article_contents.Add(a_DDNode.InnerText);
                             
-                            /*
-                            System.IO.File.AppendAllText(testfile, "<PHOTO!!>\n", Encoding.Default);
-                            System.IO.File.AppendAllText(testfile, a_DTNode.InnerHtml, Encoding.Default);
-                            System.IO.File.AppendAllText(testfile, "\n\n", Encoding.Default);
-                            System.IO.File.AppendAllText(testfile, a_DDNode.InnerHtml, Encoding.Default);
-                            System.IO.File.AppendAllText(testfile, "\n\n=================\n\n", Encoding.Default);
-                            */
                         }
                     }
 
@@ -239,12 +200,6 @@ namespace ILwin
                         HtmlNode article_text = a_DTNode.SelectSingleNode(".//img");
                         article_contents.Add(a_DDNode.InnerText);
                             
-                        /*
-                        System.IO.File.AppendAllText(testfile, a_DTNode.InnerHtml, Encoding.Default);
-                        System.IO.File.AppendAllText(testfile, "\n\n", Encoding.Default);
-                        System.IO.File.AppendAllText(testfile, a_DDNode.InnerHtml, Encoding.Default);
-                        System.IO.File.AppendAllText(testfile, "\n\n=================\n\n", Encoding.Default);
-                         */
                     }
                 }
 
@@ -286,8 +241,6 @@ namespace ILwin
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
 
-            //System.IO.File.WriteAllText(@"longsrc.txt", "", Encoding.Default);
-
             //실시간 급상승 검색어는 이 노드들에
             HtmlNode OL_Node = entire.SelectSingleNode("//ol[@id='realrank']");
             HtmlNodeCollection LI_Nodes = OL_Node.SelectNodes("./li");
@@ -296,7 +249,6 @@ namespace ILwin
             {
                 HtmlNode A_NODE = node.SelectSingleNode("a");
                 keywords.Add( A_NODE.Attributes["title"].Value );
-                //System.IO.File.AppendAllText(@"longsrc.txt", A_NODE.Attributes["title"].Value + "\n\n", Encoding.Default);
             }
             
             //아버지는 좀 상위에 속한 걸 2개 반환하고, 남용이는 하위에 속한 걸 2개 반환
@@ -343,15 +295,11 @@ namespace ILwin
 
             HtmlWeb hw = new HtmlWeb();
             string urladdr = "http://shopping.naver.com/search/all_search.nhn?query=" + query + "&cat_id=&frm=NVSHATC&nlu=true&=&=&=&=";
-            //string urladdr = "http://search.auction.co.kr/search/search.aspx?keyword=" + query;
-            //string filepath = @"cfile.txt";
 
 
             HtmlDocument doc = hw.Load(urladdr);
             HtmlNode entire = doc.DocumentNode;
 
-
-            //System.IO.File.WriteAllText(@"auctsrc.txt", entire.InnerHtml, Encoding.Default);
 
             //목록의 소스들을 가져오라
             HtmlNode search_list = entire.SelectSingleNode("//div[@class='sort_content']");
@@ -359,8 +307,6 @@ namespace ILwin
             //product_list가 한 product이다.
             HtmlNodeCollection products_list = search_list.SelectNodes(".//li[@class='_product_list']");
 
-            //System.IO.File.WriteAllText(@"auctsrc2.txt", search_list.InnerHtml, Encoding.Default);
-            //System.IO.File.WriteAllText(@"auctsrc3.txt", "", Encoding.Default);
 
             //===만약 _product_list를 찾지 못한다면, 이 상품은 없는 것이다.
             if (products_list == null)
@@ -404,7 +350,7 @@ namespace ILwin
 
 
                     resultList += "(No. " + (i + 1) + ")\n" + "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n";
-                    //System.IO.File.AppendAllText(@"auctsrc3.txt", "[상품명] : " + pro_info_str + "\n[가격] : " + pro_val_str + "\n[매장] : " + pro_mall_str + "\n\n", Encoding.Default);
+
                 }
             }
 
@@ -418,24 +364,12 @@ namespace ILwin
                         mallWin.isSearching = false;
                         mallWin.status.Text = "검색어를 입력하쇼";
                         mallWin.status.Margin = mallWin.originalMargin;
+                        mallWin.status.Width = mallWin.duringWidth;
                     }));
 
             
 
         }
 
-        static public BitmapImage getImage(string url)
-        {
-            /*
-            var bytes = await new WebClient().DownloadDataTaskAsync(url);
-            var image = new BitmapImage();
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.StreamSource = new MemoryStream(bytes);
-            image.EndInit();
-            RSSImage.Source = image;
-             * */
-            return null;
-        }
     }
 }

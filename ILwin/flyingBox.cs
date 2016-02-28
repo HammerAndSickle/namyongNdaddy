@@ -52,11 +52,6 @@ namespace ILwin
             //위치 선정
             
 
-            //dir = rnd.Next(0, 2);
-            //ypos = rnd.Next(0, 100);
-            //xpos = rnd.Next(0, 700);
-            //xpos = 500; ypos = 20; dir = 0;
-
             //생성
             boximg = new System.Windows.Shapes.Rectangle();
             boximg.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;

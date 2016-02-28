@@ -278,12 +278,6 @@ namespace ILwin
                 showscreen.getMWinReference().reloadScreen();
             }
 
-            else
-            {
-                cmdreq = "received \"" + cmdreq + "\"";
-            }
-
-            //msgbox.Text += cmdreq + "\n";
             
             
 

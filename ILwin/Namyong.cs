@@ -66,13 +66,8 @@ namespace ILwin
 
             speedTerm = Constants.NAMYONG_SPEED;
 
-            balloon = new Balloon(screen);
-            balloon.showBalloon(Constants.IS_NAMYONG, dir, xpos, ypos);
-
-            //dir = rnd.Next(0, 2);
-            //ypos = rnd.Next(180, 270);
-            //xpos = rnd.Next(0, 700);
-            //xpos = 500; ypos = 20; dir = 0;
+            balloon = new Balloon(Constants.IS_NAMYONG, screen);
+            balloon.showBalloon(dir, xpos, ypos);
 
             //생성
             namyongRec = new System.Windows.Shapes.Rectangle();

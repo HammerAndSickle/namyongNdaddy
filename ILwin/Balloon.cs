@@ -18,6 +18,9 @@ namespace ILwin
     public class Balloon
     {
 
+        //말풍선의 소유자. 0은 남용이, 1은 아버지
+        public int TALKER;
+
         //바라보는 방향.
         public const int LEFT = 0;
         public const int RIGHT = 1;
@@ -34,8 +37,10 @@ namespace ILwin
 
         ILwin.ShowScreen screen;            //showscreen이 있어야 말풍선을 넣는다.
 
-        public Balloon(ILwin.ShowScreen screen)
+        public Balloon(int TALKER, ILwin.ShowScreen screen)
         {
+            this.TALKER = TALKER;
+
             ballImg = new BitmapImage[2];
             ballBr = new Brush[2];
             textbox = new TextBox();
@@ -95,6 +100,11 @@ namespace ILwin
             textbox.Visibility = Visibility.Visible;
             this.textbox.Text = text;
 
+            //말풍선 내용이 response 창에도 나오도록 하자
+            screen.getMWinReference().responseMsgs.Text += ((this.TALKER == Constants.IS_NAMYONG) ? "남용이 : " : "아버지 : ");
+            screen.getMWinReference().responseMsgs.Text += text + "\n";
+            screen.getMWinReference().responseMsgs.ScrollToEnd();
+
             showing = new Thread(() => setMSG(this, this.screen.getMWinReference()));
             showing.Start();
         }
@@ -123,6 +133,11 @@ namespace ILwin
                         thisballoon.rec.Visibility = Visibility.Visible;
                         thisballoon.textbox.Visibility = Visibility.Visible;
                         thisballoon.textbox.Text = text;
+
+                        //말풍선 내용이 response 창에도 나오도록 하자
+                        thisWin.responseMsgs.Text += ((thisballoon.TALKER == Constants.IS_NAMYONG) ? "남용이 : " : "아버지 : ");
+                        thisWin.responseMsgs.Text += text + "\n";
+                        thisWin.responseMsgs.ScrollToEnd();
                     }));
 
             thisballoon.showing = new Thread(() => setMSG(thisballoon, thisballoon.screen.getMWinReference()));
@@ -147,11 +162,11 @@ namespace ILwin
         }
 
         //풍선을 출력, 여기서 매개변수로 들어오는 xPos, yPos는 Namyong/Daddy의 xpos, ypos이다.
-        public void showBalloon(int type, int dir, int xPos, int yPos)
+        public void showBalloon(int dir, int xPos, int yPos)
         {
             int balloonX = 0;
 
-            switch(type)
+            switch(this.TALKER)
             {
                 case Constants.IS_NAMYONG:
                     if (dir == LEFT) balloonX = xPos + Constants.NAMYONG_BALLOON_LEFT_DIST;

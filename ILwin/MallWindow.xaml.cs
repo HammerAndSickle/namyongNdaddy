@@ -28,9 +28,15 @@ namespace ILwin
         //이건 윈도우가 켜져있는지, 아닌지를 판별할 datas
         Datas datas;
 
+        //OK 버튼
+        Brush OKB;
+        Brush OKBClicked;
+
         //목록들을 크롤링해오는 스레드
         Thread itemthr;
 
+        public int originalWidth = 220; //status의 width (처음)
+        public int duringWidth = 160;   //status의 width (검색 중)
         public Thickness originalMargin; //status의 margin (처음)
         public Thickness duringMargin; //status의 margin (검색 중)
 
@@ -39,7 +45,7 @@ namespace ILwin
         
 
 
-        public MallWindow(Brush bodyimg, Datas datas)
+        public MallWindow(Brush bodyimg, Brush OKB, Brush OKBClicked, Datas datas)
         {
             InitializeComponent();
 
@@ -52,8 +58,12 @@ namespace ILwin
             this.Background = bodyimg;
             this.datas = datas;
 
-            this.okbutton.Background = Brushes.Transparent;
-            this.okbutton.Cursor = Cursors.Hand;
+            this.searchbutton.Background = Brushes.Transparent;
+            this.searchbutton.Cursor = Cursors.Hand;
+
+            this.OKB = OKB;
+            this.OKBClicked = OKBClicked;
+            this.okbut.Background = this.OKB;
 
             //처음엔 입력을 기다린다.
             readyForInput();
@@ -70,6 +80,7 @@ namespace ILwin
 
             this.status.Background = brushDark1;        //상태
             this.status.Margin = this.originalMargin;
+            this.status.Width = this.originalWidth;
             this.status.Text = "검색어를 입력하쇼";
             this.status.IsReadOnly = true;
 
@@ -88,8 +99,21 @@ namespace ILwin
             
         }
 
-        //검색 버튼 누름
-        private void searchItems(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        //엔터 버튼을 누름
+        private void searchItemsKey(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+                startSearching();
+        }
+
+        //검색 버튼을 클릭
+        private void searchItemsMouse(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            startSearching();
+        }
+
+        //검색 시작하는 함수
+        private void startSearching()
         {
             //이미 탐색 중이라면 중지시킨다.
             if(isSearching)
@@ -101,6 +125,7 @@ namespace ILwin
             //그럼 quertyitem의 내용물을 가져와서 검색을 시도한다.
 
             this.status.Margin = this.duringMargin;
+            this.status.Width = this.duringWidth;
             this.status.Text = "검색 중..";
 
 
@@ -114,6 +139,23 @@ namespace ILwin
             itemthr.Start();
         }
 
+        //드래그 부분을 드래그하면 창이 옮겨간다.
+        private void board_dragging(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        private void okenter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.okbut.Background = this.OKBClicked;
+        }
+        private void okleave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.okbut.Background = this.OKB;
+        }
+        private void okdown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
 
 
         //닫길 때는, about 창이 닫겼다는 걸 bool로 표시
