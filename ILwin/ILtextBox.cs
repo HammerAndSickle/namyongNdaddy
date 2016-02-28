@@ -150,32 +150,29 @@ namespace ILwin
             //box를 처음에 입력받음
             else if (ssize[0].Equals("box"))
             {
-                //box images일 경우, webitem을 떨어뜨릴 준비를 한다.
-                if(ssize[1].Equals("images"))
+                //box [숫자] 일 경우. 이젠 단어만 추출하면 된다.
+                int num;
+
+                //숫자가 들어있는지 확인하며, 맞다면 num에 집어넣고 webimage 떨구기를 시행한다
+                if (int.TryParse(ssize[1], out num) == true)
                 {
-                    //box images [숫자] 일 경우. 이젠 단어만 추출하면 된다.
-                    int num;
-
-                    //숫자가 들어있는지 확인하며, 맞다면 num에 집어넣고 webimage 떨구기를 시행한다
-                    if(int.TryParse(ssize[2], out num) == true)
+                    //공백으로 split 하였지만, box [aaa bbb ccc]는 가능하도록, 그 다음부턴 공백도 단어로 인정해야 한다
+                    string queryImage = "";
+                    for (int i = 2; i < ssize.Length; i++)
                     {
-                        //공백으로 split 하였지만, box images [aaa bbb ccc]는 가능하도록, 그 다음부턴 공백도 단어로 인정해야 한다
-                        string queryImage = "";
-                        for (int i = 3; i < ssize.Length; i++)
-                        {
-                            queryImage += ssize[i];
+                        queryImage += ssize[i];
 
-                            //끝이 아니라면 공백 문자를 그대로 사용
-                            if (i != ssize.Length) queryImage += " ";
+                        //끝이 아니라면 공백 문자를 그대로 사용
+                        if (i != ssize.Length) queryImage += " ";
 
-                        }
-
-                        //스레드로 돌린다.
-                        showscreen.generateWebImage(queryImage, num);
-
-                        //HTMLhandler.getImages(datas, queryImage);
-                        cmdreq = "박스에게 [" + queryImage + "] 이미지 " + num + "개 를 요청함!";
                     }
+
+                    //스레드로 돌린다.
+                    showscreen.generateWebImage(queryImage, num);
+
+
+                    cmdreq = "박스에게 [" + queryImage + "] 이미지 " + num + "개 를 요청함!";
+
                 }
             }
 

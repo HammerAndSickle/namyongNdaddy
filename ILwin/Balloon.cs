@@ -135,8 +135,7 @@ namespace ILwin
                         thisballoon.textbox.Text = text;
 
                         //말풍선 내용이 response 창에도 나오도록 하자
-                        thisWin.responseMsgs.Text += ((thisballoon.TALKER == Constants.IS_NAMYONG) ? "남용이 : " : "아버지 : ");
-                        thisWin.responseMsgs.Text += text + "\n";
+                        thisWin.getTextboxReference().printMSG(thisWin.responseMsgs, ((thisballoon.TALKER == Constants.IS_NAMYONG) ? "남용이 : " : "아버지 : ") + text);
                         thisWin.responseMsgs.ScrollToEnd();
                     }));
 

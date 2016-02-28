@@ -197,7 +197,7 @@ namespace ILwin
             }
 
 
-            balloon.setMSG("으아아아~");
+            balloon.setMSG("뛴다! 으아아아~");
 
             thrjump = new Thread(() => startjumping(this, screen.getMWinReference()));
             isJumping = true;
@@ -244,7 +244,7 @@ namespace ILwin
         //sayHello
         public void sayHello()
         {
-            balloon.setMSG("안녕하쇼");
+            balloon.setMSG("네.. 안녕하세요..");
         }
         
         //sayTime
@@ -285,7 +285,7 @@ namespace ILwin
 
             namyong.isGettingKeyword = false;
 
-            Balloon.setMSGsub(namyong.screen.getMWinReference(), balloon, "요새 뜨는 키워드 : " + keywords.ElementAt(0) + ", " + keywords.ElementAt(1) + " 입니다.");
+            Balloon.setMSGsub(namyong.screen.getMWinReference(), balloon, "아까 전까지 뜨고 있던 키워드는 '" + keywords.ElementAt(0) + "', '" + keywords.ElementAt(1) + "' 라고 합니다.");
         }
 
         //sayQuick. level 1~level 5에 따라 속도도 다르다.
@@ -298,7 +298,7 @@ namespace ILwin
                     balloon.setMSG("그렇게 빨리 못뜁니다.");
 
                 else if(level < 1)
-                    balloon.setMSG("그럼 아예 걷지 말란 거잖아요.");
+                    balloon.setMSG("이게 무슨소리야! 아예 걷지 말란 거잖아요.");
 
                 return;
             }
@@ -312,7 +312,7 @@ namespace ILwin
                     break;
                 case 2:
                     this.speedTerm = (int)(Constants.NAMYONG_SPEED * 2);
-                    balloon.setMSG("2단계로 걷습니다. 쪼매 느려요.");
+                    balloon.setMSG("2단계로 걷습니다. 살살 걷는 속도입니다.");
                     break;
                 case 3:
                     this.speedTerm = (Constants.NAMYONG_SPEED);
@@ -320,11 +320,11 @@ namespace ILwin
                     break;
                 case 4:
                     this.speedTerm = (int)(Constants.NAMYONG_SPEED * 0.5);
-                    balloon.setMSG("4단계로 뜁니다. 좀 빠른데 헉헉..");
+                    balloon.setMSG("4단계로 뜁니다. 뭐? 좀 빠른데 헉헉..");
                     break;
                 case 5:
                     this.speedTerm = (int)(Constants.NAMYONG_SPEED * 0.25);
-                    balloon.setMSG("5단계로 뛰라고? 이건 미친짓이야..");
+                    balloon.setMSG("5단계로 뛰라고? 말도안돼.. 이건 미친짓이야..");
                     break;
                 default:
                     this.speedTerm = (Constants.NAMYONG_SPEED);
@@ -338,7 +338,7 @@ namespace ILwin
         //자기를 소개
         public void introduce()
         {
-            balloon.setMSG("저는 안남용입니다");
+            balloon.setMSG("저는 서울 출신 공학도 안남용입니다");
         }
 
         //컴퓨터에 대해서.

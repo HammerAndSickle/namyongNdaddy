@@ -364,7 +364,7 @@ namespace ILwin
                         mallWin.isSearching = false;
                         mallWin.status.Text = "검색어를 입력하쇼";
                         mallWin.status.Margin = mallWin.originalMargin;
-                        mallWin.status.Width = mallWin.duringWidth;
+                        mallWin.status.Width = mallWin.originalWidth;
                     }));
 
             

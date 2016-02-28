@@ -198,7 +198,7 @@ namespace ILwin
             }
 
 
-            balloon.setMSG("으아아아~");
+            balloon.setMSG("이야!!!! 크아아앍 헭 헭");
 
             thrjump = new Thread(() => startjumping(this, screen.getMWinReference()));
             isJumping = true;
@@ -285,7 +285,7 @@ namespace ILwin
 
             daddy.isGettingKeyword = false;
 
-            Balloon.setMSGsub(daddy.screen.getMWinReference(), balloon, "요새는 " + keywords.ElementAt(0) + ", " + keywords.ElementAt(1) + "가 뜨고있댄다");
+            Balloon.setMSGsub(daddy.screen.getMWinReference(), balloon, "지금 막 뜨고있는 키워드가 뭔지 아노? '" + keywords.ElementAt(0) + "', '" + keywords.ElementAt(1) + "' 라 안 카드나.");
         }
 
         //sayQuick. level 1~level 5에 따라 속도도 다르다.
@@ -295,7 +295,7 @@ namespace ILwin
             if (level < 1 || level > 5)
             {
                 if (level > 5)
-                    balloon.setMSG("느금마가 그렇게 빨리 달려봐라!");
+                    balloon.setMSG("미칬노? 느금마가 그르게 빨리 달려봐라!");
 
                 else if (level < 1)
                     balloon.setMSG("마! 걷지 말란 말이가?");
@@ -308,23 +308,23 @@ namespace ILwin
             {
                 case 1:
                     this.speedTerm = (int)(Constants.DADDY_SPEED * 4);
-                    balloon.setMSG("1단계로 걷는데이. 단디 보래이");
+                    balloon.setMSG("1단계로 걷는데이. 별것도 아닝끼니께 단디 보래이");
                     break;
                 case 2:
                     this.speedTerm = (int)(Constants.DADDY_SPEED * 2);
-                    balloon.setMSG("2단계로 걷는다. 봉제산 등산하는 아줌마 속도다.");
+                    balloon.setMSG("2단계로 걷는다. 봉제산 등산하는 아줌마 속도랑 비슷하제?");
                     break;
                 case 3:
                     this.speedTerm = (Constants.DADDY_SPEED);
-                    balloon.setMSG("3단계로 걷는다. 이게 내한테 적합한 속도야.");
+                    balloon.setMSG("3단계로 걷는다. 이게 내한테 적합한 속도인께.");
                     break;
                 case 4:
                     this.speedTerm = (int)(Constants.DADDY_SPEED * 0.5);
-                    balloon.setMSG("4단계로 뛰라 이 말인가? 임마가요 지금 중년학대하노?");
+                    balloon.setMSG("4단계로 뛰라 이 말인가? 뭔데? 임마가요 지금 중년학대하노?");
                     break;
                 case 5:
                     this.speedTerm = (int)(Constants.DADDY_SPEED * 0.25);
-                    balloon.setMSG("내보고 5단계로 뛰라고? 뭔데 새끼마. 직이삔다..");
+                    balloon.setMSG("내보고 5단계로 뛰라고? 이 XX 새끼마. 직이삔다.. 헉..헉..");
                     break;
                 default:
                     this.speedTerm = (Constants.DADDY_SPEED);
@@ -338,7 +338,7 @@ namespace ILwin
         //자기를 소개
         public void introduce()
         {
-            balloon.setMSG("내는 안병욱 박사요");
+            balloon.setMSG("내는 갱상북도 포항에서 태어난 안병욱 박사요");
         }
 
         //컴퓨터에 대해서.

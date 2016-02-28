@@ -257,7 +257,7 @@ namespace ILwin
         }
         public void exitNamyongNDaddy()         //x버튼 누르거나 exit 입력 시 실행
         {
-            responseMsgs.Text += "프로그램을 종료합니다..\n";
+            textbox.printMSG(responseMsgs, "Namyong N Daddy를 종료합니다..");
             Environment.Exit(0);
             System.Diagnostics.Process.GetCurrentProcess().Kill();
             this.Close();
@@ -368,7 +368,7 @@ namespace ILwin
             if (this.datas.isHelpWinOn)
                 return;
 
-            this.responseMsgs.Text += "도움말 창을 엽니다.\n";
+            textbox.printMSG(responseMsgs, "도움말 창을 엽니다.");
             helpWin = new HelpWindow(this.packs.helpbodyBr, packs.okButtonBr[0], packs.okButtonBr[1], datas);
             helpWin.Show();
             datas.isHelpWinOn = true;
@@ -394,8 +394,7 @@ namespace ILwin
             //그동안 reload버튼이나 텍스트창은 비활성시킨다.
             isRefreshing = true;
 
-            this.responseMsgs.Text += "화면을 재구성합니다.\n";
-
+            textbox.printMSG(responseMsgs, "화면을 재구성합니다.");
 
             Thread refresh1 = new Thread(() => reloadScreenThr(this));
             refresh1.Start();
@@ -466,6 +465,8 @@ namespace ILwin
         {
             return packs;
         }
+
+
     }
 
     

@@ -136,7 +136,8 @@ namespace ILwin
                 return;
             }
 
-            screen.getMWinReference().responseMsgs.Text += "가격비교 창을 엽니다.\n";
+            screen.getMWinReference().getTextboxReference().printMSG(screen.getMWinReference().responseMsgs, "가격비교 창을 엽니다.\n");
+
             mallWin = new MallWindow(bodyimg, screen.getMWinReference().getPacks().okButtonBr[0], screen.getMWinReference().getPacks().okButtonBr[1], datas);
             datas.isMallWinOn = true;
             mallWin.Show();

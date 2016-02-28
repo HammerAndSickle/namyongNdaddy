@@ -168,7 +168,8 @@ namespace ILwin
                 return;
             }
 
-            screen.getMWinReference().responseMsgs.Text += "게시판 창을 엽니다.\n";
+            screen.getMWinReference().getTextboxReference().printMSG(screen.getMWinReference().responseMsgs, "게시판 창을 엽니다.\n");
+            
             boardWin = new BoardWindow(bodyimg, screen.getMWinReference().getPacks().okButtonBr[0], screen.getMWinReference().getPacks().okButtonBr[1], datas);
             datas.isBoardWinOn = true;
             boardWin.Show();

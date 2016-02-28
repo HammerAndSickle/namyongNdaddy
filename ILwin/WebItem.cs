@@ -29,15 +29,17 @@ namespace ILwin
         int xPos;                   //떨어지기 시작한 x 위치.
         int yPos;                   //떨어지기 시작한 y 위치.
 
+        private int FallYpos;       //떨어질 y 위치.
+
         ILwin.ShowScreen showscreen;        //showscreen 레퍼런스
 
-        bool isFalling;             //떨어지는 중이라면 true. 떨어지고 나서야 마우스 핸들러를 사용 가능하도록 하는 것이다.
 
         //생성자는 rectangle을 만들어 추가만을 수행 한다. show screen 참조 정도는 필요하다.
-        public WebItem(ILwin.ShowScreen showscreen)
+        public WebItem(ILwin.ShowScreen showscreen, int FallYPos)
         {
             this.showscreen = showscreen;
-            this.isFalling = true;
+
+            this.FallYpos = FallYPos;
 
             showscreen.getMWinReference().Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
@@ -76,6 +78,11 @@ namespace ILwin
                 {
                     thisitem.imgrec.Width = thisitem.img.Width;
                     thisitem.imgrec.Height = thisitem.img.Height;
+
+                    //이미지의 가로나 세로가 100보다 큰 게 있다면 그 부분은 100으로 줄인다.
+                    if (thisitem.imgrec.Width > 100) thisitem.imgrec.Width = 100;
+                    if (thisitem.imgrec.Height > 100) thisitem.imgrec.Height = 100;
+
                     thisitem.imgrec.Margin = new Thickness(thisitem.xPos, thisitem.yPos, thisitem.imgrec.Margin.Right, thisitem.imgrec.Margin.Bottom);
                     thisitem.imgrec.Fill = thisitem.imgBr;
                     thisitem.imgrec.Visibility = Visibility.Visible;         //이제 표시한다.
@@ -117,7 +124,7 @@ namespace ILwin
 
                 Thread.Sleep(50);
 
-                if (item_y > 300)
+                if (item_y > thisitem.FallYpos)
                 {
                     break;
                 }
@@ -143,8 +150,6 @@ namespace ILwin
                 //박스 이미지를 일반 이미지로 바꾼다.
                 flyingBox.changeImg(showscreen.getFlyingboxReference(), showscreen.getMWinReference(), false);
             }
-
-            thisitem.isFalling = false;
                 
                 
         }
@@ -169,7 +174,11 @@ namespace ILwin
         private void itemclick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             //떨어지는 중인 아이템은 제거하지 못하도록 막는다.
-            if (this.isFalling == true) return;
+            if (this.showscreen.doingWebitem == true)
+            {
+                this.showscreen.getMWinReference().getTextboxReference().printMSG(this.showscreen.getMWinReference().responseMsgs, "이미지를 떨어뜨리는 중엔 제거 불가능하오.");
+                return;
+            }
 
             this.imgrec.Visibility = Visibility.Hidden;
             showscreen.getMWinReference().getTextboxReference().printMSG(showscreen.getMWinReference().responseMsgs, "Web image를 제거함");

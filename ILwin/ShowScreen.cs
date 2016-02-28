@@ -275,7 +275,7 @@ namespace ILwin
             //num 개수만큼 webitem을 추가한 뒤, startCount와 num을 이용해 그것들을 참조해나갈 것이다.
             for (int i = 0; i < num; i++)
             {
-                WebItem wb = new WebItem(this);
+                WebItem wb = new WebItem(this, rnd.Next(350, 371));
                 MWin.getDatasReference().webItems.Add(wb);
                 MWin.getTextboxReference().printMSG(MWin.responseMsgs, "added " + i + " webitem");
             }
